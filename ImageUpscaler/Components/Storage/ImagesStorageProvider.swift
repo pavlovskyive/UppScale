@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ImagesStorageProvider {
-    func fetchImages() throws -> [Data]
-    func addImages(_ imagesData: [Data]) throws
+protocol ImagesStorageProvider {
+    func fetchImages() throws -> [ImageInfo]
+    func addImages(_ imagesInfos: [ImageInfo]) throws
 }

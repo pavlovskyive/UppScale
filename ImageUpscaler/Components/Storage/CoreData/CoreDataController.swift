@@ -7,7 +7,7 @@
 
 import CoreData
 
-public struct CoreDataController {
+struct CoreDataController {
     static let shared = CoreDataController()
     
     private let container: NSPersistentContainer
@@ -16,7 +16,7 @@ public struct CoreDataController {
         container.viewContext
     }
     
-    public init(isInMemory: Bool = false) {
+    init(isInMemory: Bool = false) {
         container = NSPersistentContainer(name: "CoreDataModel")
         
         if isInMemory {
@@ -34,19 +34,39 @@ public struct CoreDataController {
 }
 
 extension CoreDataController: ImagesStorageProvider {
-    public func fetchImages() throws -> [Data] {
-        let request = NSFetchRequest<ImageData>(entityName: "ImageData")
-        let response = try viewContext.fetch(request)
+    func fetchImages() throws -> [ImageInfo] {
+        let request = ImageData.fetchRequest()
+        let results = try viewContext.fetch(request)
         
-        return response.compactMap(\.data)
+        return results.compactMap { result in
+            guard
+                let id = result.id,
+                let data = result.data
+            else {
+                return nil
+            }
+            
+            return ImageInfo(id: id, data: data)
+        }
     }
     
-    public func addImages(_ imagesData: [Data]) throws {
-        imagesData.forEach { data in
+    func addImages(_ imageInfos: [ImageInfo]) throws {
+        imageInfos.forEach { info in
             let container = ImageData(context: viewContext)
-            container.data = data
+
+            container.id = info.id
+            container.data = info.data
         }
         
+        try viewContext.save()
+    }
+    
+    func deleteImages(_ imageInfos: [ImageInfo]) throws {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ImageData")
+        request.predicate = NSPredicate(format: "id IN %@", imageInfos.map(\.id))
+        
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+        try viewContext.execute(batchDeleteRequest)
         try viewContext.save()
     }
 }

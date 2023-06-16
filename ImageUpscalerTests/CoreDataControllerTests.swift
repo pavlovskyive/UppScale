@@ -6,30 +6,36 @@
 //
 
 import XCTest
+@testable import ImageUpscaler
 
 final class CoreDataControllerTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testReadWriteImages() throws {
+        let storage = CoreDataController(isInMemory: true)
+        
+        let initialInfos = ["1", "2"]
+            .compactMap { $0.data(using: .utf8) }
+            .map { ImageInfo(data: $0) }
+            .sorted { $0.id.uuidString > $1.id.uuidString }
+        
+        try storage.addImages(initialInfos)
+        
+        let result = try storage.fetchImages().sorted { $0.id.uuidString > $1.id.uuidString }
+        
+        XCTAssertEqual(result, initialInfos)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testDelete() throws {
+        let storage = CoreDataController(isInMemory: true)
+        
+        let initialInfos = ["1", "2"]
+            .compactMap { $0.data(using: .utf8) }
+            .map { ImageInfo(data: $0) }
+        
+        try storage.addImages(initialInfos)
+        try storage.deleteImages([initialInfos.first!])
+        
+        let result = try storage.fetchImages()
+        
+        XCTAssertEqual(result, [initialInfos.last!])
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
