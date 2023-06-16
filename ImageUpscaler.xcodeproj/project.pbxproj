@@ -7,13 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		793542952A3C6D63008DB683 /* ImageUpscalerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */; };
 		797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */; };
 		797B73C42A387ADF0059BA32 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C32A387ADF0059BA32 /* ContentView.swift */; };
 		797B73C62A387ADF0059BA32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797B73C52A387ADF0059BA32 /* Assets.xcassets */; };
 		797B73C92A387ADF0059BA32 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797B73C82A387ADF0059BA32 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		793542962A3C6D63008DB683 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 797B73B62A387ADE0059BA32 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 797B73BD2A387ADF0059BA32;
+			remoteInfo = ImageUpscaler;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		793542922A3C6D63008DB683 /* ImageUpscalerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageUpscalerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerTests.swift; sourceTree = "<group>"; };
 		797B73BE2A387ADF0059BA32 /* ImageUpscaler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageUpscaler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerApp.swift; sourceTree = "<group>"; };
 		797B73C32A387ADF0059BA32 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -22,6 +35,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7935428F2A3C6D63008DB683 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		797B73BB2A387ADF0059BA32 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -32,6 +52,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		793542932A3C6D63008DB683 /* ImageUpscalerTests */ = {
+			isa = PBXGroup;
+			children = (
+				793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */,
+			);
+			path = ImageUpscalerTests;
+			sourceTree = "<group>";
+		};
 		79574BE82A3C560C00DBF852 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -53,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				797B73C02A387ADF0059BA32 /* ImageUpscaler */,
+				793542932A3C6D63008DB683 /* ImageUpscalerTests */,
 				797B73BF2A387ADF0059BA32 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				797B73BE2A387ADF0059BA32 /* ImageUpscaler.app */,
+				793542922A3C6D63008DB683 /* ImageUpscalerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -86,6 +116,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		793542912A3C6D63008DB683 /* ImageUpscalerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7935429A2A3C6D63008DB683 /* Build configuration list for PBXNativeTarget "ImageUpscalerTests" */;
+			buildPhases = (
+				7935428E2A3C6D63008DB683 /* Sources */,
+				7935428F2A3C6D63008DB683 /* Frameworks */,
+				793542902A3C6D63008DB683 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				793542972A3C6D63008DB683 /* PBXTargetDependency */,
+			);
+			name = ImageUpscalerTests;
+			productName = ImageUpscalerTests;
+			productReference = 793542922A3C6D63008DB683 /* ImageUpscalerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		797B73BD2A387ADF0059BA32 /* ImageUpscaler */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 797B73CC2A387ADF0059BA32 /* Build configuration list for PBXNativeTarget "ImageUpscaler" */;
@@ -113,6 +161,10 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					793542912A3C6D63008DB683 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 797B73BD2A387ADF0059BA32;
+					};
 					797B73BD2A387ADF0059BA32 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -132,11 +184,19 @@
 			projectRoot = "";
 			targets = (
 				797B73BD2A387ADF0059BA32 /* ImageUpscaler */,
+				793542912A3C6D63008DB683 /* ImageUpscalerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		793542902A3C6D63008DB683 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		797B73BC2A387ADF0059BA32 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -149,6 +209,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7935428E2A3C6D63008DB683 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				793542952A3C6D63008DB683 /* ImageUpscalerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		797B73BA2A387ADF0059BA32 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -160,7 +228,53 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		793542972A3C6D63008DB683 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 797B73BD2A387ADF0059BA32 /* ImageUpscaler */;
+			targetProxy = 793542962A3C6D63008DB683 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		793542982A3C6D63008DB683 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G66XPV3HVM;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vpavlovskyi.ImageUpscalerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImageUpscaler.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ImageUpscaler";
+			};
+			name = Debug;
+		};
+		793542992A3C6D63008DB683 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G66XPV3HVM;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vpavlovskyi.ImageUpscalerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImageUpscaler.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ImageUpscaler";
+			};
+			name = Release;
+		};
 		797B73CA2A387ADF0059BA32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -340,6 +454,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7935429A2A3C6D63008DB683 /* Build configuration list for PBXNativeTarget "ImageUpscalerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				793542982A3C6D63008DB683 /* Debug */,
+				793542992A3C6D63008DB683 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		797B73B92A387ADE0059BA32 /* Build configuration list for PBXProject "ImageUpscaler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
