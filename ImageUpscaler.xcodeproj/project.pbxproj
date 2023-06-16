@@ -10,6 +10,7 @@
 		7915F1592A3C79F100389BB8 /* ImagesStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915F1542A3C79F100389BB8 /* ImagesStorageProvider.swift */; };
 		7915F15A2A3C79F100389BB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915F1562A3C79F100389BB8 /* CoreDataController.swift */; };
 		7915F15B2A3C79F100389BB8 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7915F1572A3C79F100389BB8 /* CoreDataModel.xcdatamodeld */; };
+		7915F15D2A3C7A6200389BB8 /* CoreDataControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915F15C2A3C7A6200389BB8 /* CoreDataControllerTests.swift */; };
 		793542952A3C6D63008DB683 /* ImageUpscalerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */; };
 		797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */; };
 		797B73C42A387ADF0059BA32 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C32A387ADF0059BA32 /* ContentView.swift */; };
@@ -31,6 +32,7 @@
 		7915F1542A3C79F100389BB8 /* ImagesStorageProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesStorageProvider.swift; sourceTree = "<group>"; };
 		7915F1562A3C79F100389BB8 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		7915F1582A3C79F100389BB8 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		7915F15C2A3C7A6200389BB8 /* CoreDataControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataControllerTests.swift; sourceTree = "<group>"; };
 		793542922A3C6D63008DB683 /* ImageUpscalerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageUpscalerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerTests.swift; sourceTree = "<group>"; };
 		797B73BE2A387ADF0059BA32 /* ImageUpscaler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageUpscaler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +89,7 @@
 		793542932A3C6D63008DB683 /* ImageUpscalerTests */ = {
 			isa = PBXGroup;
 			children = (
+				7915F15C2A3C7A6200389BB8 /* CoreDataControllerTests.swift */,
 				793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */,
 			);
 			path = ImageUpscalerTests;
@@ -268,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7915F15D2A3C7A6200389BB8 /* CoreDataControllerTests.swift in Sources */,
 				793542952A3C6D63008DB683 /* ImageUpscalerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

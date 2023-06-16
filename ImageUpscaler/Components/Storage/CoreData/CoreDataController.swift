@@ -35,7 +35,7 @@ public struct CoreDataController {
 
 extension CoreDataController: ImagesStorageProvider {
     public func fetchImages() throws -> [Data] {
-        let request = NSFetchRequest<ImageData>(entityName: "ImageContainer")
+        let request = NSFetchRequest<ImageData>(entityName: "ImageData")
         let response = try viewContext.fetch(request)
         
         return response.compactMap(\.data)
