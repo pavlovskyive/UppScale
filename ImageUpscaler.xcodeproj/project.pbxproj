@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7915F1592A3C79F100389BB8 /* ImagesStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915F1542A3C79F100389BB8 /* ImagesStorageProvider.swift */; };
+		7915F15A2A3C79F100389BB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915F1562A3C79F100389BB8 /* CoreDataController.swift */; };
+		7915F15B2A3C79F100389BB8 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7915F1572A3C79F100389BB8 /* CoreDataModel.xcdatamodeld */; };
 		793542952A3C6D63008DB683 /* ImageUpscalerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */; };
 		797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */; };
 		797B73C42A387ADF0059BA32 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C32A387ADF0059BA32 /* ContentView.swift */; };
@@ -25,6 +28,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7915F1542A3C79F100389BB8 /* ImagesStorageProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesStorageProvider.swift; sourceTree = "<group>"; };
+		7915F1562A3C79F100389BB8 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
+		7915F1582A3C79F100389BB8 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		793542922A3C6D63008DB683 /* ImageUpscalerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageUpscalerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerTests.swift; sourceTree = "<group>"; };
 		797B73BE2A387ADF0059BA32 /* ImageUpscaler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageUpscaler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +58,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7915F1522A3C79F100389BB8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				7915F1532A3C79F100389BB8 /* Storage */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		7915F1532A3C79F100389BB8 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				7915F1542A3C79F100389BB8 /* ImagesStorageProvider.swift */,
+				7915F1552A3C79F100389BB8 /* CoreData */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		7915F1552A3C79F100389BB8 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				7915F1562A3C79F100389BB8 /* CoreDataController.swift */,
+				7915F1572A3C79F100389BB8 /* CoreDataModel.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		793542932A3C6D63008DB683 /* ImageUpscalerTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				79574BE92A3C561D00DBF852 /* App */,
+				7915F1522A3C79F100389BB8 /* Components */,
 				79574BE82A3C560C00DBF852 /* Resources */,
 				797B73C32A387ADF0059BA32 /* ContentView.swift */,
 			);
@@ -244,7 +277,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				797B73C42A387ADF0059BA32 /* ContentView.swift in Sources */,
+				7915F1592A3C79F100389BB8 /* ImagesStorageProvider.swift in Sources */,
+				7915F15A2A3C79F100389BB8 /* CoreDataController.swift in Sources */,
 				797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */,
+				7915F15B2A3C79F100389BB8 /* CoreDataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +540,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7915F1572A3C79F100389BB8 /* CoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7915F1582A3C79F100389BB8 /* CoreDataModel.xcdatamodel */,
+			);
+			currentVersion = 7915F1582A3C79F100389BB8 /* CoreDataModel.xcdatamodel */;
+			path = CoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 797B73B62A387ADE0059BA32 /* Project object */;
 }

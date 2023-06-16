@@ -8,7 +8,11 @@
 import PhotosUI
 import SwiftUI
 
+import Storage
+
 struct ContentView: View {
+    let storage: ImagesStorageProvider = CoreDataController()
+
     var body: some View {
         Text("Hello")
     }
