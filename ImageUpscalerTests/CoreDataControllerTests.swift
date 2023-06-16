@@ -8,6 +8,7 @@
 import XCTest
 @testable import ImageUpscaler
 
+// swiftlint:disable force_unwrapping
 final class CoreDataControllerTests: XCTestCase {
     func testReadWriteImages() throws {
         let storage = CoreDataController(isInMemory: true)
@@ -39,3 +40,4 @@ final class CoreDataControllerTests: XCTestCase {
         XCTAssertEqual(result, [initialInfos.last!])
     }
 }
+// swiftlint:enable force_unwrapping

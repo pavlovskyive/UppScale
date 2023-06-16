@@ -18,7 +18,7 @@ struct ImageInfo {
 }
 
 extension ImageInfo: Equatable {
-    static func ==(lhs: ImageInfo, rhs: ImageInfo) -> Bool {
+    static func == (lhs: ImageInfo, rhs: ImageInfo) -> Bool {
         lhs.id == rhs.id && lhs.data == rhs.data
     }
 }
