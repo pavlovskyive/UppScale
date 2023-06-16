@@ -567,10 +567,6 @@ opt_in_rules: # some rules are only opt-in
   - vertical_parameter_alignment
 
   # Rationale: Provides consistency in coding style
-  # https://github.com/realm/SwiftLint/blob/master/Rules.md#vertical-parameter-alignment-on-call
-  - vertical_parameter_alignment_on_call
-
-  # Rationale: Provides consistency in coding style
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#vertical-whitespace
   - vertical_whitespace
   

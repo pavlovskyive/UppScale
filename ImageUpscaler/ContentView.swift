@@ -9,10 +9,12 @@ import PhotosUI
 import SwiftUI
 
 struct ContentView: View {
-    let storage: ImagesStorageProvider = CoreDataController()
-
+    let storage = CoreDataController()
+    
     var body: some View {
-        Text("Hello")
+        NavigationStack {
+            ImagesView(storage: storage)
+        }
     }
 }
 
