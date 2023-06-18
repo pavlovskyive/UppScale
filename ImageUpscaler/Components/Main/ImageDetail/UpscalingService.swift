@@ -40,11 +40,18 @@ private extension UpscalingService {
             throw UpscalingError.invalidImageData
         }
         
+        // Calculate the desired output size while maintaining aspect ratio
+        let aspectRatio = inputCIImage.extent.width / inputCIImage.extent.height
+        let maxOutputSize = CGSize(width: 2048, height: 2048)
+        let desiredOutputSize = CGSize(
+            width: min(maxOutputSize.width, maxOutputSize.height * aspectRatio),
+            height: min(maxOutputSize.height, maxOutputSize.width / aspectRatio)
+        )
+        
         return try await withCheckedThrowingContinuation { continuation in
             let request = VNCoreMLRequest(model: model) { request, error in
-                if let error {
+                if let error = error {
                     continuation.resume(throwing: error)
-                    
                     return
                 }
                 
@@ -53,19 +60,25 @@ private extension UpscalingService {
                     let outputImageBuffer = results.first?.pixelBuffer
                 else {
                     continuation.resume(throwing: UpscalingError.processingError)
-                    
                     return
                 }
                 
                 let outputCIImage = CIImage(cvPixelBuffer: outputImageBuffer)
                 let context = CIContext()
                 
+                // Scale the output image to the desired size while maintaining aspect ratio
+                let scaledOutputCIImage = outputCIImage.transformed(
+                    by: CGAffineTransform(
+                        scaleX: desiredOutputSize.width / outputCIImage.extent.width,
+                        y: desiredOutputSize.height / outputCIImage.extent.height
+                    )
+                )
+                
                 guard let outputCGImage = context.createCGImage(
-                    outputCIImage,
-                    from: outputCIImage.extent
+                    scaledOutputCIImage,
+                    from: scaledOutputCIImage.extent
                 ) else {
                     continuation.resume(throwing: UpscalingError.imageConversionError)
-                    
                     return
                 }
                 
@@ -75,20 +88,13 @@ private extension UpscalingService {
             }
             
             let handler = VNImageRequestHandler(ciImage: inputCIImage)
+            
             do {
                 try handler.perform([request])
             } catch {
                 continuation.resume(throwing: error)
             }
         }
-    }
-    
-    func convertToCIImage(_ imageData: Data) throws -> CIImage {
-        guard let inputCIImage = CIImage(data: imageData) else {
-            throw UpscalingError.invalidImageData
-        }
-        
-        return inputCIImage
     }
 }
 
