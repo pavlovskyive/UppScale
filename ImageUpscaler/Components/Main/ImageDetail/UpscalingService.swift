@@ -38,7 +38,7 @@ class UpscalingService: ObservableObject {
                 self?.isBusy = false
             }
         }
-
+        
         do {
             let image = try await processImage(inputImageData)
             
@@ -57,26 +57,99 @@ private extension UpscalingService {
         
         print("DEBUG:", "initial size:", inputCIImage.extent.size)
         
-        let outputImage = try await processTile(inputCIImage)
+        let standartTileSize = 512
+        let outputTileSize = 2048
         
-        print("DEBUG:", "resulting size:", outputImage.extent.size)
+        let tileDimention = min(
+            CGFloat(standartTileSize),
+            inputCIImage.extent.width,
+            inputCIImage.extent.height
+        )
+        
+        let tileSize = CGSize(width: tileDimention, height: tileDimention)
+        let numTilesX = Int(ceil(inputCIImage.extent.size.width / tileSize.width))
+        let numTilesY = Int(ceil(inputCIImage.extent.size.height / tileSize.height))
+        
+        print("DEBUG:", "number of tiles", "\(numTilesX)x\(numTilesY)", " = \(numTilesX * numTilesY)")
+        
+        guard numTilesX * numTilesY < 25 else {
+            throw UpscalingError.tooBig
+        }
+        
+        var composedImage = CIImage(color: .clear).cropped(
+            to: CGRect(
+                origin: .zero,
+                size: CGSize(
+                    width: numTilesX * outputTileSize,
+                    height: numTilesY * outputTileSize
+                )
+            )
+        )
+        
+        print(composedImage.extent.size)
+        
+        try await withThrowingTaskGroup(of: CIImage.self) { group in
+            for tileX in 0..<numTilesX {
+                for tileY in 0..<numTilesY {
+                    let tileIndex = tileX * numTilesY + tileY
+                    print("Processing: \(tileIndex + 1)")
+                    
+                    let tileRect = CGRect(
+                        x: tileX * Int(tileSize.width),
+                        y: tileY * Int(tileSize.height),
+                        width: Int(tileSize.width),
+                        height: Int(tileSize.height)
+                    )
+                    
+                    group.addTask { [weak self] in
+                        guard let self else {
+                            throw UpscalingError.tileProcessingError
+                        }
+                        
+                        let tileCanvas = CIImage(color: .clear).cropped(to: tileRect)
+                        var tileImage = inputCIImage.cropped(to: tileRect)
+                        
+                        tileImage = tileImage.composited(over: tileCanvas)
+                        
+                        var processedTile = try await self.processTile(tileImage)
+                        
+                        let transform = CGAffineTransform(
+                            translationX: CGFloat(tileX * outputTileSize),
+                            y: CGFloat(tileY * outputTileSize)
+                        )
+                        
+                        processedTile = processedTile.transformed(by: transform)
+                        
+                        print("Processed: \(tileIndex + 1)")
+                        
+                        return (processedTile)
+                    }
+                }
+            }
+            
+            for try await result in group {
+                composedImage = result.composited(over: composedImage)
+            }
+        }
         
         let context = CIContext()
-        guard let cgImage = context.createCGImage(outputImage, from: outputImage.extent) else {
+        guard let cgImage = context.createCGImage(
+            composedImage, from: composedImage.extent
+        ) else {
             throw UpscalingError.imageConversionError
         }
-
-        let uiImage = UIImage(cgImage: cgImage)
-        let finalImage = Image(uiImage: uiImage)
         
-        return finalImage
+        let uiImage = UIImage(cgImage: cgImage)
+        
+        return Image(uiImage: uiImage)
     }
-
+    
     private func processTile(_ inputCIImage: CIImage) async throws -> CIImage {
         return try await withCheckedThrowingContinuation { continuation in
             let request = VNCoreMLRequest(model: model) { request, error in
                 if let error = error {
                     continuation.resume(throwing: error)
+
                     return
                 }
                 
@@ -85,17 +158,13 @@ private extension UpscalingService {
                     let outputPixelBuffer = results.first?.pixelBuffer
                 else {
                     continuation.resume(throwing: UpscalingError.processingError)
+
                     return
                 }
                 
-                let outputImageSize = CGSize(
-                    width: CVPixelBufferGetWidth(outputPixelBuffer),
-                    height: CVPixelBufferGetHeight(outputPixelBuffer)
-                )
-                
                 continuation.resume(returning: CIImage(cvPixelBuffer: outputPixelBuffer))
             }
-
+            
             do {
                 let handler = VNImageRequestHandler(ciImage: inputCIImage)
                 try handler.perform([request])
@@ -112,6 +181,8 @@ enum UpscalingError: Error {
     case processingError
     case compositeImageCreationError
     case imageConversionError
+    
+    case tooBig
     
     case tempError // TODO: remove after debugging
 }

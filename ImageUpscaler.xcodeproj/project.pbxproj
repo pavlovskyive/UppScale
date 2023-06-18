@@ -42,7 +42,7 @@
 		79D7024A2A3DC5E0004D38A0 /* InfoBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBlockView.swift; sourceTree = "<group>"; };
 		79D7025D2A3DCE24004D38A0 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		79D702602A3E2B10004D38A0 /* RealsrGAN.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RealsrGAN.mlmodel; sourceTree = "<group>"; };
-		79D702632A3E2B83004D38A0 /* UpscalingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpscalingService.swift; sourceTree = "<group>"; };
+		79D702632A3E2B83004D38A0 /* UpscalingService.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = UpscalingService.swift; sourceTree = "<group>"; };
 		79D702652A3EF044004D38A0 /* sample512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample512.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -507,6 +507,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -539,6 +540,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

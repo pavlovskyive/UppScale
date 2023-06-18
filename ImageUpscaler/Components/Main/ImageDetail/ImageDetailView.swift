@@ -82,11 +82,6 @@ private extension ImageDetailView {
         resultingImage?
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .animation(nil, value: scale)
-            .cornerRadius(scale == 1 ? .medium : 0)
-            .animation(.default, value: scale)
-            .shadow(color: .black.opacity(0.08), radius: .xSmall)
-            .padding()
             .transaction { transaction in
                 transaction.animation = nil
             }
@@ -221,11 +216,9 @@ private extension ImageDetailView {
                         DragGesture(minimumDistance: 0)
                             .onChanged { _ in
                                 showingComparison = true
-                                print(showingComparison)
                             }
                             .onEnded { _ in
                                 showingComparison = false
-                                print(showingComparison)
                             }
                     )
             }
