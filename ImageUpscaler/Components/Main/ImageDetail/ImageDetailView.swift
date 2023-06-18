@@ -22,6 +22,7 @@ struct ImageDetailView: View {
     @State private var translationOffset = CGSize.zero
     
     @State private var upscaledImage: Image?
+    @State private var showingComparison = false
     
     var body: some View {
         ZStack {
@@ -38,14 +39,14 @@ struct ImageDetailView: View {
                                 width: gesture.translation.width + globalOffset.width,
                                 height: gesture.translation.height + globalOffset.height
                             )
-                            
+
                             withAnimation {
                                 translationOffset = currentOffset
                             }
                         }
                         .onEnded { _ in
                             guard scale > 1 else {
-                                withAnimation(.spring()) {
+                                withAnimation {
                                     translationOffset = globalOffset
                                 }
                                 
@@ -55,9 +56,9 @@ struct ImageDetailView: View {
                             globalOffset = translationOffset
                         }
                 )
-            
             VStack {
                 Spacer()
+                Text(upscalingService.currentLog)
                 HStack {
                     Spacer()
                     tools
@@ -78,15 +79,25 @@ struct ImageDetailView: View {
 
 private extension ImageDetailView {
     var imageView: some View {
-        (upscaledImage ?? initialImage)?
+        resultingImage?
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .cornerRadius(.medium)
+            .animation(nil, value: scale)
+            .cornerRadius(scale == 1 ? .medium : 0)
+            .animation(.default, value: scale)
             .shadow(color: .black.opacity(0.08), radius: .xSmall)
             .padding()
             .transaction { transaction in
                 transaction.animation = nil
             }
+    }
+    
+    var resultingImage: Image? {
+        if let upscaledImage, !showingComparison {
+            return upscaledImage
+        } else {
+            return initialImage
+        }
     }
     
     var initialImage: Image? {
@@ -113,7 +124,9 @@ private extension ImageDetailView {
             HStack(spacing: 0) {
                 Button {} label: {
                     Image(systemName: "minus.magnifyingglass")
-                        .font(.system(size: .medium))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: .medium)
                         .opacity(0.8)
                         .padding()
                 }
@@ -135,7 +148,9 @@ private extension ImageDetailView {
                 
                 Button {} label: {
                     Image(systemName: "plus.magnifyingglass")
-                        .font(.system(size: .medium))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: .medium)
                         .opacity(0.8)
                         .padding()
                 }
@@ -162,30 +177,58 @@ private extension ImageDetailView {
             Spacer()
                 .frame(maxWidth: .medium)
             
-            Button {
-                Task {
-                    let result = await upscalingService.upscaleImage(imageData: imageData)
-                    
-                    print("FINISHED")
-                    
-                    switch result {
-                    case .success(let image):
-                        upscaledImage = image
-                    case .failure(let error):
-                        print(error)
+            if upscaledImage == nil {
+                Button {
+                    Task {
+                        let result = await upscalingService.upscaleImage(imageData: imageData)
+                        
+                        switch result {
+                        case .success(let image):
+                            upscaledImage = image
+                        case .failure(let error):
+                            print(error)
+                        }
                     }
+                } label: {
+                    Image(systemName: "wand.and.rays")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: .medium)
+                        .opacity(0.8)
+                        .padding()
+                        .overlay(upscalingService.isBusy ? ProgressView() : nil)
                 }
-            } label: {
-                Image(systemName: "wand.and.rays")
-                    .font(.system(size: .medium))
+                .disabled(upscalingService.isBusy)
+                
+                .padding(.horizontal, .xSmall)
+                .background(.thinMaterial)
+                .cornerRadius(.medium)
+                .shadow(color: .black.opacity(0.2), radius: .small)
+            } else {
+                Image(systemName: "arrow.left.arrow.right")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: .medium)
                     .opacity(0.8)
                     .padding()
+                
+                    .padding(.horizontal, .xSmall)
+                    .background(.thinMaterial)
+                    .cornerRadius(.medium)
+                    .shadow(color: .black.opacity(0.2), radius: .small)
+                
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { _ in
+                                showingComparison = true
+                                print(showingComparison)
+                            }
+                            .onEnded { _ in
+                                showingComparison = false
+                                print(showingComparison)
+                            }
+                    )
             }
-            .padding(.horizontal, .xSmall)
-            
-            .background(.thinMaterial)
-            .cornerRadius(.medium)
-            .shadow(color: .black.opacity(0.2), radius: .small)
         }
         .buttonStyle(.plain)
         .padding()
@@ -203,7 +246,7 @@ private extension ImageDetailView {
         scalingDisabled = true
         
         if value < scale {
-            withAnimation(.spring()) {
+            withAnimation {
                 translationOffset = .zero
                 globalOffset = .zero
             }
