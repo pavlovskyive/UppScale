@@ -49,6 +49,7 @@ class UpscalingService: ObservableObject {
 
 private extension UpscalingService {
     func processImage(_ data: Data) async throws -> Image {
+        // NOTE: direct CIImage(data: Data) creation omits metadata.
         guard
             let inputUIImage = UIImage(data: data), // needed for metadata
             let inputCGImage = inputUIImage.cgImage // needed to translate uiimage into ciimage
@@ -62,7 +63,8 @@ private extension UpscalingService {
         let squareCanvasSize = CGSize(width: inputMaxDimension, height: inputMaxDimension)
         
         let context = CIContext()
-        let blackCanvas = CIImage(color: CIColor.black).cropped(to: CGRect(origin: .zero, size: squareCanvasSize))
+        let blackCanvas = CIImage(color: CIColor.black)
+            .cropped(to: CGRect(origin: .zero, size: squareCanvasSize))
         let squareInputCIImage = inputCIImage.composited(over: blackCanvas)
         
         let outputCIImage = try await processTile(squareInputCIImage)
@@ -75,18 +77,19 @@ private extension UpscalingService {
         )
         
         let croppedCIImage = outputCIImage.cropped(to: CGRect(origin: .zero, size: outputSize))
-        let orientedCIImage = croppedCIImage.oriented(
-            forExifOrientation: inputUIImage.imageOrientation.exifOrientation
-        )
         
         guard let outputCGImage = context.createCGImage(
-            orientedCIImage,
-            from: orientedCIImage.extent
+            croppedCIImage,
+            from: croppedCIImage.extent
         ) else {
             throw UpscalingError.imageConversionError
         }
-        
-        let outputUIImage = UIImage(cgImage: outputCGImage)
+
+        let outputUIImage = UIImage(
+            cgImage: outputCGImage,
+            scale: 1,
+            orientation: inputUIImage.imageOrientation
+        )
         
         return Image(uiImage: outputUIImage)
     }
@@ -125,29 +128,7 @@ private extension UpscalingService {
 }
 
 enum UpscalingError: Error {
-    case invalidImageData
-    case tileProcessingError
     case processingError
-    case compositeImageCreationError
+    case invalidImageData
     case imageConversionError
-    
-    case tooBig
-    
-    case tempError // TODO: remove after debugging
-}
-
-private extension UIImage.Orientation {
-    var exifOrientation: Int32 {
-        switch self {
-        case .up: return 1
-        case .down: return 3
-        case .left: return 8
-        case .right: return 6
-        case .upMirrored: return 2
-        case .downMirrored: return 4
-        case .leftMirrored: return 5
-        case .rightMirrored: return 7
-        @unknown default: return 1
-        }
-    }
 }
