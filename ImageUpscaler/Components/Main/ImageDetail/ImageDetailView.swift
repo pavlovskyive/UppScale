@@ -176,9 +176,7 @@ private extension ImageDetailView {
             if upscaledImage == nil {
                 Button {
                     Task {
-                        let result = await upscalingService.upscaleImage(
-                            imageData: imageData, tileSize: imageTileSize
-                        )
+                        let result = await upscalingService.upscaleImage(imageData: imageData)
                         
                         switch result {
                         case .success(let image):
@@ -202,12 +200,6 @@ private extension ImageDetailView {
                 .background(.thinMaterial)
                 .cornerRadius(.medium)
                 .shadow(color: .black.opacity(0.2), radius: .small)
-                
-                VStack {
-                    Stepper("", value: $imageTileSize, in: 512...2048, step: 512)
-                    Text("Tile size: \(imageTileSize)")
-                }
-                .disabled(upscalingService.isBusy)
             } else {
                 Image(systemName: "arrow.left.arrow.right")
                     .resizable()
