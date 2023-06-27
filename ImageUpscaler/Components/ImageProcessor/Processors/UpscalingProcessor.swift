@@ -1,60 +1,40 @@
 //
-//  ImageUpscalerApp.swift
+//  UpscaleProcessor.swift
 //  ImageUpscaler
 //
-//  Created by Vsevolod Pavlovskyi on 17.06.2023.
+//  Created by Vsevolod Pavlovskyi on 23.06.2023.
 //
 
 import SwiftUI
-import CoreML
 import Vision
+import CoreML
 
-class UpscalingService: ObservableObject {
-    private let model: VNCoreMLModel
-    @Published var currentLog = "" // TODO: REMOVE LATER
-    @Published var isBusy = false
+final class UpscalingProcessor: ImageProcessing {
+    struct Parameters {
+        let data: Data
+        let rect: CGRect?
+    }
     
-    init() {
+    let model: VNCoreMLModel
+    
+    init() throws {
         let config = MLModelConfiguration()
         guard
             let coreMLModel = try? RealsrGAN(configuration: config),
             let visionModel = try? VNCoreMLModel(for: coreMLModel.model)
         else {
-            fatalError("Cannot load model")
+            throw ImageProcessingError.modelLoadingError
         }
         
         self.model = visionModel
     }
     
-    func upscaleImage(imageData inputImageData: Data) async -> Result<Image, Error> {
-        DispatchQueue.main.async { [weak self] in
-            self?.isBusy = true
-        }
-        
-        defer {
-            DispatchQueue.main.async { [weak self] in
-                self?.isBusy = false
-            }
-        }
-        
-        do {
-            let image = try await processImage(inputImageData)
-            
-            return .success(image)
-        } catch {
-            return .failure(error)
-        }
-    }
-}
-
-private extension UpscalingService {
-    func processImage(_ data: Data) async throws -> Image {
-        // NOTE: direct CIImage(data: Data) creation omits metadata.
+    func processImage(parameters: Parameters) async throws -> UIImage {
         guard
-            let inputUIImage = UIImage(data: data), // needed for metadata
+            let inputUIImage = UIImage(data: parameters.data), // needed for metadata
             let inputCGImage = inputUIImage.cgImage // needed to translate uiimage into ciimage
         else {
-            throw UpscalingError.invalidImageData
+            throw ImageProcessingError.invalidParametersData // TODO: change
         }
         
         let inputCIImage = CIImage(cgImage: inputCGImage)
@@ -67,7 +47,7 @@ private extension UpscalingService {
             .cropped(to: CGRect(origin: .zero, size: squareCanvasSize))
         let squareInputCIImage = inputCIImage.composited(over: blackCanvas)
         
-        let outputCIImage = try await processTile(squareInputCIImage)
+        let outputCIImage = try await process(squareInputCIImage)
         
         let outputMaxDimension = max(outputCIImage.extent.width, outputCIImage.extent.height)
         let scalingFactor = outputMaxDimension / inputMaxDimension
@@ -82,7 +62,7 @@ private extension UpscalingService {
             croppedCIImage,
             from: croppedCIImage.extent
         ) else {
-            throw UpscalingError.imageConversionError
+            throw ImageProcessingError.processingError // TODO: change
         }
 
         let outputUIImage = UIImage(
@@ -91,10 +71,12 @@ private extension UpscalingService {
             orientation: inputUIImage.imageOrientation
         )
         
-        return Image(uiImage: outputUIImage)
+        return outputUIImage
     }
-    
-    private func processTile(_ inputCIImage: CIImage) async throws -> CIImage {
+}
+
+private extension UpscalingProcessor {
+    private func process(_ inputCIImage: CIImage) async throws -> CIImage {
         try await withCheckedThrowingContinuation { continuation in
             let request = VNCoreMLRequest(model: model) { request, error in
                 if let error = error {
@@ -107,7 +89,7 @@ private extension UpscalingService {
                     let results = request.results as? [VNPixelBufferObservation],
                     let outputPixelBuffer = results.first?.pixelBuffer
                 else {
-                    continuation.resume(throwing: UpscalingError.processingError)
+                    continuation.resume(throwing: ImageProcessingError.processingError)
                     
                     return
                 }
@@ -117,18 +99,8 @@ private extension UpscalingService {
                 continuation.resume(returning: ciImage)
             }
             
-            do {
-                let handler = VNImageRequestHandler(ciImage: inputCIImage)
-                try handler.perform([request])
-            } catch {
-                continuation.resume(throwing: error)
-            }
+            let handler = VNImageRequestHandler(ciImage: inputCIImage)
+            try? handler.perform([request]) // errors will be handled in continuation
         }
     }
-}
-
-enum UpscalingError: Error {
-    case processingError
-    case invalidImageData
-    case imageConversionError
 }

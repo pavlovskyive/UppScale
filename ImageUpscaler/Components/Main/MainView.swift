@@ -49,12 +49,12 @@ struct MainView: View {
                     settingsButton
                 }
             }
-            
+
             .materialNavigation()
             .navigationTitle("AppScale")
             
             .navigationDestination(for: ImageInfoSpec.self) { info in
-                ImageDetailView(imageData: info.data)
+                ImageProcessingView(imageData: info.data)
             }
         }
     }
@@ -90,8 +90,10 @@ private extension MainView {
                     return
                 }
                 
-                let info = ImageInfoSpec(data: data)
-                path.append(info)
+                await MainActor.run {
+                    let info = ImageInfoSpec(data: data)
+                    path.append(info)
+                }
             }
         }
     }
