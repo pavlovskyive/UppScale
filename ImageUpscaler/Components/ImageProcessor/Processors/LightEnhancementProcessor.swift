@@ -11,13 +11,14 @@ import CoreML
 
 final class LightEnhancementProcessor: ImageProcessing {
     struct Parameters {
-        let data: Data
+        let uiImage: UIImage
         let rect: CGRect?
     }
     
     let model: VNCoreMLModel
+    let manager: ImageProcessingManager
     
-    init() throws {
+    init(manager: ImageProcessingManager) throws {
         let config = MLModelConfiguration()
         guard
             let coreMLModel = try? Zero_DCE(configuration: config),
@@ -27,12 +28,12 @@ final class LightEnhancementProcessor: ImageProcessing {
         }
         
         self.model = visionModel
+        self.manager = manager
     }
     
     func processImage(parameters: Parameters) async throws -> UIImage {
         guard
-            let inputUIImage = UIImage(data: parameters.data), // needed for metadata
-            let inputCGImage = inputUIImage.cgImage // needed to translate uiimage into ciimage
+            let inputCGImage = parameters.uiImage.cgImage // needed to translate uiimage into ciimage
         else {
             throw ImageProcessingError.invalidParametersData // TODO: change
         }
@@ -68,10 +69,13 @@ final class LightEnhancementProcessor: ImageProcessing {
         let outputUIImage = UIImage(
             cgImage: outputCGImage,
             scale: 1,
-            orientation: inputUIImage.imageOrientation
+            orientation: parameters.uiImage.imageOrientation
         )
         
-        return outputUIImage
+        return try await manager.processImage(
+            type: UpscalingProcessor.self,
+            parameters: UpscalingProcessor.Parameters(uiImage: outputUIImage, rect: parameters.rect)
+        )
     }
 }
 

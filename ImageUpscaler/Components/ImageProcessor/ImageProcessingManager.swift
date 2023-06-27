@@ -38,7 +38,7 @@ class ImageProcessingManager: ObservableObject {
             return processor
         }
         
-        let processor = try P()
+        let processor = try P(manager: self)
         processorsCache[key] = processor
         
         return processor

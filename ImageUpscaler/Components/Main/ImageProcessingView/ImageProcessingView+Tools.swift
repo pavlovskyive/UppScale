@@ -44,14 +44,18 @@ private extension ImageProcessingView {
     var upscaleButton: some View {
         Label("Upscale", systemImage: "wand.and.rays")
             .onTapGesture {
-                Task {
+                Task(priority: .high) {
                     do {
-                        let uiImage = try await imageProcessingManager.processImage(
+                        guard let uiImage = initialUIImage else {
+                            throw ImageProcessingError.invalidParametersData // TODO: change
+                        }
+
+                        let processedUIImage = try await imageProcessingManager.processImage(
                             type: UpscalingProcessor.self,
-                            parameters: UpscalingProcessor.Parameters(data: initialImageData, rect: nil)
+                            parameters: UpscalingProcessor.Parameters(uiImage: uiImage, rect: nil)
                         )
                         
-                        processedUIImage = uiImage
+                        self.processedUIImage = processedUIImage
                     } catch {
                         self.error = error
                     }
@@ -64,14 +68,21 @@ private extension ImageProcessingView {
     var lightEnhanceButton: some View {
         Label("Enhance Light", systemImage: "flashlight.on.fill")
             .onTapGesture {
-                Task {
+                Task(priority: .high) {
                     do {
-                        let uiImage = try await imageProcessingManager.processImage(
-                            type: LightEnhancementProcessor.self,
-                            parameters: LightEnhancementProcessor.Parameters(data: initialImageData, rect: nil)
-                        )
+                        guard let uiImage = initialUIImage else {
+                            throw ImageProcessingError.invalidParametersData // TODO: change
+                        }
 
-                        processedUIImage = uiImage
+                        let processedUIImage = try await imageProcessingManager.processImage(
+                            type: LightEnhancementProcessor.self,
+                            parameters: LightEnhancementProcessor.Parameters(
+                                uiImage: uiImage,
+                                rect: nil
+                            )
+                        )
+                        
+                        self.processedUIImage = processedUIImage
                     } catch {
                         self.error = error
                     }

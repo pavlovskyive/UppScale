@@ -11,12 +11,12 @@ struct ImageProcessingView: View {
     @EnvironmentObject var imageProcessingManager: ImageProcessingManager
     @Environment(\.presentationMode) var presentationMode
     
-    let initialImageData: Data
-    
     @State var processedUIImage: UIImage?
     @State var showingComparison = false
     
     @State var error: Error?
+    
+    let initialUIImage: UIImage?
     
     var body: some View {
         if let resultingImage {
@@ -35,7 +35,7 @@ struct ImageProcessingView: View {
     }
     
     init(imageData: Data) {
-        self.initialImageData = imageData
+        self.initialUIImage = UIImage(data: imageData)
     }
 }
 
@@ -63,7 +63,7 @@ private extension ImageProcessingView {
     }
     
     var initialImage: Image? {
-        guard let uiImage = UIImage(data: initialImageData) else {
+        guard let uiImage = initialUIImage else {
             return nil
         }
         

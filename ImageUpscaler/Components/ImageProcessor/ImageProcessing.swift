@@ -10,6 +10,6 @@ import SwiftUI
 protocol ImageProcessing {
     associatedtype Parameters
 
-    init() throws
+    init(manager: ImageProcessingManager) throws
     func processImage(parameters: Parameters) async throws -> UIImage
 }
