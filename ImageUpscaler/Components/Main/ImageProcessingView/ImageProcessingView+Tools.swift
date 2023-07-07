@@ -12,9 +12,9 @@ extension ImageProcessingView {
         HStack(alignment: .center) {
             cancelButton
             Spacer()
-            lightEnhanceButton
-            toolDivider
             upscaleButton
+            toolDivider
+            lightEnhanceButton
             toolDivider
             compareButton
             Spacer()
@@ -52,7 +52,7 @@ private extension ImageProcessingView {
 
                         let processedUIImage = try await imageProcessingManager.processImage(
                             type: UpscalingProcessor.self,
-                            parameters: UpscalingProcessor.Parameters(uiImage: uiImage, rect: nil)
+                            parameters: UpscalingProcessor.Parameters(uiImage: uiImage)
                         )
                         
                         self.processedUIImage = processedUIImage
@@ -62,7 +62,7 @@ private extension ImageProcessingView {
                 }
             }
             .disabled(imageProcessingManager.isBusy)
-            .opacity(imageProcessingManager.isBusy ? 0.4 : 1)
+            .opacity(imageProcessingManager.isBusy || processedUIImage != nil ? 0.3 : 1)
     }
     
     var lightEnhanceButton: some View {
@@ -76,10 +76,7 @@ private extension ImageProcessingView {
 
                         let processedUIImage = try await imageProcessingManager.processImage(
                             type: LightEnhancementProcessor.self,
-                            parameters: LightEnhancementProcessor.Parameters(
-                                uiImage: uiImage,
-                                rect: nil
-                            )
+                            parameters: LightEnhancementProcessor.Parameters(uiImage: uiImage)
                         )
                         
                         self.processedUIImage = processedUIImage
@@ -89,7 +86,7 @@ private extension ImageProcessingView {
                 }
             }
             .disabled(imageProcessingManager.isBusy)
-            .opacity(imageProcessingManager.isBusy ? 0.4 : 1)
+            .opacity(imageProcessingManager.isBusy || processedUIImage != nil ? 0.3 : 1)
     }
     
     var compareButton: some View {
@@ -104,16 +101,22 @@ private extension ImageProcessingView {
                     }
             )
             .disabled(processedUIImage == nil)
-            .opacity(processedUIImage == nil ? 0.4 : 1)
+            .opacity(processedUIImage == nil ? 0.3 : 1)
     }
     
     var saveButton: some View {
         Label("Save", systemImage: "square.and.arrow.down")
             .onTapGesture {
-                print("save")
+                guard let processedUIImage else {
+                    return // TODO: handle
+                }
+                
+                UIImageWriteToSavedPhotosAlbum(processedUIImage, nil, nil, nil)
+                
+                // TODO: alert and dismiss
             }
             .disabled(processedUIImage == nil)
-            .opacity(processedUIImage == nil ? 0.4 : 1)
+            .opacity(processedUIImage == nil ? 0.3 : 1)
     }
     
     var toolDivider: some View {

@@ -17,6 +17,7 @@
 		79687B732A4ABBED00851478 /* LightEnhancementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79687B722A4ABBED00851478 /* LightEnhancementProcessor.swift */; };
 		797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */; };
 		797B73C92A387ADF0059BA32 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797B73C82A387ADF0059BA32 /* Preview Assets.xcassets */; };
+		799DE3CF2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799DE3CE2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift */; };
 		79B1A0692A41AEAE005AA9CA /* ImageProcessingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B1A0682A41AEAE005AA9CA /* ImageProcessingManager.swift */; };
 		79D7023E2A3D8E73004D38A0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D7023D2A3D8E73004D38A0 /* MainView.swift */; };
 		79D702422A3D98DB004D38A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79D702412A3D98DB004D38A0 /* Assets.xcassets */; };
@@ -50,6 +51,8 @@
 		797B73BE2A387ADF0059BA32 /* ImageUpscaler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageUpscaler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerApp.swift; sourceTree = "<group>"; };
 		797B73C82A387ADF0059BA32 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		799DE3CD2A4B4B10002EF57F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		799DE3CE2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularCoreMLProcessor.swift; sourceTree = "<group>"; };
 		79B1A0682A41AEAE005AA9CA /* ImageProcessingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessingManager.swift; sourceTree = "<group>"; };
 		79D7023D2A3D8E73004D38A0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		79D702412A3D98DB004D38A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -111,6 +114,7 @@
 				79687B682A458E0C00851478 /* TestProcessor.swift */,
 				79687B6A2A458E3000851478 /* UpscalingProcessor.swift */,
 				79687B722A4ABBED00851478 /* LightEnhancementProcessor.swift */,
+				799DE3CE2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift */,
 			);
 			path = Processors;
 			sourceTree = "<group>";
@@ -136,6 +140,7 @@
 		797B73C02A387ADF0059BA32 /* ImageUpscaler */ = {
 			isa = PBXGroup;
 			children = (
+				799DE3CD2A4B4B10002EF57F /* Info.plist */,
 				79D702432A3DBB74004D38A0 /* Helpers */,
 				79D7023B2A3D8D87004D38A0 /* Components */,
 				79574BE92A3C561D00DBF852 /* App */,
@@ -361,6 +366,7 @@
 				79B1A0692A41AEAE005AA9CA /* ImageProcessingManager.swift in Sources */,
 				79D702612A3E2B10004D38A0 /* RealsrGAN.mlmodel in Sources */,
 				79687B712A4ABBA500851478 /* Zero-DCE.mlmodel in Sources */,
+				799DE3CF2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift in Sources */,
 				79687B662A458DF200851478 /* ImageProcessing.swift in Sources */,
 				79687B6D2A45AD8C00851478 /* ImageProcessingView+Tools.swift in Sources */,
 				79687B6F2A481CB200851478 /* ScalableImageView.swift in Sources */,
@@ -546,8 +552,10 @@
 				DEVELOPMENT_TEAM = G66XPV3HVM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ImageUpscaler/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Image Upscaler";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save processed image to Photo Library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -579,8 +587,10 @@
 				DEVELOPMENT_TEAM = G66XPV3HVM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ImageUpscaler/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Image Upscaler";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save processed image to Photo Library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

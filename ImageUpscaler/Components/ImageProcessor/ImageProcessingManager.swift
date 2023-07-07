@@ -45,10 +45,32 @@ class ImageProcessingManager: ObservableObject {
     }
 }
 
-enum ImageProcessingError: Error {
+enum ImageProcessingError: LocalizedError {
     case modelLoadingError
     case invalidParametersData
-    case strategyNotFound
-    
     case processingError
+}
+
+extension ImageProcessingError {
+    var errorDescription: String? {
+        switch self {
+        case .modelLoadingError:
+            return "Model could not be loaded"
+        case .invalidParametersData:
+            return "Parameters passed to the model are not correct"
+        case .processingError:
+            return "Image processing error"
+        }
+    }
+    
+    var recoverySuggestion: String? {
+        switch self {
+        case .modelLoadingError:
+            return "Try again or restart the application"
+        case .invalidParametersData:
+            return "Try selecting different image or restart the application"
+        case .processingError:
+            return "Check for available memory and/or turn off battery saving mode"
+        }
+    }
 }
