@@ -12,191 +12,216 @@ import Combine
 import class SwiftUI.UIImage
 
 class ImageToImageProcessor {
-    var model: VNCoreMLModel?
-    let modelLoder: () -> VNCoreMLModel?
+    private var model: VNCoreMLModel?
+    private let modelLoader: () throws -> VNCoreMLModel
 
-    var isCurrentlyProcessing = false
-        
-    init(modelLoder: @escaping () -> VNCoreMLModel?) {
-        self.modelLoder = modelLoder
+    private var isCurrentlyProcessing = false
+
+    init(modelLoader: @escaping () throws -> VNCoreMLModel) {
+        self.modelLoader = modelLoader
     }
 
-    func process(_ uiImage: UIImage) -> AnyPublisher<ProgressEvent, Error> {
+    func process(
+        _ uiImage: UIImage,
+        postProcessor: ImageToImageProcessor? = nil
+    ) -> AnyPublisher<ProgressEvent, Error> {
         isCurrentlyProcessing = true
 
         let subject = PassthroughSubject<ProgressEvent, Error>()
-        
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.process(uiImage) { update in
-                DispatchQueue.main.async {
-                    subject.send(.updated(update))
+
+        Task(priority: .userInitiated) { [weak self] in
+            guard let self = self else {
+                subject.send(completion: .finished)
+
+                return
+            }
+
+            do {
+                let steps = postProcessor != nil ? 2 : 1
+
+                var processedImage = try await self.processImage(
+                    uiImage,
+                    step: 1,
+                    of: steps
+                ) { update in
+                    subject.sendOnMain(.updated(update))
                 }
-            } onCompletion: { result in
-                DispatchQueue.main.async {
-                    self?.isCurrentlyProcessing = false
-                    
-                    switch result {
-                    case .success(let image):
-                        subject.send(.completed(image))
-                        subject.send(completion: .finished)
-                        
-                    case .failure(let error):
-                        subject.send(completion: .failure(error))
+
+                if let postProcessor {
+                    processedImage = try await postProcessor.processImage(
+                        processedImage,
+                        step: 2,
+                        of: steps
+                    ) { update in
+                        subject.sendOnMain(.updated(update))
                     }
                 }
+                
+                subject.sendOnMain(.updated(ProgressEventUpdate(message: "Completed!", completionRatio: 1)))
+                subject.sendOnMain(.completed(processedImage))
+                subject.sendOnMain(completion: .finished)
+            } catch {
+                subject.sendOnMain(completion: .failure(error))
             }
         }
-        
+
         return subject.eraseToAnyPublisher()
     }
-}
 
-private extension ImageToImageProcessor {
-    func loadModel() -> VNCoreMLModel? {
+    func processImage(
+        _ uiImage: UIImage,
+        step: Int,
+        of steps: Int,
+        onProgressUpdate: (ProgressEventUpdate) -> Void
+    ) async throws -> UIImage {
+        onProgressUpdate(eventUpdate(for: .modelLoading, step: step, of: steps))
+
+        let model = try loadModel()
+        
+        onProgressUpdate(eventUpdate(for: .preprocessing, step: step, of: steps))
+
+        guard let inputCIImage = uiImage.cgImage.map({ CIImage(cgImage: $0) }) else {
+            throw ImageToImageProcessingError.incorrectImageData
+        }
+
+        let squareInputCIImage = preprocessImage(inputCIImage)
+
+        onProgressUpdate(eventUpdate(for: .processing, step: step, of: steps))
+
+        let outputCIImage = try process(squareInputCIImage, model: model)
+        
+        onProgressUpdate(eventUpdate(for: .postprocessing, step: step, of: steps))
+
+        let outputUIImage = try postProcessImage(outputCIImage, originalUIImage: uiImage)
+
+        return outputUIImage
+    }
+
+    private func loadModel() throws -> VNCoreMLModel {
         if let model {
             return model
         }
         
-        let model = modelLoder()
+        let model = try modelLoader()
         self.model = model
         
         return model
     }
-    
-    func process(
-        _ uiImage: UIImage,
-        onProgress: @escaping (ProgressEventUpdate) -> Void,
-        onCompletion: @escaping (Result<UIImage, Error>) -> Void
-    ) {
-        onProgress(Self.modelLoadingUpdate)
-        guard let model = loadModel() else {
-            onCompletion(.failure(ImageToImageProcessingError.modelLoadingError))
-            
-            return
-        }
 
-        onProgress(Self.imagePreprocessingUpdate)
-        guard
-            let inputCGImage = uiImage.cgImage // needed to translate uiimage into ciimage
-        else {
-            onCompletion(.failure(ImageToImageProcessingError.incorrectImageData))
-            
-            return
-        }
-        
-        let inputCIImage = CIImage(cgImage: inputCGImage)
-        
+    func preprocessImage(_ inputCIImage: CIImage) -> CIImage {
         let inputMaxDimension = max(inputCIImage.extent.width, inputCIImage.extent.height)
         let squareCanvasSize = CGSize(width: inputMaxDimension, height: inputMaxDimension)
-        
-        let context = CIContext()
+
         let blackCanvas = CIImage(color: CIColor.black)
             .cropped(to: CGRect(origin: .zero, size: squareCanvasSize))
-        let squareInputCIImage = inputCIImage.composited(over: blackCanvas)
-        
-        onProgress(Self.imageProcessingUpdate)
-        processVNCoreMLRequest(squareInputCIImage, model: model) { result in
-            switch result {
-            case .success(let outputCIImage):
-                onProgress(Self.imagePostprocessingUpdate)
-                let outputMaxDimension = max(outputCIImage.extent.width, outputCIImage.extent.height)
-                let scalingFactor = outputMaxDimension / inputMaxDimension
-                
-                let outputSize = inputCIImage.extent.size.applying(
-                    CGAffineTransform(scaleX: scalingFactor, y: scalingFactor)
-                )
-                
-                let croppedCIImage = outputCIImage.cropped(to: CGRect(origin: .zero, size: outputSize))
-                
-                guard let outputCGImage = context.createCGImage(
-                    croppedCIImage,
-                    from: croppedCIImage.extent
-                ) else {
-                    onCompletion(.failure(ImageToImageProcessingError.imagePostProcessingError))
-                    
-                    return
-                }
-                
-                let outputUIImage = UIImage(
-                    cgImage: outputCGImage,
-                    scale: 1,
-                    orientation: uiImage.imageOrientation
-                )
-                
-                onProgress(Self.completedUpdate)
-                onCompletion(.success(outputUIImage))
-            case .failure(let error):
-                onCompletion(.failure(error))
-            }
-        }
-    }
-    
-    func processVNCoreMLRequest(
-        _ ciImage: CIImage,
-        model: VNCoreMLModel,
-        completion: @escaping (Result<CIImage, Error>) -> Void
-    ) {
-        let request = VNCoreMLRequest(model: model) { request, error in
-            if let error = error {
-                completion(.failure(error))
-                
-                return
-            }
-            
-            guard
-                let results = request.results as? [VNPixelBufferObservation],
-                let outputPixelBuffer = results.first?.pixelBuffer
-            else {
-                completion(.failure(ImageToImageProcessingError.coreMLRequestError))
 
-                return
-            }
-            
-            let outputCIImage = CIImage(cvPixelBuffer: outputPixelBuffer)
-            
-            completion(.success(outputCIImage))
+        return inputCIImage.composited(over: blackCanvas)
+    }
+
+    func process(
+        _ inputCIImage: CIImage,
+        model: VNCoreMLModel
+    ) throws -> CIImage {
+        let request = VNCoreMLRequest(model: model)
+        try VNImageRequestHandler(ciImage: inputCIImage).perform([request])
+        guard
+            let results = request.results as? [VNPixelBufferObservation],
+            let outputPixelBuffer = results.first?.pixelBuffer
+        else {
+            throw ImageToImageProcessingError.coreMLRequestResultError
         }
+
+        let outputCIImage = CIImage(cvPixelBuffer: outputPixelBuffer)
+
+        return outputCIImage
+    }
+
+    func postProcessImage(
+        _ outputCIImage: CIImage,
+        originalUIImage: UIImage
+    ) throws -> UIImage {
+        let inputCIImageExtent = originalUIImage.ciImage?.extent
+            ?? CGRect(origin: .zero, size: originalUIImage.size)
         
-        let handler = VNImageRequestHandler(ciImage: ciImage)
-        try? handler.perform([request]) // errors will be handled in continuation
+        let outputMaxDimension = max(outputCIImage.extent.width, outputCIImage.extent.height)
+
+        let scalingFactor = outputMaxDimension
+            / max(inputCIImageExtent.width, inputCIImageExtent.height)
+        
+        let outputSize = inputCIImageExtent.size.applying(
+            CGAffineTransform(scaleX: scalingFactor, y: scalingFactor)
+        )
+
+        guard let outputCGImage = CIContext().createCGImage(
+            outputCIImage,
+            from: CGRect(origin: .zero, size: outputSize)
+        ) else {
+            throw ImageToImageProcessingError.imagePostProcessingError
+        }
+
+        return UIImage(
+            cgImage: outputCGImage,
+            scale: 1,
+            orientation: originalUIImage.imageOrientation
+        )
     }
 }
 
-private extension ImageToImageProcessor {
-    static let initializingUpdate = ProgressEventUpdate(
-        message: "Initializing",
-        completionRatio: 0
-    )
+extension ImageToImageProcessor {
+    enum ProcessingEvent: Int, CaseIterable {
+        case modelLoading = 0
+        case preprocessing
+        case processing
+        case postprocessing
         
-    static let modelLoadingUpdate = ProgressEventUpdate(
-        message: "Loading model. This may take some time on first launch",
-        completionRatio: 1/5
-    )
+        var title: String {
+            switch self {
+            case .modelLoading:
+                return "Loading model. This may take some time on first launch"
+            case .preprocessing:
+                return "Preprocessing"
+            case .processing:
+                return "Processing"
+            case .postprocessing:
+                return "Postprocessing"
+            }
+        }
+    }
     
-    static let imagePreprocessingUpdate = ProgressEventUpdate(
-        message: "Preprocessing operations",
-        completionRatio: 2/5
-    )
-    
-    static let imageProcessingUpdate = ProgressEventUpdate(
-        message: "Processing image",
-        completionRatio: 3/5
-    )
-    
-    static let imagePostprocessingUpdate = ProgressEventUpdate(
-        message: "Postprocessing operations",
-        completionRatio: 4/5
-    )
-    
-    static let completedUpdate = ProgressEventUpdate(
-        message: "Completed!",
-        completionRatio: 1
-    )
+    func eventUpdate(
+        for event: ProcessingEvent,
+        step: Int,
+        of steps: Int
+    ) -> ProgressEventUpdate {
+        let totalEvents = ProcessingEvent.allCases.count
+        let totalSteps = steps * totalEvents
+        let currentStep = (step - 1) * totalEvents + event.rawValue
+        let completionRatio = Double(currentStep) / Double(totalSteps)
+        
+        return ProgressEventUpdate(
+            message: "[\(step)/\(steps)] \(event.title)",
+            completionRatio: completionRatio
+        )
+    }
 }
 
 enum ImageToImageProcessingError: Error {
     case modelLoadingError
     case incorrectImageData
-    case coreMLRequestError
+    case coreMLRequestResultError
     case imagePostProcessingError
+}
+
+extension PassthroughSubject {
+    func sendOnMain(_ value: Output) {
+        DispatchQueue.main.async {
+            self.send(value)
+        }
+    }
+
+    func sendOnMain(completion: Subscribers.Completion<Failure>) {
+        DispatchQueue.main.async {
+            self.send(completion: completion)
+        }
+    }
 }

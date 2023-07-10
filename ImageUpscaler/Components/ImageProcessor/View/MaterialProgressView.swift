@@ -23,13 +23,9 @@ struct MaterialProgressView: View {
                             .animation(.none)
                     }
                     
-                    if let completionRatio = eventUpdate.completionRatio {
-                        ProgressView(value: completionRatio)
-                    } else {
-                        ProgressView()
-                            .progressViewStyle(.linear)
-                    }
+                    ProgressView(value: eventUpdate.completionRatio)
                 }
+                .progressViewStyle(.linear)
                 .padding(16)
                 .background(.thinMaterial)
                 .cornerRadius(16)

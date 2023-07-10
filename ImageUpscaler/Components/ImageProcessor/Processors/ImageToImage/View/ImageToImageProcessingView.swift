@@ -16,9 +16,14 @@ struct ImageToImageProcessingView: View {
     @StateObject var viewModel: ImageToImageProcessingViewModel
     @State private var isShowingComparison = false
 
-    init(processor: ImageToImageProcessor, uiImage: UIImage) {
+    init(
+        processor: ImageToImageProcessor,
+        postProcessor: ImageToImageProcessor? = nil,
+        uiImage: UIImage
+    ) {
         let viewModel = ImageToImageProcessingViewModel(
             processor: processor,
+            postProcessor: postProcessor,
             uiImage: uiImage
         )
 

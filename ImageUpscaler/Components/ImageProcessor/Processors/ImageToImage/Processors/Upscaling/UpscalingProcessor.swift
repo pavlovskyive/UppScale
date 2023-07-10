@@ -12,13 +12,9 @@ final class UpscalingProcessor: ImageToImageProcessor {
     init() {
         super.init {
             let configuration = MLModelConfiguration()
-            guard
-                let coreMLModel = try? RealesrGAN(configuration: configuration),
-                let visionModel = try? VNCoreMLModel(for: coreMLModel.model)
-            else {
-                return nil
-            }
-            
+            let coreMLModel = try RealesrGAN(configuration: configuration)
+            let visionModel = try VNCoreMLModel(for: coreMLModel.model)
+
             return visionModel
         }
     }

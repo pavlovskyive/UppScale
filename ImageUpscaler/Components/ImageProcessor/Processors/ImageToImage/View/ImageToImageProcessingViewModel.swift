@@ -17,19 +17,25 @@ class ImageToImageProcessingViewModel: ObservableObject {
     @Published var error: Error?
     
     private let processor: ImageToImageProcessor
+    private let postProcessor: ImageToImageProcessor?
     let initialImage: UIImage
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(processor: ImageToImageProcessor, uiImage: UIImage) {
+    init(
+        processor: ImageToImageProcessor,
+        postProcessor: ImageToImageProcessor? = nil,
+        uiImage: UIImage
+    ) {
         self.processor = processor
+        self.postProcessor = postProcessor
         self.initialImage = uiImage
     }
     
     func process() {
         self.isBusy = true
         
-        processor.process(initialImage)
+        processor.process(initialImage, postProcessor: postProcessor)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {

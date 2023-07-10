@@ -10,10 +10,6 @@ import Combine
 
 import protocol Shared.MemoryOptimizable
 
-enum ImageProcessingMethod {
-    case upscaling
-}
-
 class ImageProcessorsManager: ObservableObject {
     private var processors: [String: Any] = [:]
     private var cancellables = Set<AnyCancellable>()

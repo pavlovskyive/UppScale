@@ -8,22 +8,42 @@
 import SwiftUI
 import PhotosUI
 
-//extension CGFloat {
-//    static let xxxSmall = 2.0
-//    static let xxSmall = 4.0
-//    static let xSmall = 8.0
-//    static let small = 16.0
-//    static let medium = 24.0
-//    static let large = 32.0
-//    static let xLarge = 48.0
-//    static let xxLarge = 52.0
-//    static let xxxLarge = 64.0
-//}
-
 private struct ImageInfoSpec: Hashable {
     let id = UUID()
     let image: UIImage
     let processingMethod: ImageProcessingMethod
+}
+
+enum ImageProcessingMethod {
+    case upscaling
+    case lightEnhancing
+    
+    var title: String {
+        switch self {
+        case .upscaling:
+            return "Upscale you image"
+        case .lightEnhancing:
+            return "Enhance light"
+        }
+    }
+    
+    var subtitle: String {
+        switch self {
+        case .upscaling:
+            return "Select image to improve its resolution"
+        case .lightEnhancing:
+            return "Bring light to very dark images"
+        }
+    }
+    
+    var systemImage: String {
+        switch self {
+        case .upscaling:
+            return "arrow.up.backward.and.arrow.down.forward"
+        case .lightEnhancing:
+            return "flashlight.on.fill"
+        }
+    }
 }
 
 struct MainView: View {
@@ -39,7 +59,7 @@ struct MainView: View {
                 Spacer()
                 
                 imagePicker(for: .upscaling)
-                imagePicker(for: .upscaling)
+                imagePicker(for: .lightEnhancing)
                 
                 Spacer()
             }
@@ -82,9 +102,27 @@ struct MainView: View {
                     ) {
                         UpscalingProcessor()
                     }
-
+                    
                     ImageToImageProcessingView(
                         processor: processor,
+                        uiImage: info.image
+                    )
+                case .lightEnhancing:
+                    let upscalingProcessor = imageProcessorsManager.getProcessor(
+                        for: UpscalingProcessor.self
+                    ) {
+                        UpscalingProcessor()
+                    }
+                    
+                    let processor = imageProcessorsManager.getProcessor(
+                        for: LightEnhancingProcessor.self
+                    ) {
+                        LightEnhancingProcessor(upscalingProcessor: upscalingProcessor)
+                    }
+                    
+                    ImageToImageProcessingView(
+                        processor: processor,
+                        postProcessor: upscalingProcessor,
                         uiImage: info.image
                     )
                 }
@@ -128,16 +166,16 @@ private extension MainView {
             photoLibrary: .shared()
         ) {
             InfoBlockView(
-                imageSystemName: "camera.on.rectangle.fill",
-                title: "Upscale your image",
-                subtitle: "Select an image to upscale"
+                imageSystemName: method.systemImage,
+                title: method.title,
+                subtitle: method.subtitle
             )
+            .frame(width: 250)
         }
         .buttonStyle(.plain)
         .simultaneousGesture(
             TapGesture()
                 .onEnded {
-                    print("-> selected new method")
                     selectedMethod = method
                 }
         )
