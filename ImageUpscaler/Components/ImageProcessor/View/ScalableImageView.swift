@@ -1,6 +1,6 @@
 //
 //  ScalableImageView.swift
-//  ImageUpscaler
+//  
 //
 //  Created by Vsevolod Pavlovskyi on 25.06.2023.
 //
@@ -136,7 +136,6 @@ private extension ScalableImageView {
                     }
                 }
         )
-//        .edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -156,11 +155,5 @@ private extension CGSize {
             width: lhs.width + rhs.width,
             height: lhs.height + rhs.height
         )
-    }
-}
-
-struct ScalableImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        ScalableImageView(image: Image("background-abstract"))
     }
 }

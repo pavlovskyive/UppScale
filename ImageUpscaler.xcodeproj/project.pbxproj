@@ -8,23 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		793542952A3C6D63008DB683 /* ImageUpscalerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */; };
-		79687B662A458DF200851478 /* ImageProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79687B652A458DF200851478 /* ImageProcessing.swift */; };
-		79687B692A458E0C00851478 /* TestProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79687B682A458E0C00851478 /* TestProcessor.swift */; };
-		79687B6B2A458E3000851478 /* UpscalingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79687B6A2A458E3000851478 /* UpscalingProcessor.swift */; };
 		79687B6D2A45AD8C00851478 /* ImageProcessingView+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79687B6C2A45AD8C00851478 /* ImageProcessingView+Tools.swift */; };
-		79687B6F2A481CB200851478 /* ScalableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79687B6E2A481CB200851478 /* ScalableImageView.swift */; };
-		79687B712A4ABBA500851478 /* Zero-DCE.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 79687B702A4ABBA500851478 /* Zero-DCE.mlmodel */; };
-		79687B732A4ABBED00851478 /* LightEnhancementProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79687B722A4ABBED00851478 /* LightEnhancementProcessor.swift */; };
 		797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */; };
 		797B73C92A387ADF0059BA32 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797B73C82A387ADF0059BA32 /* Preview Assets.xcassets */; };
-		799DE3CF2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799DE3CE2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift */; };
+		79A1B3972A5C4929000555E8 /* ImageToImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */; };
+		79A1B39D2A5C49AB000555E8 /* Zero-DCE.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B39C2A5C49AB000555E8 /* Zero-DCE.mlmodel */; };
+		79A1B39F2A5C49B6000555E8 /* RealesrGAN.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B39E2A5C49B6000555E8 /* RealesrGAN.mlmodel */; };
+		79A1B3A22A5C4C0F000555E8 /* LightEnhancingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A12A5C4C0F000555E8 /* LightEnhancingProcessor.swift */; };
+		79A1B3A42A5C4C2F000555E8 /* ProgressEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A32A5C4C2F000555E8 /* ProgressEvent.swift */; };
+		79A1B3A62A5C4D80000555E8 /* UpscalingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A52A5C4D80000555E8 /* UpscalingProcessor.swift */; };
+		79A1B3AA2A5C4E12000555E8 /* MaterialProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A82A5C4E12000555E8 /* MaterialProgressView.swift */; };
+		79A1B3AB2A5C4E12000555E8 /* ScalableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */; };
+		79A1B3AE2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */; };
+		79A1B3AF2A5C4E21000555E8 /* ImageToImageProcessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */; };
 		79B1A0692A41AEAE005AA9CA /* ImageProcessingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B1A0682A41AEAE005AA9CA /* ImageProcessingManager.swift */; };
 		79D7023E2A3D8E73004D38A0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D7023D2A3D8E73004D38A0 /* MainView.swift */; };
 		79D702422A3D98DB004D38A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79D702412A3D98DB004D38A0 /* Assets.xcassets */; };
 		79D702482A3DBBA2004D38A0 /* MaterialNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D702472A3DBBA2004D38A0 /* MaterialNavigation.swift */; };
 		79D7024B2A3DC5E0004D38A0 /* InfoBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D7024A2A3DC5E0004D38A0 /* InfoBlockView.swift */; };
 		79D7025E2A3DCE24004D38A0 /* ImageProcessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D7025D2A3DCE24004D38A0 /* ImageProcessingView.swift */; };
-		79D702612A3E2B10004D38A0 /* RealsrGAN.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 79D702602A3E2B10004D38A0 /* RealsrGAN.mlmodel */; };
 		79D702662A3EF045004D38A0 /* sample512.png in Resources */ = {isa = PBXBuildFile; fileRef = 79D702652A3EF044004D38A0 /* sample512.png */; };
 /* End PBXBuildFile section */
 
@@ -41,25 +43,27 @@
 /* Begin PBXFileReference section */
 		793542922A3C6D63008DB683 /* ImageUpscalerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageUpscalerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerTests.swift; sourceTree = "<group>"; };
-		79687B652A458DF200851478 /* ImageProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessing.swift; sourceTree = "<group>"; };
-		79687B682A458E0C00851478 /* TestProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProcessor.swift; sourceTree = "<group>"; };
-		79687B6A2A458E3000851478 /* UpscalingProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpscalingProcessor.swift; sourceTree = "<group>"; };
 		79687B6C2A45AD8C00851478 /* ImageProcessingView+Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageProcessingView+Tools.swift"; sourceTree = "<group>"; };
-		79687B6E2A481CB200851478 /* ScalableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalableImageView.swift; sourceTree = "<group>"; };
-		79687B702A4ABBA500851478 /* Zero-DCE.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "Zero-DCE.mlmodel"; sourceTree = "<group>"; };
-		79687B722A4ABBED00851478 /* LightEnhancementProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightEnhancementProcessor.swift; sourceTree = "<group>"; };
 		797B73BE2A387ADF0059BA32 /* ImageUpscaler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageUpscaler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerApp.swift; sourceTree = "<group>"; };
 		797B73C82A387ADF0059BA32 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		799DE3CD2A4B4B10002EF57F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		799DE3CE2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularCoreMLProcessor.swift; sourceTree = "<group>"; };
+		79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessor.swift; sourceTree = "<group>"; };
+		79A1B39C2A5C49AB000555E8 /* Zero-DCE.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "Zero-DCE.mlmodel"; sourceTree = "<group>"; };
+		79A1B39E2A5C49B6000555E8 /* RealesrGAN.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RealesrGAN.mlmodel; sourceTree = "<group>"; };
+		79A1B3A12A5C4C0F000555E8 /* LightEnhancingProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightEnhancingProcessor.swift; sourceTree = "<group>"; };
+		79A1B3A32A5C4C2F000555E8 /* ProgressEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressEvent.swift; sourceTree = "<group>"; };
+		79A1B3A52A5C4D80000555E8 /* UpscalingProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpscalingProcessor.swift; sourceTree = "<group>"; };
+		79A1B3A82A5C4E12000555E8 /* MaterialProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialProgressView.swift; sourceTree = "<group>"; };
+		79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalableImageView.swift; sourceTree = "<group>"; };
+		79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessingViewModel.swift; sourceTree = "<group>"; };
+		79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessingView.swift; sourceTree = "<group>"; };
 		79B1A0682A41AEAE005AA9CA /* ImageProcessingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessingManager.swift; sourceTree = "<group>"; };
 		79D7023D2A3D8E73004D38A0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		79D702412A3D98DB004D38A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79D702472A3DBBA2004D38A0 /* MaterialNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialNavigation.swift; sourceTree = "<group>"; };
 		79D7024A2A3DC5E0004D38A0 /* InfoBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBlockView.swift; sourceTree = "<group>"; };
 		79D7025D2A3DCE24004D38A0 /* ImageProcessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessingView.swift; sourceTree = "<group>"; };
-		79D702602A3E2B10004D38A0 /* RealsrGAN.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RealsrGAN.mlmodel; sourceTree = "<group>"; };
 		79D702652A3EF044004D38A0 /* sample512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample512.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,15 +112,12 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		79687B672A458E0300851478 /* Processors */ = {
+		79687B672A458E0300851478 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				79687B682A458E0C00851478 /* TestProcessor.swift */,
-				79687B6A2A458E3000851478 /* UpscalingProcessor.swift */,
-				79687B722A4ABBED00851478 /* LightEnhancementProcessor.swift */,
-				799DE3CE2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift */,
+				79A1B3A32A5C4C2F000555E8 /* ProgressEvent.swift */,
 			);
-			path = Processors;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		797B73B52A387ADE0059BA32 = {
@@ -125,6 +126,7 @@
 				797B73C02A387ADF0059BA32 /* ImageUpscaler */,
 				793542932A3C6D63008DB683 /* ImageUpscalerTests */,
 				797B73BF2A387ADF0059BA32 /* Products */,
+				79894B872A5AAD03000A9815 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -157,12 +159,83 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		79894B872A5AAD03000A9815 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		79A1B3982A5C493A000555E8 /* Upscaling */ = {
+			isa = PBXGroup;
+			children = (
+				79A1B39E2A5C49B6000555E8 /* RealesrGAN.mlmodel */,
+				79A1B3A52A5C4D80000555E8 /* UpscalingProcessor.swift */,
+			);
+			path = Upscaling;
+			sourceTree = "<group>";
+		};
+		79A1B3992A5C4941000555E8 /* LightEnhancing */ = {
+			isa = PBXGroup;
+			children = (
+				79A1B39C2A5C49AB000555E8 /* Zero-DCE.mlmodel */,
+				79A1B3A12A5C4C0F000555E8 /* LightEnhancingProcessor.swift */,
+			);
+			path = LightEnhancing;
+			sourceTree = "<group>";
+		};
+		79A1B3A02A5C49D6000555E8 /* Processors */ = {
+			isa = PBXGroup;
+			children = (
+				79A1B3B02A5C4FA8000555E8 /* ImageToImage */,
+			);
+			path = Processors;
+			sourceTree = "<group>";
+		};
+		79A1B3A72A5C4E0A000555E8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				79A1B3A82A5C4E12000555E8 /* MaterialProgressView.swift */,
+				79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		79A1B3B02A5C4FA8000555E8 /* ImageToImage */ = {
+			isa = PBXGroup;
+			children = (
+				79A1B3B22A5C4FD4000555E8 /* View */,
+				79A1B3B12A5C4FC9000555E8 /* Processors */,
+				79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */,
+			);
+			path = ImageToImage;
+			sourceTree = "<group>";
+		};
+		79A1B3B12A5C4FC9000555E8 /* Processors */ = {
+			isa = PBXGroup;
+			children = (
+				79A1B3992A5C4941000555E8 /* LightEnhancing */,
+				79A1B3982A5C493A000555E8 /* Upscaling */,
+			);
+			path = Processors;
+			sourceTree = "<group>";
+		};
+		79A1B3B22A5C4FD4000555E8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */,
+				79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		79B1A0672A41AEA0005AA9CA /* ImageProcessor */ = {
 			isa = PBXGroup;
 			children = (
-				79687B672A458E0300851478 /* Processors */,
 				79B1A0682A41AEAE005AA9CA /* ImageProcessingManager.swift */,
-				79687B652A458DF200851478 /* ImageProcessing.swift */,
+				79A1B3A02A5C49D6000555E8 /* Processors */,
+				79A1B3A72A5C4E0A000555E8 /* View */,
+				79687B672A458E0300851478 /* Model */,
 			);
 			path = ImageProcessor;
 			sourceTree = "<group>";
@@ -213,8 +286,6 @@
 		79D7025F2A3E2AF6004D38A0 /* CoreML */ = {
 			isa = PBXGroup;
 			children = (
-				79687B702A4ABBA500851478 /* Zero-DCE.mlmodel */,
-				79D702602A3E2B10004D38A0 /* RealsrGAN.mlmodel */,
 			);
 			path = CoreML;
 			sourceTree = "<group>";
@@ -224,7 +295,6 @@
 			children = (
 				79D7025D2A3DCE24004D38A0 /* ImageProcessingView.swift */,
 				79687B6C2A45AD8C00851478 /* ImageProcessingView+Tools.swift */,
-				79687B6E2A481CB200851478 /* ScalableImageView.swift */,
 			);
 			path = ImageProcessingView;
 			sourceTree = "<group>";
@@ -264,6 +334,8 @@
 			dependencies = (
 			);
 			name = ImageUpscaler;
+			packageProductDependencies = (
+			);
 			productName = ImageUpscaler;
 			productReference = 797B73BE2A387ADF0059BA32 /* ImageUpscaler.app */;
 			productType = "com.apple.product-type.application";
@@ -361,20 +433,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				79D7023E2A3D8E73004D38A0 /* MainView.swift in Sources */,
+				79A1B3A42A5C4C2F000555E8 /* ProgressEvent.swift in Sources */,
+				79A1B3AA2A5C4E12000555E8 /* MaterialProgressView.swift in Sources */,
+				79A1B3972A5C4929000555E8 /* ImageToImageProcessor.swift in Sources */,
+				79A1B3AB2A5C4E12000555E8 /* ScalableImageView.swift in Sources */,
+				79A1B39F2A5C49B6000555E8 /* RealesrGAN.mlmodel in Sources */,
 				79D7024B2A3DC5E0004D38A0 /* InfoBlockView.swift in Sources */,
+				79A1B3A62A5C4D80000555E8 /* UpscalingProcessor.swift in Sources */,
 				797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */,
 				79B1A0692A41AEAE005AA9CA /* ImageProcessingManager.swift in Sources */,
-				79D702612A3E2B10004D38A0 /* RealsrGAN.mlmodel in Sources */,
-				79687B712A4ABBA500851478 /* Zero-DCE.mlmodel in Sources */,
-				799DE3CF2A4C2BFA002EF57F /* RegularCoreMLProcessor.swift in Sources */,
-				79687B662A458DF200851478 /* ImageProcessing.swift in Sources */,
+				79A1B3A22A5C4C0F000555E8 /* LightEnhancingProcessor.swift in Sources */,
 				79687B6D2A45AD8C00851478 /* ImageProcessingView+Tools.swift in Sources */,
-				79687B6F2A481CB200851478 /* ScalableImageView.swift in Sources */,
-				79687B692A458E0C00851478 /* TestProcessor.swift in Sources */,
+				79A1B39D2A5C49AB000555E8 /* Zero-DCE.mlmodel in Sources */,
+				79A1B3AE2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift in Sources */,
 				79D7025E2A3DCE24004D38A0 /* ImageProcessingView.swift in Sources */,
+				79A1B3AF2A5C4E21000555E8 /* ImageToImageProcessingView.swift in Sources */,
 				79D702482A3DBBA2004D38A0 /* MaterialNavigation.swift in Sources */,
-				79687B732A4ABBED00851478 /* LightEnhancementProcessor.swift in Sources */,
-				79687B6B2A458E3000851478 /* UpscalingProcessor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
