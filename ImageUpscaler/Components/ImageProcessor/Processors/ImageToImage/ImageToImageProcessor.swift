@@ -27,7 +27,6 @@ class ImageToImageProcessor {
     ) -> AnyPublisher<ProgressEvent, Error> {
         isCurrentlyProcessing = true
         let subject = PassthroughSubject<ProgressEvent, Error>()
-        let tileSize = CGSize(width: 512, height: 512)
         
         Task(priority: .userInitiated) { [weak self] in
             guard let self = self else {
@@ -37,7 +36,8 @@ class ImageToImageProcessor {
             
             do {
                 // Create tiles
-                let tilesWithPositions = uiImage.tiles(tileSize)
+                var tileSize = 512
+                let tilesWithPositions = uiImage.tiles(tileSize: &tileSize)
                 var processedTilesWithPositions = [TileWithPosition]()
                 
                 for (index, tileWithPosition) in tilesWithPositions.enumerated() {
@@ -226,7 +226,7 @@ struct TileWithPosition {
 }
 
 extension UIImage {
-    func tiles(_ tileSize: CGSize) -> [TileWithPosition] {
+    func tiles(tileSize: inout Int) -> [TileWithPosition] {
         guard let cgImage = self.cgImage else {
             return []
         }
@@ -234,22 +234,18 @@ extension UIImage {
         let width = Int(cgImage.width)
         let height = Int(cgImage.height)
         
-        let tileWidth = Int(tileSize.width)
-        let tileHeight = Int(tileSize.height)
+        tileSize = min(tileSize, width, height)
 
         var tilesWithPositions = [TileWithPosition]()
         
-        for y in stride(from: 0, to: height, by: Int(tileSize.height)) {
-            for x in stride(from: 0, to: width, by: Int(tileSize.width)) {
-
-                let tileWidth = Int(tileSize.width)
-                let tileHeight = Int(tileSize.height)
+        for y in stride(from: 0, to: height, by: tileSize) {
+            for x in stride(from: 0, to: width, by: tileSize) {
 
                 // Adjust x and y if the tile exceeds the image boundaries
-                let finalX = min(x, width - tileWidth)
-                let finalY = min(y, height - tileHeight)
+                let finalX = min(x, width - tileSize)
+                let finalY = min(y, height - tileSize)
 
-                let tileRect = CGRect(x: finalX, y: finalY, width: tileWidth, height: tileHeight)
+                let tileRect = CGRect(x: finalX, y: finalY, width: tileSize, height: tileSize)
                 if let tile = cgImage.cropping(to: tileRect) {
                     let tileImage = UIImage(cgImage: tile)
                     tilesWithPositions.append(TileWithPosition(tile: tileImage, position: CGPoint(x: finalX, y: finalY)))
@@ -262,10 +258,10 @@ extension UIImage {
 }
 
 extension UIImage {
-    static func stitch(tiles: [TileWithPosition], originalImage: UIImage, originalTileSize: CGSize) -> UIImage? {
+    static func stitch(tiles: [TileWithPosition], originalImage: UIImage, originalTileSize: Int) -> UIImage? {
         let originalSize = originalImage.size
         let tileSize = tiles.first?.tile.size ?? CGSize.zero
-        let scalingFactor = tileSize.width / originalTileSize.width
+        let scalingFactor = tileSize.width / CGFloat(originalTileSize)
         let maxDimension = max(originalSize.width, originalSize.height)
         
         let canvasSize = CGSize(width: maxDimension, height: maxDimension)
