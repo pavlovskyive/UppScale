@@ -57,7 +57,10 @@ class ImageToImageProcessor {
                     }
                 }
                 
-                subject.sendOnMain(.updated(ProgressEventUpdate(message: "Completed!", completionRatio: 1)))
+                subject.sendOnMain(
+                    .updated(ProgressEventUpdate(message: "Completed!", completionRatio: 1))
+                )
+
                 subject.sendOnMain(.completed(processedImage))
                 subject.sendOnMain(completion: .finished)
             } catch {
@@ -140,15 +143,16 @@ class ImageToImageProcessor {
         _ outputCIImage: CIImage,
         originalUIImage: UIImage
     ) throws -> UIImage {
-        let inputCIImageExtent = originalUIImage.ciImage?.extent
-            ?? CGRect(origin: .zero, size: originalUIImage.size)
+        guard let inputCIImage = originalUIImage.cgImage.map({ CIImage(cgImage: $0) }) else {
+            throw ImageToImageProcessingError.imagePostProcessingError
+        }
         
         let outputMaxDimension = max(outputCIImage.extent.width, outputCIImage.extent.height)
 
         let scalingFactor = outputMaxDimension
-            / max(inputCIImageExtent.width, inputCIImageExtent.height)
+            / max(inputCIImage.extent.width, inputCIImage.extent.height)
         
-        let outputSize = inputCIImageExtent.size.applying(
+        let outputSize = inputCIImage.extent.size.applying(
             CGAffineTransform(scaleX: scalingFactor, y: scalingFactor)
         )
 

@@ -35,7 +35,7 @@ struct ImageToImageProcessingView: View {
     var body: some View {
         imageView
             .overlay {
-                VStack {
+                VStack(spacing: 0) {
                     Spacer()
                     MaterialProgressView(eventUpdate: viewModel.progressUpdate)
                     toolsView

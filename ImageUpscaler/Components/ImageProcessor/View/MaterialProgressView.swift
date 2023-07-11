@@ -19,20 +19,22 @@ struct MaterialProgressView: View {
             if let eventUpdate {
                 VStack(alignment: .leading) {
                     if let message = eventUpdate.message {
-                        Text(message)
-                            .animation(.none)
+                        Text(message).minimumScaleFactor(0.8)
                     }
+                    
+                    Spacer()
                     
                     ProgressView(value: eventUpdate.completionRatio)
                 }
                 .progressViewStyle(.linear)
                 .padding(16)
+                .frame(maxWidth: 500, maxHeight: 100)
                 .background(.thinMaterial)
                 .cornerRadius(16)
-                .frame(width: 400)
                 .transition(AnyTransition.move(edge: .bottom))
             }
         }
+        .padding()
         .animation(.easeOut, value: eventUpdate)
     }
 }
