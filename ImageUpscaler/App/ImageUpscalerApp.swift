@@ -9,12 +9,11 @@ import SwiftUI
 
 @main
 struct ImageUpscalerApp: App {
-    @ObservedObject var upscalingService = UpscalingService()
-
+    @ObservedObject var imageProcessorsManager = ImageProcessorsManager()
     var body: some Scene {
         WindowGroup {
             MainView()
-                .environmentObject(upscalingService)
+                .environmentObject(imageProcessorsManager)
         }
     }
 }

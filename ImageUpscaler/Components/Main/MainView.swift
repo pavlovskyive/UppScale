@@ -8,33 +8,58 @@
 import SwiftUI
 import PhotosUI
 
-extension CGFloat {
-    static let xxxSmall = 2.0
-    static let xxSmall = 4.0
-    static let xSmall = 8.0
-    static let small = 16.0
-    static let medium = 24.0
-    static let large = 32.0
-    static let xLarge = 48.0
-    static let xxLarge = 52.0
-    static let xxxLarge = 64.0
-}
-
 private struct ImageInfoSpec: Hashable {
     let id = UUID()
-    let data: Data
+    let image: UIImage
+    let processingMethod: ImageProcessingMethod
+}
+
+enum ImageProcessingMethod {
+    case upscaling
+    case lightEnhancing
+    
+    var title: String {
+        switch self {
+        case .upscaling:
+            return "Upscale you image"
+        case .lightEnhancing:
+            return "Enhance light"
+        }
+    }
+    
+    var subtitle: String {
+        switch self {
+        case .upscaling:
+            return "Select image to improve its resolution"
+        case .lightEnhancing:
+            return "Bring light to very dark images"
+        }
+    }
+    
+    var systemImage: String {
+        switch self {
+        case .upscaling:
+            return "arrow.up.backward.and.arrow.down.forward"
+        case .lightEnhancing:
+            return "flashlight.on.fill"
+        }
+    }
 }
 
 struct MainView: View {
+    @EnvironmentObject var imageProcessorsManager: ImageProcessorsManager
+
     @State private var selection: PhotosPickerItem?
     @State private var path = NavigationPath()
+    @State private var selectedMethod = ImageProcessingMethod.upscaling
     
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
                 Spacer()
                 
-                imagePicker
+                imagePicker(for: .upscaling)
+                imagePicker(for: .lightEnhancing)
                 
                 Spacer()
             }
@@ -49,12 +74,57 @@ struct MainView: View {
                     settingsButton
                 }
             }
-            
             .materialNavigation()
             .navigationTitle("AppScale")
-            
+            .onChange(of: selection) { selectedItem in
+                Task {
+                    guard
+                        let data = try? await selectedItem?.loadTransferable(type: Data.self),
+                        let image = UIImage(data: data)
+                    else {
+                        print("Failed")
+                        
+                        return
+                    }
+                    
+                    await MainActor.run {
+                        let info = ImageInfoSpec(image: image, processingMethod: selectedMethod)
+                        path.append(info)
+                    }
+                }
+            }
             .navigationDestination(for: ImageInfoSpec.self) { info in
-                ImageDetailView(imageData: info.data)
+                switch info.processingMethod {
+                case .upscaling:
+                    let processor = imageProcessorsManager.getProcessor(
+                        for: UpscalingProcessor.self
+                    ) {
+                        UpscalingProcessor()
+                    }
+                    
+                    ImageToImageProcessingView(
+                        processor: processor,
+                        uiImage: info.image
+                    )
+                case .lightEnhancing:
+                    let upscalingProcessor = imageProcessorsManager.getProcessor(
+                        for: UpscalingProcessor.self
+                    ) {
+                        UpscalingProcessor()
+                    }
+                    
+                    let processor = imageProcessorsManager.getProcessor(
+                        for: LightEnhancingProcessor.self
+                    ) {
+                        LightEnhancingProcessor(upscalingProcessor: upscalingProcessor)
+                    }
+                    
+                    ImageToImageProcessingView(
+                        processor: processor,
+                        postProcessor: upscalingProcessor,
+                        uiImage: info.image
+                    )
+                }
             }
         }
     }
@@ -68,34 +138,6 @@ private extension MainView {
             .edgesIgnoringSafeArea(.all)
         //            .overlay(.ultraThinMaterial)
     }
-    
-    var imagePicker: some View {
-        PhotosPicker(
-            selection: $selection,
-            matching: .all(of: [.images, .not(.screenshots)]),
-            photoLibrary: .shared()
-        ) {
-            InfoBlockView(
-                imageSystemName: "camera.on.rectangle.fill",
-                title: "Choose Photo",
-                subtitle: "And enhance it right away"
-            )
-        }
-        .buttonStyle(.plain)
-        .onChange(of: selection) { selectedItem in
-            Task {
-                guard let data = try? await selectedItem?.loadTransferable(type: Data.self) else {
-                    print("Failed")
-                    
-                    return
-                }
-                
-                let info = ImageInfoSpec(data: data)
-                path.append(info)
-            }
-        }
-    }
-    
     var infoButton: some View {
         Button {
             print("info")
@@ -112,6 +154,29 @@ private extension MainView {
             Image(systemName: "gearshape")
         }
         .buttonStyle(.plain)
+    }
+    
+    @ViewBuilder
+    func imagePicker(for method: ImageProcessingMethod) -> some View {
+        PhotosPicker(
+            selection: $selection,
+            matching: .all(of: [.images, .not(.screenshots)]),
+            photoLibrary: .shared()
+        ) {
+            InfoBlockView(
+                imageSystemName: method.systemImage,
+                title: method.title,
+                subtitle: method.subtitle
+            )
+            .frame(width: 250)
+        }
+        .buttonStyle(.plain)
+        .simultaneousGesture(
+            TapGesture()
+                .onEnded {
+                    selectedMethod = method
+                }
+        )
     }
 }
 

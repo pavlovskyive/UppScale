@@ -13,20 +13,20 @@ struct InfoBlockView: View {
     let subtitle: String?
     
     var body: some View {
-        VStack(spacing: .xSmall) {
+        VStack(spacing: 8) {
             ZStack {
                 Image(systemName: "hexagon.fill")
-                    .font(.system(size: .xxxLarge))
+                    .font(.system(size: 64))
                     .foregroundColor(.gray)
                     .opacity(0.2)
                 
                 Image(systemName: imageSystemName)
-                    .font(.system(size: .medium))
+                    .font(.system(size: 24))
                     .bold()
                     .opacity(0.6)
             }
             
-            VStack(spacing: .xxxSmall) {
+            VStack(spacing: 2) {
                 Text(title)
                     .font(.title3)
                 
@@ -37,11 +37,11 @@ struct InfoBlockView: View {
                 }
             }
         }
-        .padding(.horizontal, .large)
-        .padding(.vertical, .xLarge)
+        .padding(.horizontal, 32)
+        .padding(.vertical, 48)
         .background(.ultraThinMaterial)
-        .cornerRadius(.medium)
-        .shadow(color: .black.opacity(0.08), radius: .xSmall)
+        .cornerRadius(24)
+        .shadow(color: .black.opacity(0.08), radius: 8)
     }
     
     init(imageSystemName: String, title: String, subtitle: String? = nil) {
