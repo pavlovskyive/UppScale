@@ -8,8 +8,6 @@
 import UIKit
 import Combine
 
-import protocol Shared.MemoryOptimizable
-
 class ImageProcessorsManager: ObservableObject {
     private var processors: [String: Any] = [:]
     private var cancellables = Set<AnyCancellable>()

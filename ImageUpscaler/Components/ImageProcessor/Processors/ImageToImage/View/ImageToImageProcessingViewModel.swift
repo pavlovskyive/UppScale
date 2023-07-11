@@ -8,8 +8,6 @@
 import SwiftUI
 import Combine
 
-import Shared
-
 class ImageToImageProcessingViewModel: ObservableObject {
     @Published var progressUpdate: ProgressEventUpdate?
     @Published var processedImage: UIImage?

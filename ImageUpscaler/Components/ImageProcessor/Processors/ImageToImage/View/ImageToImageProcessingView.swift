@@ -8,8 +8,6 @@
 import SwiftUI
 import Combine
 
-import Shared
-
 struct ImageToImageProcessingView: View {
     @Environment(\.presentationMode) var presentationMode
 
