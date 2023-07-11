@@ -23,6 +23,7 @@ class ImageToImageProcessor {
     
     func process(
         _ uiImage: UIImage,
+        tileSize: Int? = nil,
         postProcessor: ImageToImageProcessor? = nil
     ) -> AnyPublisher<ProgressEvent, Error> {
         isCurrentlyProcessing = true
@@ -36,7 +37,7 @@ class ImageToImageProcessor {
             
             do {
                 // Create tiles
-                var tileSize = 512
+                var tileSize = tileSize ?? 1024
                 let tilesWithPositions = uiImage.tiles(tileSize: &tileSize)
                 var processedTilesWithPositions = [TileWithPosition]()
                 
@@ -52,7 +53,12 @@ class ImageToImageProcessor {
                 }
                 
                 // Stitch tiles back together
-                let processedImage = UIImage.stitch(tiles: processedTilesWithPositions, originalImage: uiImage, originalTileSize: tileSize)!
+                guard let processedImage = UIImage.stitch(
+                    tiles: processedTilesWithPositions,
+                    originalImage: uiImage, originalTileSize: tileSize
+                ) else {
+                    throw ImageToImageProcessingError.imagePostProcessingError // TODO: change
+                }
                 
                 subject.sendOnMain(.updated(ProgressEventUpdate(message: "Completed!", completionRatio: 1)))
                 subject.sendOnMain(.completed(processedImage))
@@ -226,7 +232,11 @@ struct TileWithPosition {
 }
 
 extension UIImage {
-    func tiles(tileSize: inout Int) -> [TileWithPosition] {
+    func tiles(
+        maxTileCount: Int = 20,
+        overlap: CGFloat = 1 / 4,
+        tileSize: inout Int
+    ) -> [TileWithPosition] {
         guard let cgImage = self.cgImage else {
             return []
         }
@@ -235,16 +245,25 @@ extension UIImage {
         let height = Int(cgImage.height)
         
         tileSize = min(tileSize, width, height)
-
+        
+        let overlappedTileSize = Double(tileSize) * (1.0 - overlap)
+        
+        let idealTileCount = Int(
+            ceil(Double(width) / overlappedTileSize) *
+            ceil(Double(height) / overlappedTileSize)
+        )
+        
+        print("-> idealTileCount: \(idealTileCount)")
+        
+        let overlapSize = Int(Double(tileSize) * overlap)
+        
         var tilesWithPositions = [TileWithPosition]()
         
-        for y in stride(from: 0, to: height, by: tileSize) {
-            for x in stride(from: 0, to: width, by: tileSize) {
-
-                // Adjust x and y if the tile exceeds the image boundaries
+        for y in stride(from: 0, to: height, by: tileSize - overlapSize) {
+            for x in stride(from: 0, to: width, by: tileSize - overlapSize) {
                 let finalX = min(x, width - tileSize)
                 let finalY = min(y, height - tileSize)
-
+                
                 let tileRect = CGRect(x: finalX, y: finalY, width: tileSize, height: tileSize)
                 if let tile = cgImage.cropping(to: tileRect) {
                     let tileImage = UIImage(cgImage: tile)
@@ -266,12 +285,6 @@ extension UIImage {
         
         let canvasSize = CGSize(width: maxDimension, height: maxDimension)
             .applying(CGAffineTransform(scaleX: scalingFactor, y: scalingFactor))
-        
-        print("-> originalSize: \(originalSize)")
-        print("-> tileSize: \(tileSize)")
-        print("-> scalingFactor: \(scalingFactor)")
-        print("-> maxDimension: \(maxDimension)")
-        print("-> canvasSize: \(canvasSize)")
         
         let renderer = UIGraphicsImageRenderer(size: canvasSize)
         

@@ -13,6 +13,7 @@ class ImageToImageProcessingViewModel: ObservableObject {
     @Published var processedImage: UIImage?
     @Published var isBusy = false
     @Published var error: Error?
+    @Published var tileSize = 1024
     
     private let processor: ImageToImageProcessor
     private let postProcessor: ImageToImageProcessor?
@@ -33,7 +34,7 @@ class ImageToImageProcessingViewModel: ObservableObject {
     func process() {
         self.isBusy = true
         
-        processor.process(initialImage, postProcessor: postProcessor)
+        processor.process(initialImage, tileSize: tileSize, postProcessor: postProcessor)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {

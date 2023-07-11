@@ -13,6 +13,8 @@ struct ImageToImageProcessingView: View {
 
     @StateObject var viewModel: ImageToImageProcessingViewModel
     @State private var isShowingComparison = false
+    
+    private let tileSizes = [512, 768, 1024, 2048]
 
     init(
         processor: ImageToImageProcessor,
@@ -46,7 +48,7 @@ struct ImageToImageProcessingView: View {
 
 private extension ImageToImageProcessingView {
     var toolsView: some View {
-        HStack {
+        HStack(spacing: 0) {
             Button {
                 presentationMode.wrappedValue.dismiss()
             } label: {
@@ -54,6 +56,21 @@ private extension ImageToImageProcessingView {
                     .imageScale(.large)
                     .padding()
             }
+            
+            Spacer()
+            
+            HStack(spacing: 0) {
+                Text("Tile size:")
+                    .font(.caption)
+                
+                Picker("Tile size:", selection: $viewModel.tileSize) {
+                    ForEach(tileSizes, id: \.self) {
+                        Text("\($0)")
+                    }
+                }
+                .pickerStyle(.menu)
+            }
+            .padding()
             
             Spacer()
             
@@ -65,6 +82,8 @@ private extension ImageToImageProcessingView {
                     .padding()
             }
             .disabled(viewModel.isBusy || viewModel.processedImage != nil)
+            
+            Spacer()
             
             Button {
                 isShowingComparison.toggle()
