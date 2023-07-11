@@ -74,7 +74,6 @@ struct MainView: View {
                     settingsButton
                 }
             }
-
             .materialNavigation()
             .navigationTitle("AppScale")
             .onChange(of: selection) { selectedItem in
@@ -139,7 +138,6 @@ private extension MainView {
             .edgesIgnoringSafeArea(.all)
         //            .overlay(.ultraThinMaterial)
     }
-    
     var infoButton: some View {
         Button {
             print("info")
