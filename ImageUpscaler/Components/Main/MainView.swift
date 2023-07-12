@@ -21,7 +21,7 @@ enum ImageProcessingMethod {
     var title: String {
         switch self {
         case .upscaling:
-            return "Upscale you image"
+            return "Upscale your image"
         case .lightEnhancing:
             return "Enhance light"
         }
@@ -160,7 +160,7 @@ private extension MainView {
     func imagePicker(for method: ImageProcessingMethod) -> some View {
         PhotosPicker(
             selection: $selection,
-            matching: .all(of: [.images, .not(.screenshots)]),
+            matching: .all(of: [.images]),
             photoLibrary: .shared()
         ) {
             InfoBlockView(

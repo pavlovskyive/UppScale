@@ -13,7 +13,12 @@ class ImageToImageProcessingViewModel: ObservableObject {
     @Published var processedImage: UIImage?
     @Published var isBusy = false
     @Published var error: Error?
+    
     @Published var tileSize = 1024
+    @Published var overlap: CGFloat = 0.2
+    
+    var tileSizes = [512, 768, 1024, 2048]
+    var overlaps = [0.1, 0.2, 0.3, 0.5]
     
     private let processor: ImageToImageProcessor
     private let postProcessor: ImageToImageProcessor?
@@ -34,24 +39,35 @@ class ImageToImageProcessingViewModel: ObservableObject {
     func process() {
         self.isBusy = true
         
-        processor.process(initialImage, tileSize: tileSize, postProcessor: postProcessor)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                if case let .failure(error) = completion {
-                    self?.error = error
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [weak self] in
-                    self?.progressUpdate = nil
-                }
-            } receiveValue: { [weak self] event in
-                switch event {
-                case .updated(let progressUpdate):
-                    self?.progressUpdate = progressUpdate
-                case .completed(let image):
-                    self?.processedImage = image
-                }
+        processor.process(
+            initialImage,
+            tileSize: tileSize,
+            overlap: overlap,
+            postProcessor: postProcessor
+        )
+        .receive(on: DispatchQueue.main)
+        .sink { [weak self] completion in
+            if case let .failure(error) = completion {
+                self?.error = error
             }
-            .store(in: &cancellables)
+            
+            self?.isBusy = false
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [weak self] in
+                self?.progressUpdate = nil
+            }
+        } receiveValue: { [weak self] event in
+            switch event {
+            case .updated(let progressUpdate):
+                self?.progressUpdate = progressUpdate
+            case .updatedImage(let uiImage):
+                self?.processedImage = uiImage
+            }
+        }
+        .store(in: &cancellables)
+    }
+    
+    func cancel() {
+        processor.cancel()
     }
 }

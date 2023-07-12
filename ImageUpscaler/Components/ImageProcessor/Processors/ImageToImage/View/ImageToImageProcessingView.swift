@@ -12,9 +12,8 @@ struct ImageToImageProcessingView: View {
     @Environment(\.presentationMode) var presentationMode
 
     @StateObject var viewModel: ImageToImageProcessingViewModel
+    @State private var isShowingSettings = false
     @State private var isShowingComparison = false
-    
-    private let tileSizes = [512, 768, 1024, 2048]
 
     init(
         processor: ImageToImageProcessor,
@@ -37,7 +36,28 @@ struct ImageToImageProcessingView: View {
             .overlay {
                 VStack(spacing: 0) {
                     Spacer()
-                    MaterialProgressView(eventUpdate: viewModel.progressUpdate)
+                    ZStack(alignment: .bottom) {
+                        HStack {
+                            if viewModel.processedImage != nil, !viewModel.isBusy {
+                                Button {
+                                    viewModel.processedImage = nil
+                                } label: {
+                                    Text("Reset")
+                                        .padding()
+                                        .background(.thinMaterial)
+                                        .cornerRadius(8)
+                                }
+                                .buttonStyle(.plain)
+                                .padding()
+                            }
+                            
+                            Spacer()
+                        }
+
+                        MaterialProgressView(eventUpdate: viewModel.progressUpdate) {
+                            viewModel.cancel()
+                        }
+                    }
                     toolsView
                 }
                 .edgesIgnoringSafeArea([.bottom, .horizontal])
@@ -59,18 +79,17 @@ private extension ImageToImageProcessingView {
             
             Spacer()
             
-            HStack(spacing: 0) {
-                Text("Tile size:")
-                    .font(.caption)
-                
-                Picker("Tile size:", selection: $viewModel.tileSize) {
-                    ForEach(tileSizes, id: \.self) {
-                        Text("\($0)")
-                    }
-                }
-                .pickerStyle(.menu)
+            Button {
+                isShowingSettings.toggle()
+            } label: {
+                Image(systemName: "gear")
+                    .imageScale(.large)
+                    .padding()
             }
-            .padding()
+            .disabled(viewModel.isBusy || viewModel.processedImage != nil)
+            .sheet(isPresented: $isShowingSettings) {
+                ImageToImageSettingsView(viewModel: viewModel)
+            }
             
             Spacer()
             

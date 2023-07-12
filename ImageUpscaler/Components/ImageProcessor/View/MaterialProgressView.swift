@@ -9,17 +9,33 @@ import SwiftUI
 
 struct MaterialProgressView: View {
     private var eventUpdate: ProgressEventUpdate?
+    private var onCancel: (() -> Void)?
     
-    init(eventUpdate: ProgressEventUpdate?) {
+    init(
+        eventUpdate: ProgressEventUpdate?,
+        onCancel: (() -> Void)? = nil
+    ) {
         self.eventUpdate = eventUpdate
+        self.onCancel = onCancel
     }
     
     var body: some View {
         Group {
             if let eventUpdate {
                 VStack(alignment: .leading) {
-                    if let message = eventUpdate.message {
-                        Text(message).minimumScaleFactor(0.8)
+                    HStack {
+                        if let onCancel {
+                            Button {
+                                onCancel()
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        
+                        if let message = eventUpdate.message {
+                            Text(message).minimumScaleFactor(0.8)
+                        }
                     }
                     
                     Spacer()
@@ -28,7 +44,7 @@ struct MaterialProgressView: View {
                 }
                 .progressViewStyle(.linear)
                 .padding(16)
-                .frame(maxWidth: 500, maxHeight: 100)
+                .frame(maxWidth: 500, maxHeight: 75)
                 .background(.thinMaterial)
                 .cornerRadius(16)
                 .transition(AnyTransition.move(edge: .bottom))

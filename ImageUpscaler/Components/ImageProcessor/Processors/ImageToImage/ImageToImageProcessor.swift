@@ -16,6 +16,7 @@ class ImageToImageProcessor {
     private let modelLoader: () throws -> VNCoreMLModel
     
     private var isCurrentlyProcessing = false
+    private var isCanceled = false
     
     init(modelLoader: @escaping () throws -> VNCoreMLModel) {
         self.modelLoader = modelLoader
@@ -23,81 +24,95 @@ class ImageToImageProcessor {
     
     func process(
         _ uiImage: UIImage,
-        tileSize: Int? = nil,
+        tileSize: Int = 1024,
+        overlap: CGFloat = 0.2,
         postProcessor: ImageToImageProcessor? = nil
     ) -> AnyPublisher<ProgressEvent, Error> {
-        isCurrentlyProcessing = true
         let subject = PassthroughSubject<ProgressEvent, Error>()
         
-        Task(priority: .userInitiated) { [weak self] in
-            guard let self = self else {
-                subject.send(completion: .finished)
-                return
-            }
-            
+        isCurrentlyProcessing = true
+        
+        Task {
             do {
-                // Create tiles
-                var tileSize = tileSize ?? 1024
-                let tilesWithPositions = uiImage.tiles(tileSize: &tileSize)
-                var processedTilesWithPositions = [TileWithPosition]()
-                
-                for (index, tileWithPosition) in tilesWithPositions.enumerated() {
-                    let processedTile = try await self.processImage(
-                        tileWithPosition.tile,
-                        step: index + 1,
-                        of: tilesWithPositions.count
-                    ) { update in
-                        subject.sendOnMain(.updated(update))
-                    }
-                    processedTilesWithPositions.append(TileWithPosition(tile: processedTile, position: tileWithPosition.position))
+                try await processImage(
+                    uiImage,
+                    tileSize: tileSize,
+                    overlap: overlap
+                ) { update in
+                    subject.sendOnMain(update)
                 }
                 
-                // Stitch tiles back together
-                guard let processedImage = UIImage.stitch(
-                    tiles: processedTilesWithPositions,
-                    originalImage: uiImage, originalTileSize: tileSize
-                ) else {
-                    throw ImageToImageProcessingError.imagePostProcessingError // TODO: change
-                }
-                
-                subject.sendOnMain(.updated(ProgressEventUpdate(message: "Completed!", completionRatio: 1)))
-                subject.sendOnMain(.completed(processedImage))
                 subject.sendOnMain(completion: .finished)
             } catch {
                 subject.sendOnMain(completion: .failure(error))
+            }
+            
+            await MainActor.run {
+                isCurrentlyProcessing = false
+                
+                print("-> Not processing anymoressing")
             }
         }
         
         return subject.eraseToAnyPublisher()
     }
     
+    func cancel() {
+        isCanceled = true
+    }
+    
     func processImage(
         _ uiImage: UIImage,
-        step: Int,
-        of steps: Int,
-        onProgressUpdate: (ProgressEventUpdate) -> Void
-    ) async throws -> UIImage {
-        onProgressUpdate(eventUpdate(for: .modelLoading, step: step, of: steps))
+        tileSize: Int,
+        overlap: CGFloat,
+        onProgressUpdate: (ProgressEvent) -> Void
+    ) async throws {
+        onProgressUpdate(.updated(ProgressEventUpdate(
+            message: "Loading model", completionRatio: 0
+        )))
         
         let model = try loadModel()
         
-        onProgressUpdate(eventUpdate(for: .preprocessing, step: step, of: steps))
-        
-        guard let inputCIImage = uiImage.cgImage.map({ CIImage(cgImage: $0) }) else {
-            throw ImageToImageProcessingError.incorrectImageData
+        guard let uiImage = uiImage.withFixedOrientation() else {
+            throw ImageToImageProcessingError.incorrectImageData // TODO: change
         }
         
-        let squareInputCIImage = preprocessImage(inputCIImage)
+        var tileSize = tileSize
         
-        onProgressUpdate(eventUpdate(for: .processing, step: step, of: steps))
+        let tiles = try uiImage.tiles(overlap: overlap, tileSize: &tileSize)
         
-        let outputCIImage = try process(squareInputCIImage, model: model)
+        let ciContext = CIContext()
         
-        onProgressUpdate(eventUpdate(for: .postprocessing, step: step, of: steps))
+        var outputImage = uiImage
         
-        let outputUIImage = try postProcessImage(outputCIImage, originalUIImage: uiImage)
+        for (index, tile) in tiles.enumerated() {
+            guard !isCanceled else {
+                isCanceled = false
+                
+                throw ImageToImageProcessingError.coreMLRequestResultError // TODO: change to canceled
+            }
+            
+            onProgressUpdate(.updated(ProgressEventUpdate(
+                message: "[\(index + 1)/\(tiles.count)] Processing",
+                completionRatio: Double(index) / Double(tiles.count)
+            )))
+
+            let ciImage = CIImage(cgImage: tile.image)
+            let processedCIImage = try process(ciImage, model: model)
+            let postprocessedCGImage = try postprocessImage(processedCIImage)
+            
+            let processedTile = Tile(image: postprocessedCGImage, rect: tile.rect)
+            outputImage = outputImage.placed(tile: processedTile)
+
+            onProgressUpdate(.updatedImage(outputImage))
+            
+            try await Task.sleep(for: .milliseconds(300))
+        }
         
-        return outputUIImage
+        onProgressUpdate(.updated(ProgressEventUpdate(
+            message: "Complete!",
+            completionRatio: 1
+        )))
     }
     
     private func loadModel() throws -> VNCoreMLModel {
@@ -109,16 +124,6 @@ class ImageToImageProcessor {
         self.model = model
         
         return model
-    }
-    
-    func preprocessImage(_ inputCIImage: CIImage) -> CIImage {
-        let inputMaxDimension = max(inputCIImage.extent.width, inputCIImage.extent.height)
-        let squareCanvasSize = CGSize(width: inputMaxDimension, height: inputMaxDimension)
-        
-        let blackCanvas = CIImage(color: CIColor.black)
-            .cropped(to: CGRect(origin: .zero, size: squareCanvasSize))
-        
-        return inputCIImage.composited(over: blackCanvas)
     }
     
     func process(
@@ -139,31 +144,44 @@ class ImageToImageProcessor {
         return outputCIImage
     }
     
-    func postProcessImage(
-        _ outputCIImage: CIImage,
-        originalUIImage: UIImage
-    ) throws -> UIImage {
-        guard let inputCIImage = originalUIImage.cgImage.map({ CIImage(cgImage: $0) }) else {
-            throw ImageToImageProcessingError.imagePostProcessingError
+    func postprocessImage(
+        _ ciImage: CIImage
+    ) throws -> CGImage {
+        guard let cgImage = CIContext().createCGImage(
+            ciImage,
+            from: ciImage.extent
+        ) else {
+            throw ImageToImageProcessingError.imagePostProcessingError // TODO: change
         }
         
-        let outputMaxDimension = max(outputCIImage.extent.width, outputCIImage.extent.height)
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
         
-        let scalingFactor = outputMaxDimension
-        / max(inputCIImage.extent.width, inputCIImage.extent.height)
-        
-        let outputSize = inputCIImage.extent.size.applying(
-            CGAffineTransform(scaleX: scalingFactor, y: scalingFactor)
+        let cgContext = CGContext(
+            data: nil,
+            width: cgImage.width,
+            height: cgImage.height,
+            bitsPerComponent: cgImage.bitsPerComponent,
+            bytesPerRow: cgImage.bytesPerRow,
+            space: colorSpace,
+            bitmapInfo: bitmapInfo.rawValue
         )
         
-        guard let outputCGImage = CIContext().createCGImage(
-            outputCIImage,
-            from: CGRect(origin: .zero, size: outputSize)
-        ) else {
-            throw ImageToImageProcessingError.imagePostProcessingError
+        guard let cgContext else {
+            throw ImageToImageProcessingError.imagePostProcessingError // TODO: change
         }
         
-        return UIImage(cgImage: outputCGImage)
+        // Translate to flip image
+        cgContext.translateBy(x: 0, y: CGFloat(cgImage.height))
+        cgContext.scaleBy(x: 1, y: -1)
+        
+        cgContext.draw(cgImage, in: CGRect(x: 0, y: 0, width: cgImage.width, height: cgImage.height))
+        
+        guard let cgImage = cgContext.makeImage() else {
+            throw ImageToImageProcessingError.imagePostProcessingError // TODO: change
+        }
+        
+        return cgImage
     }
 }
 
@@ -226,9 +244,9 @@ extension PassthroughSubject {
     }
 }
 
-struct TileWithPosition {
-    let tile: UIImage
-    let position: CGPoint
+struct Tile {
+    let image: CGImage
+    let rect: CGRect
 }
 
 extension UIImage {
@@ -236,9 +254,9 @@ extension UIImage {
         maxTileCount: Int = 20,
         overlap: CGFloat = 1 / 4,
         tileSize: inout Int
-    ) -> [TileWithPosition] {
+    ) throws -> [Tile] {
         guard let cgImage = self.cgImage else {
-            return []
+            throw ImageToImageProcessingError.incorrectImageData
         }
         
         let width = Int(cgImage.width)
@@ -247,105 +265,77 @@ extension UIImage {
         tileSize = min(tileSize, width, height)
         
         let overlappedTileSize = Double(tileSize) * (1.0 - overlap)
-        
-        let idealTileCount = Int(
-            ceil(Double(width) / overlappedTileSize) *
-            ceil(Double(height) / overlappedTileSize)
-        )
-        
-        print("-> idealTileCount: \(idealTileCount)")
-        
         let overlapSize = Int(Double(tileSize) * overlap)
         
-        var tilesWithPositions = [TileWithPosition]()
+        var tiles = [Tile]()
         
         for y in stride(from: 0, to: height, by: tileSize - overlapSize) {
             for x in stride(from: 0, to: width, by: tileSize - overlapSize) {
                 let finalX = min(x, width - tileSize)
                 let finalY = min(y, height - tileSize)
                 
-                let tileRect = CGRect(x: finalX, y: finalY, width: tileSize, height: tileSize)
-                if let tile = cgImage.cropping(to: tileRect) {
-                    let tileImage = UIImage(cgImage: tile)
-                    tilesWithPositions.append(TileWithPosition(tile: tileImage, position: CGPoint(x: finalX, y: finalY)))
+                let cgTileRect = CGRect(x: finalX, y: finalY, width: tileSize, height: tileSize)
+                
+                guard let image = cgImage.cropping(to: cgTileRect) else {
+                    throw ImageToImageProcessingError.incorrectImageData
                 }
+                
+                // Convert the y-coordinate to UIKit's coordinate system
+                let uiKitY = height - finalY - tileSize
+                
+                let uiKitTileRect = CGRect(x: finalX, y: uiKitY, width: tileSize, height: tileSize)
+                
+                let tile = Tile(
+                    image: image,
+                    rect: uiKitTileRect
+                )
+                
+                tiles.append(tile)
             }
         }
         
-        return tilesWithPositions
+        return tiles
+    }
+}
+
+
+extension UIImage {
+    func placed(tile: Tile) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: size)
+        
+        let newImage = renderer.image { context in
+            context.cgContext.interpolationQuality = .high
+            context.cgContext.setShouldAntialias(true)
+            
+            // Draw the original image onto the context
+            draw(in: CGRect(origin: .zero, size: size))
+
+            // Flip the tile image vertically
+            let flippedTileImage = tile.image
+            
+            // Adjust y position to UIKit coordinate system
+            let adjustedY = size.height - tile.rect.origin.y - tile.rect.height
+            let adjustedRect = CGRect(x: tile.rect.origin.x, y: adjustedY, width: tile.rect.width, height: tile.rect.height)
+
+            // Draw the tile onto the original image
+            context.cgContext.draw(flippedTileImage, in: adjustedRect)
+        }
+
+        return newImage
     }
 }
 
 extension UIImage {
-    static func stitch(tiles: [TileWithPosition], originalImage: UIImage, originalTileSize: Int) -> UIImage? {
-        let originalSize = originalImage.size
-        let tileSize = tiles.first?.tile.size ?? CGSize.zero
-        let scalingFactor = tileSize.width / CGFloat(originalTileSize)
-        let maxDimension = max(originalSize.width, originalSize.height)
-        
-        let canvasSize = CGSize(width: maxDimension, height: maxDimension)
-            .applying(CGAffineTransform(scaleX: scalingFactor, y: scalingFactor))
-        
-        let renderer = UIGraphicsImageRenderer(size: canvasSize)
-        
-        let stitchedImage = renderer.image { context in
-            context.cgContext.translateBy(x: 0, y: canvasSize.height)
-            context.cgContext.scaleBy(x: 1, y: -1)
-            
-            tiles.forEach { tileWithPosition in
-                guard let cgImage = tileWithPosition.tile.cgImage else {
-                    return
-                }
-                
-                let rect = CGRect(
-                    x: tileWithPosition.position.x * scalingFactor,
-                    y: canvasSize.height - tileWithPosition.position.y * scalingFactor - tileSize.height,
-                    width: tileSize.width,
-                    height: tileSize.height
-                )
-                
-                context.cgContext.draw(cgImage, in: rect)
+    func withFixedOrientation() -> UIImage? {
+        switch imageOrientation {
+        case .up:
+            return self
+        default:
+            let renderer = UIGraphicsImageRenderer(size: size, format: .init(for: traitCollection))
+
+            return renderer.image { _ in
+                draw(in: CGRect(origin: .zero, size: size))
             }
-        }
-        
-        // Apply image orientation
-        guard let stitchedImageCGImage = stitchedImage.cgImage else {
-            return nil
-        }
-        
-        let orientedImage = UIImage(
-            cgImage: stitchedImageCGImage,
-            scale: originalImage.scale,
-            orientation: originalImage.imageOrientation
-        )
-        
-        let outputMaxDimension = max(orientedImage.size.width, orientedImage.size.height)
-        let outScaling = outputMaxDimension / maxDimension
-        
-        let outputSize = originalSize.applying(
-            CGAffineTransform(scaleX: outScaling, y: outScaling)
-        )
-        
-        // Calculate crop rect based on the original image orientation
-        var cropRect = CGRect.zero
-        switch originalImage.imageOrientation {
-        case .up, .upMirrored, .down, .downMirrored:
-            cropRect = CGRect(x: 0, y: 0, width: outputSize.width, height: outputSize.height)
-        case .left, .leftMirrored, .right, .rightMirrored:
-            cropRect = CGRect(x: 0, y: 0, width: outputSize.height, height: outputSize.width)
-        @unknown default:
-            break
-        }
-        
-        // Perform the crop
-        if let croppedCGImage = orientedImage.cgImage?.cropping(to: cropRect) {
-            return UIImage(
-                cgImage: croppedCGImage,
-                scale: originalImage.scale,
-                orientation: originalImage.imageOrientation
-            )
-        } else {
-            return nil
         }
     }
 }

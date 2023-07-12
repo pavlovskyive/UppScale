@@ -1,5 +1,5 @@
 //
-//  ImageProcessingManager.swift
+//  ImageProcessorsManager.swift
 //  ImageUpscaler
 //
 //  Created by Vsevolod Pavlovskyi on 20.06.2023.
