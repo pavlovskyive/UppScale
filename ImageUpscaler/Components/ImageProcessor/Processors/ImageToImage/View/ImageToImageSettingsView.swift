@@ -22,7 +22,7 @@ struct ImageToImageSettingsView: View {
                             Text("\(size)")
                         }
                     }
-                    .pickerStyle(.automatic)
+                    .pickerStyle(.segmented)
                 }
                 
                 Section(header: Text("Overlap")) {

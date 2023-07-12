@@ -42,8 +42,7 @@ class ImageToImageProcessingViewModel: ObservableObject {
         processor.process(
             initialImage,
             tileSize: tileSize,
-            overlap: overlap,
-            postProcessor: postProcessor
+            overlap: overlap
         )
         .receive(on: DispatchQueue.main)
         .sink { [weak self] completion in

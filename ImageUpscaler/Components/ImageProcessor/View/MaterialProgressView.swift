@@ -23,7 +23,7 @@ struct MaterialProgressView: View {
         Group {
             if let eventUpdate {
                 VStack(alignment: .leading) {
-                    HStack {
+                    HStack(spacing: 4) {
                         if let onCancel {
                             Button {
                                 onCancel()
@@ -35,6 +35,10 @@ struct MaterialProgressView: View {
                         
                         if let message = eventUpdate.message {
                             Text(message).minimumScaleFactor(0.8)
+                        }
+                        
+                        if eventUpdate.completionRatio != 1 {
+                            ProgressView().progressViewStyle(.circular)
                         }
                     }
                     

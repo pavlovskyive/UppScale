@@ -25,8 +25,7 @@ class ImageToImageProcessor {
     func process(
         _ uiImage: UIImage,
         tileSize: Int = 1024,
-        overlap: CGFloat = 0.2,
-        postProcessor: ImageToImageProcessor? = nil
+        overlap: CGFloat = 0.2
     ) -> AnyPublisher<ProgressEvent, Error> {
         let subject = PassthroughSubject<ProgressEvent, Error>()
         
@@ -98,7 +97,8 @@ class ImageToImageProcessor {
             )))
 
             let ciImage = CIImage(cgImage: tile.image)
-            let processedCIImage = try process(ciImage, model: model)
+            var processedCIImage = try process(ciImage, model: model)
+            
             let postprocessedCGImage = try postprocessImage(processedCIImage)
             
             let processedTile = Tile(image: postprocessedCGImage, rect: tile.rect)

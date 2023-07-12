@@ -49,9 +49,9 @@ struct ImageToImageProcessingView: View {
                                 }
                                 .buttonStyle(.plain)
                                 .padding()
+                                
+                                Spacer()
                             }
-                            
-                            Spacer()
                         }
 
                         MaterialProgressView(eventUpdate: viewModel.progressUpdate) {
