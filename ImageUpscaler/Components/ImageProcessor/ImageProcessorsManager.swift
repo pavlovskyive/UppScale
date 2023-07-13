@@ -5,7 +5,7 @@
 //  Created by Vsevolod Pavlovskyi on 20.06.2023.
 //
 
-import UIKit
+import Foundation
 import Combine
 
 class ImageProcessorsManager: ObservableObject {

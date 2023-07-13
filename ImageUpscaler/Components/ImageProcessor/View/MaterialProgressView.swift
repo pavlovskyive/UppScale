@@ -20,41 +20,61 @@ struct MaterialProgressView: View {
     }
     
     var body: some View {
-        Group {
-            if let eventUpdate {
-                VStack(alignment: .leading) {
-                    HStack(spacing: 4) {
-                        if let onCancel {
-                            Button {
-                                onCancel()
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        
-                        if let message = eventUpdate.message {
-                            Text(message).minimumScaleFactor(0.8)
-                        }
-                        
-                        if eventUpdate.completionRatio != 1 {
-                            ProgressView().progressViewStyle(.circular)
-                        }
-                    }
+        content
+            .padding()
+            .animation(.easeOut, value: eventUpdate)
+    }
+}
+
+private extension MaterialProgressView {
+    @ViewBuilder var content: some View {
+        if eventUpdate != nil {
+            VStack(alignment: .leading) {
+                HStack(spacing: 8) {
+                    cancelButton
                     
-                    Spacer()
+                    message
                     
-                    ProgressView(value: eventUpdate.completionRatio)
+                    circularProgress
                 }
-                .progressViewStyle(.linear)
-                .padding(16)
-                .frame(maxWidth: 500, maxHeight: 75)
-                .background(.thinMaterial)
-                .cornerRadius(16)
-                .transition(AnyTransition.move(edge: .bottom))
+                
+                linearProgress
             }
+            .padding(16)
+            .frame(maxWidth: 500)
+            .background(.thinMaterial)
+            .cornerRadius(16)
+            .transition(AnyTransition.move(edge: .bottom))
         }
-        .padding()
-        .animation(.easeOut, value: eventUpdate)
+    }
+    
+    @ViewBuilder var cancelButton: some View {
+        if let onCancel {
+            Button {
+                onCancel()
+            } label: {
+                Image(systemName: "xmark.circle.fill")
+            }
+            .buttonStyle(.plain)
+        }
+    }
+    
+    @ViewBuilder var message: some View {
+        if let message = eventUpdate?.message {
+            Text(message).minimumScaleFactor(0.8)
+        }
+    }
+    
+    @ViewBuilder var circularProgress: some View {
+        if eventUpdate?.completionRatio != 1 {
+            ProgressView().progressViewStyle(.circular).tint(.accentColor)
+        }
+    }
+    
+    @ViewBuilder var linearProgress: some View {
+        if let value = eventUpdate?.completionRatio {
+            ProgressView(value: value)
+                .progressViewStyle(.linear)
+        }
     }
 }

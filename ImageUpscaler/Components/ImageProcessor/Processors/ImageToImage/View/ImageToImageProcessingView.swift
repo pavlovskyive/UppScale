@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Combine
 
 struct ImageToImageProcessingView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -28,8 +27,6 @@ struct ImageToImageProcessingView: View {
 
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
-    
-    var cancellables = Set<AnyCancellable>()
     
     var body: some View {
         imageView

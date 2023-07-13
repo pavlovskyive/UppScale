@@ -7,8 +7,6 @@
 
 import CoreML
 import Vision
-import Combine
-import CoreImage
 
 import class SwiftUI.UIImage
 
@@ -25,40 +23,4 @@ final class LightEnhancingProcessor: ImageToImageProcessor {
             return visionModel
         }
     }
-    
-//    override func process(_ uiImage: UIImage) -> AnyPublisher<ProgressEvent, Error> {
-//        let subject = PassthroughSubject<ProgressEvent, Error>()
-//
-//        Task {
-//            do {
-//                try await super.processImage(uiImage, subject: subject)
-//            } catch {
-//                subject.send(completion: .failure(error))
-//            }
-//        }
-//
-//        return subject
-//            .flatMap { [weak self] progressEvent -> AnyPublisher<ProgressEvent, Error> in
-//                guard let self = self else {
-//                    return Empty().eraseToAnyPublisher()
-//                }
-//
-//                switch progressEvent {
-//                case .completed(let lightEnhancedImage):
-//                    if let upscalingProcessor = self.upscalingProcessor {
-//                        return upscalingProcessor.process(lightEnhancedImage)
-//                            .eraseToAnyPublisher()
-//                    } else {
-//                        return Just(.completed(lightEnhancedImage))
-//                            .setFailureType(to: Error.self)
-//                            .eraseToAnyPublisher()
-//                    }
-//                case .updated:
-//                    return Just(progressEvent)
-//                        .setFailureType(to: Error.self)
-//                        .eraseToAnyPublisher()
-//                }
-//            }
-//            .eraseToAnyPublisher()
-//    }
 }
