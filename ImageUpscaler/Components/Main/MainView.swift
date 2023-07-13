@@ -107,21 +107,14 @@ struct MainView: View {
                         uiImage: info.image
                     )
                 case .lightEnhancing:
-                    let upscalingProcessor = imageProcessorsManager.getProcessor(
-                        for: UpscalingProcessor.self
-                    ) {
-                        UpscalingProcessor()
-                    }
-                    
                     let processor = imageProcessorsManager.getProcessor(
                         for: LightEnhancingProcessor.self
                     ) {
-                        LightEnhancingProcessor(upscalingProcessor: upscalingProcessor)
+                        LightEnhancingProcessor()
                     }
                     
                     ImageToImageProcessingView(
                         processor: processor,
-                        postProcessor: upscalingProcessor,
                         uiImage: info.image
                     )
                 }

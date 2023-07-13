@@ -46,7 +46,7 @@ private extension MaterialProgressView {
             .frame(maxWidth: 500)
             .background(.thinMaterial)
             .cornerRadius(16)
-            .transition(AnyTransition.move(edge: .bottom))
+            .transition(.push(from: .top))
         }
     }
     
@@ -64,6 +64,7 @@ private extension MaterialProgressView {
     @ViewBuilder var message: some View {
         if let message = progress?.message {
             Text(message).minimumScaleFactor(0.8)
+                .animation(.none, value: message)
         }
     }
     

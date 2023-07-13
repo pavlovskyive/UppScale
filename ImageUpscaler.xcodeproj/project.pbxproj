@@ -16,8 +16,10 @@
 		7967D11B2A5FECE00088E51D /* UpscalingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D11A2A5FECE00088E51D /* UpscalingProcessor.swift */; };
 		7967D11D2A5FED8E0088E51D /* CIImage+CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D11C2A5FED8E0088E51D /* CIImage+CGImage.swift */; };
 		7967D1222A5FF24C0088E51D /* View+Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1212A5FF24C0088E51D /* View+Haptics.swift */; };
-		7967D1242A5FF28B0088E51D /* CGSize+Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1232A5FF28B0088E51D /* CGSize+Arithmetics.swift */; };
+		7967D1242A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1232A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift */; };
 		7967D1262A5FF8410088E51D /* ImageToImageConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1252A5FF8410088E51D /* ImageToImageConfiguration.swift */; };
+		7967D12B2A6045D90088E51D /* ImagePropertiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D12A2A6045D90088E51D /* ImagePropertiesView.swift */; };
+		7967D12D2A604B960088E51D /* UIImage+Resized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D12C2A604B960088E51D /* UIImage+Resized.swift */; };
 		797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */; };
 		797B73C92A387ADF0059BA32 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797B73C82A387ADF0059BA32 /* Preview Assets.xcassets */; };
 		79A1B3972A5C4929000555E8 /* ImageToImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */; };
@@ -57,8 +59,10 @@
 		7967D11A2A5FECE00088E51D /* UpscalingProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpscalingProcessor.swift; sourceTree = "<group>"; };
 		7967D11C2A5FED8E0088E51D /* CIImage+CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+CGImage.swift"; sourceTree = "<group>"; };
 		7967D1212A5FF24C0088E51D /* View+Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Haptics.swift"; sourceTree = "<group>"; };
-		7967D1232A5FF28B0088E51D /* CGSize+Arithmetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Arithmetics.swift"; sourceTree = "<group>"; };
+		7967D1232A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Arithmetics.swift"; sourceTree = "<group>"; };
 		7967D1252A5FF8410088E51D /* ImageToImageConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageConfiguration.swift; sourceTree = "<group>"; };
+		7967D12A2A6045D90088E51D /* ImagePropertiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePropertiesView.swift; sourceTree = "<group>"; };
+		7967D12C2A604B960088E51D /* UIImage+Resized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resized.swift"; sourceTree = "<group>"; };
 		797B73BE2A387ADF0059BA32 /* ImageUpscaler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageUpscaler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerApp.swift; sourceTree = "<group>"; };
 		797B73C82A387ADF0059BA32 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -130,7 +134,8 @@
 				7967D1142A5FEA4E0088E51D /* Image+WithFixedOrientation.swift */,
 				7967D1162A5FEB9B0088E51D /* Subject+SendOnMain.swift */,
 				7967D11C2A5FED8E0088E51D /* CIImage+CGImage.swift */,
-				7967D1232A5FF28B0088E51D /* CGSize+Arithmetics.swift */,
+				7967D1232A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift */,
+				7967D12C2A604B960088E51D /* UIImage+Resized.swift */,
 			);
 			path = Logics;
 			sourceTree = "<group>";
@@ -259,6 +264,7 @@
 				79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */,
 				79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */,
 				79410D8F2A5EEA5200C78CE1 /* ImageToImageConfigurationView.swift */,
+				7967D12A2A6045D90088E51D /* ImagePropertiesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -449,7 +455,7 @@
 				79A1B3A42A5C4C2F000555E8 /* ProcessingUpdate.swift in Sources */,
 				79A1B3AA2A5C4E12000555E8 /* MaterialProgressView.swift in Sources */,
 				79A1B3972A5C4929000555E8 /* ImageToImageProcessor.swift in Sources */,
-				7967D1242A5FF28B0088E51D /* CGSize+Arithmetics.swift in Sources */,
+				7967D1242A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift in Sources */,
 				7967D11B2A5FECE00088E51D /* UpscalingProcessor.swift in Sources */,
 				79A1B3AB2A5C4E12000555E8 /* ScalableImageView.swift in Sources */,
 				79A1B39F2A5C49B6000555E8 /* RealesrGAN.mlmodel in Sources */,
@@ -465,6 +471,8 @@
 				79410D902A5EEA5200C78CE1 /* ImageToImageConfigurationView.swift in Sources */,
 				79D702482A3DBBA2004D38A0 /* MaterialNavigation.swift in Sources */,
 				7967D11D2A5FED8E0088E51D /* CIImage+CGImage.swift in Sources */,
+				7967D12B2A6045D90088E51D /* ImagePropertiesView.swift in Sources */,
+				7967D12D2A604B960088E51D /* UIImage+Resized.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

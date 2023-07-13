@@ -68,7 +68,10 @@ extension UIImage {
     }
 
     func withPlaced(tile: Tile) -> UIImage {
-        let renderer = UIGraphicsImageRenderer(size: size)
+        let renderer = UIGraphicsImageRenderer(
+            size: size,
+            format: .init(for: traitCollection)
+        )
         
         let newImage = renderer.image { context in
             context.cgContext.interpolationQuality = .high

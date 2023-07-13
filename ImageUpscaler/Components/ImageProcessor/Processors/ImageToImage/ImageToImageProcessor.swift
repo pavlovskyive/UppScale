@@ -81,6 +81,8 @@ class ImageToImageProcessor {
         
         let ciContext = CIContext()
         
+        var scalingFactor = 1.0
+        
         for (index, tile) in tiles.enumerated() {
             onProgressUpdate(.progress(ProcessingProgress(
                 message: "[\(index + 1)/\(tiles.count)] Processing",
@@ -96,7 +98,22 @@ class ImageToImageProcessor {
                 throw ImageToImageProcessingError.incorrectImageData
             }
             
-            let processedTile = Tile(image: cgImage, rect: tile.rect)
+            if index == 0 {
+                scalingFactor = CGFloat(cgImage.width) / CGFloat(tile.image.width)
+                
+                guard
+                    let resizedImage = outputImage.resized(to: outputImage.size * scalingFactor)
+                else {
+                    throw ImageToImageProcessingError.incorrectImageData
+                }
+                
+                outputImage = resizedImage
+            }
+            
+            let resizedRect = tile.rect * scalingFactor
+            
+            let processedTile = Tile(image: cgImage, rect: resizedRect.integral)
+            
             outputImage = outputImage.withPlaced(tile: processedTile)
             
             onProgressUpdate(.image(outputImage))
