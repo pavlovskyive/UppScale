@@ -23,7 +23,7 @@
 		79A1B3972A5C4929000555E8 /* ImageToImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */; };
 		79A1B39D2A5C49AB000555E8 /* Zero-DCE.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B39C2A5C49AB000555E8 /* Zero-DCE.mlmodel */; };
 		79A1B39F2A5C49B6000555E8 /* RealesrGAN.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B39E2A5C49B6000555E8 /* RealesrGAN.mlmodel */; };
-		79A1B3A42A5C4C2F000555E8 /* ProgressEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A32A5C4C2F000555E8 /* ProgressEvent.swift */; };
+		79A1B3A42A5C4C2F000555E8 /* ProcessingUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A32A5C4C2F000555E8 /* ProcessingUpdate.swift */; };
 		79A1B3AA2A5C4E12000555E8 /* MaterialProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A82A5C4E12000555E8 /* MaterialProgressView.swift */; };
 		79A1B3AB2A5C4E12000555E8 /* ScalableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */; };
 		79A1B3AE2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */; };
@@ -66,7 +66,7 @@
 		79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessor.swift; sourceTree = "<group>"; };
 		79A1B39C2A5C49AB000555E8 /* Zero-DCE.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "Zero-DCE.mlmodel"; sourceTree = "<group>"; };
 		79A1B39E2A5C49B6000555E8 /* RealesrGAN.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RealesrGAN.mlmodel; sourceTree = "<group>"; };
-		79A1B3A32A5C4C2F000555E8 /* ProgressEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressEvent.swift; sourceTree = "<group>"; };
+		79A1B3A32A5C4C2F000555E8 /* ProcessingUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessingUpdate.swift; sourceTree = "<group>"; };
 		79A1B3A82A5C4E12000555E8 /* MaterialProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialProgressView.swift; sourceTree = "<group>"; };
 		79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalableImageView.swift; sourceTree = "<group>"; };
 		79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessingViewModel.swift; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 		79687B672A458E0300851478 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				79A1B3A32A5C4C2F000555E8 /* ProgressEvent.swift */,
+				79A1B3A32A5C4C2F000555E8 /* ProcessingUpdate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -446,7 +446,7 @@
 				7967D1192A5FECD80088E51D /* LightEnhancingProcessor.swift in Sources */,
 				79D7023E2A3D8E73004D38A0 /* MainView.swift in Sources */,
 				7967D1262A5FF8410088E51D /* ImageToImageConfiguration.swift in Sources */,
-				79A1B3A42A5C4C2F000555E8 /* ProgressEvent.swift in Sources */,
+				79A1B3A42A5C4C2F000555E8 /* ProcessingUpdate.swift in Sources */,
 				79A1B3AA2A5C4E12000555E8 /* MaterialProgressView.swift in Sources */,
 				79A1B3972A5C4929000555E8 /* ImageToImageProcessor.swift in Sources */,
 				7967D1242A5FF28B0088E51D /* CGSize+Arithmetics.swift in Sources */,

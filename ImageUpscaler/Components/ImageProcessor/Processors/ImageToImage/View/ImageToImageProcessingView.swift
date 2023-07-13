@@ -51,7 +51,7 @@ struct ImageToImageProcessingView: View {
                             }
                         }
 
-                        MaterialProgressView(eventUpdate: viewModel.progressUpdate) {
+                        MaterialProgressView(progress: viewModel.processingProgress) {
                             viewModel.cancel()
                         }
                     }

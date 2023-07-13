@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class ImageToImageProcessingViewModel: ObservableObject {
-    @Published var progressUpdate: ProgressEventUpdate?
+    @Published var processingProgress: ProcessingProgress?
     @Published var processedImage: UIImage?
     @Published var isBusy = false
     @Published var error: Error?
@@ -43,21 +43,20 @@ class ImageToImageProcessingViewModel: ObservableObject {
         .sink { [weak self] completion in
             if case let .failure(error) = completion {
                 self?.error = error
+                self?.processedImage = nil
             }
             
             self?.isBusy = false
             
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [weak self] in
-                self?.progressUpdate = nil
+                self?.processingProgress = nil
             }
         } receiveValue: { [weak self] event in
             switch event {
-            case .updated(let progressUpdate):
-                self?.progressUpdate = progressUpdate
-            case .updatedImage(let uiImage):
+            case .progress(let progress):
+                self?.processingProgress = progress
+            case .image(let uiImage):
                 self?.processedImage = uiImage
-            case .canceled:
-                self?.processedImage = nil
             }
         }
         .store(in: &cancellables)

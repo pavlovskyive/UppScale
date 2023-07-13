@@ -14,7 +14,7 @@ class ImageToImageProcessor {
     private var model: VNCoreMLModel?
     private let modelLoader: () throws -> VNCoreMLModel
 
-    private var isCanceled = false
+    private var currentTask: Task<Void, Error>?
     
     init(modelLoader: @escaping () throws -> VNCoreMLModel) {
         self.modelLoader = modelLoader
@@ -24,12 +24,13 @@ class ImageToImageProcessor {
     func process(
         _ uiImage: UIImage,
         configuration: ImageToImageConfiguration = ImageToImageConfiguration()
-    ) -> AnyPublisher<ProgressEvent, Error> {
-        let subject = PassthroughSubject<ProgressEvent, Error>()
-        
-        Task {
+    ) -> AnyPublisher<ProcessingUpdate, Error> {
+        let subject = PassthroughSubject<ProcessingUpdate, Error>()
+        currentTask?.cancel()
+
+        currentTask = Task.detached { [weak self] in
             do {
-                try await processImage(
+                try await self?.processImage(
                     uiImage,
                     configuration: configuration
                 ) { update in
@@ -37,6 +38,12 @@ class ImageToImageProcessor {
                 }
                 
                 subject.sendOnMain(completion: .finished)
+            } catch let error as CancellationError {
+                subject.sendOnMain(.progress(ProcessingProgress(
+                    message: "Cancelled"
+                )))
+                
+                subject.sendOnMain(completion: .failure(error))
             } catch {
                 subject.sendOnMain(completion: .failure(error))
             }
@@ -49,9 +56,9 @@ class ImageToImageProcessor {
     func processImage(
         _ uiImage: UIImage,
         configuration: ImageToImageConfiguration = ImageToImageConfiguration(),
-        onProgressUpdate: (ProgressEvent) -> Void
+        onProgressUpdate: (ProcessingUpdate) -> Void
     ) async throws {
-        onProgressUpdate(.updated(ProgressEventUpdate(
+        onProgressUpdate(.progress(ProcessingProgress(
             message: "Loading model", completionRatio: 0
         )))
         
@@ -75,18 +82,7 @@ class ImageToImageProcessor {
         let ciContext = CIContext()
         
         for (index, tile) in tiles.enumerated() {
-            guard !isCanceled else {
-                isCanceled = false
-                onProgressUpdate(.updated(ProgressEventUpdate(
-                    message: "Canceled",
-                    completionRatio: 1
-                )))
-                onProgressUpdate(.canceled)
-                
-                return
-            }
-            
-            onProgressUpdate(.updated(ProgressEventUpdate(
+            onProgressUpdate(.progress(ProcessingProgress(
                 message: "[\(index + 1)/\(tiles.count)] Processing",
                 completionRatio: Double(index) / Double(tiles.count)
             )))
@@ -103,20 +99,20 @@ class ImageToImageProcessor {
             let processedTile = Tile(image: cgImage, rect: tile.rect)
             outputImage = outputImage.withPlaced(tile: processedTile)
             
-            onProgressUpdate(.updatedImage(outputImage))
+            onProgressUpdate(.image(outputImage))
             
             // HACK: Overall better performance with sleep smh.
             try await Task.sleep(for: .milliseconds(300))
         }
         
-        onProgressUpdate(.updated(ProgressEventUpdate(
+        onProgressUpdate(.progress(ProcessingProgress(
             message: "Complete!",
             completionRatio: 1
         )))
     }
     
     func cancel() {
-        isCanceled = true
+        currentTask?.cancel()
     }
 }
 

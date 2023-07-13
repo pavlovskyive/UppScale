@@ -1,5 +1,5 @@
 //
-//  ProgressEvent.swift
+//  ProcessingUpdate.swift
 //  
 //
 //  Created by Vsevolod Pavlovskyi on 09.07.2023.
@@ -7,13 +7,12 @@
 
 import SwiftUI
 
-enum ProgressEvent: Equatable {
-    case updated(ProgressEventUpdate)
-    case updatedImage(UIImage)
-    case canceled
+enum ProcessingUpdate: Equatable {
+    case progress(ProcessingProgress)
+    case image(UIImage)
 }
 
-struct ProgressEventUpdate: Equatable {
+struct ProcessingProgress: Equatable {
     typealias CompletionRatio = Double
 
     let message: String?

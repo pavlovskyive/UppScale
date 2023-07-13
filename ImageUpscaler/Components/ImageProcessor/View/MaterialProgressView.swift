@@ -8,27 +8,27 @@
 import SwiftUI
 
 struct MaterialProgressView: View {
-    private var eventUpdate: ProgressEventUpdate?
+    private var progress: ProcessingProgress?
     private var onCancel: (() -> Void)?
     
     init(
-        eventUpdate: ProgressEventUpdate?,
+        progress: ProcessingProgress?,
         onCancel: (() -> Void)? = nil
     ) {
-        self.eventUpdate = eventUpdate
+        self.progress = progress
         self.onCancel = onCancel
     }
     
     var body: some View {
         content
             .padding()
-            .animation(.easeOut, value: eventUpdate)
+            .animation(.easeOut, value: progress)
     }
 }
 
 private extension MaterialProgressView {
     @ViewBuilder var content: some View {
-        if eventUpdate != nil {
+        if progress != nil {
             VStack(alignment: .leading) {
                 HStack(spacing: 8) {
                     cancelButton
@@ -36,6 +36,8 @@ private extension MaterialProgressView {
                     message
                     
                     circularProgress
+                    
+                    Spacer()
                 }
                 
                 linearProgress
@@ -60,19 +62,19 @@ private extension MaterialProgressView {
     }
     
     @ViewBuilder var message: some View {
-        if let message = eventUpdate?.message {
+        if let message = progress?.message {
             Text(message).minimumScaleFactor(0.8)
         }
     }
     
     @ViewBuilder var circularProgress: some View {
-        if eventUpdate?.completionRatio != 1 {
+        if progress?.completionRatio != 1 {
             ProgressView().progressViewStyle(.circular).tint(.accentColor)
         }
     }
     
     @ViewBuilder var linearProgress: some View {
-        if let value = eventUpdate?.completionRatio {
+        if let value = progress?.completionRatio {
             ProgressView(value: value)
                 .progressViewStyle(.linear)
         }
