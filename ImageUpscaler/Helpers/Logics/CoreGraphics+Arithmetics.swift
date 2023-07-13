@@ -9,7 +9,10 @@ import CoreGraphics
 
 extension CGSize {
     static func + (lhs: CGSize, rhs: CGSize) -> CGSize {
-        lhs.applying(CGAffineTransform(translationX: rhs.width, y: rhs.width))
+        CGSize(
+            width: lhs.width + rhs.width,
+            height: lhs.height + rhs.height
+        )
     }
     
     static func * (lhs: CGSize, rhs: CGFloat) -> CGSize {
