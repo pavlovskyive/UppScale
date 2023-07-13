@@ -85,7 +85,7 @@ private extension ImageToImageProcessingView {
             }
             .disabled(viewModel.isBusy || viewModel.processedImage != nil)
             .sheet(isPresented: $isShowingSettings) {
-                ImageToImageSettingsView(viewModel: viewModel)
+                ImageToImageConfigurationView(configuration: $viewModel.configuration)
             }
             
             Spacer()

@@ -14,11 +14,7 @@ class ImageToImageProcessingViewModel: ObservableObject {
     @Published var isBusy = false
     @Published var error: Error?
     
-    @Published var tileSize = 1024
-    @Published var overlap: CGFloat = 0.2
-    
-    var tileSizes = [512, 768, 1024, 2048]
-    var overlaps = [0.1, 0.2, 0.3, 0.5]
+    @Published var configuration = ImageToImageConfiguration()
     
     private let processor: ImageToImageProcessor
     private let postProcessor: ImageToImageProcessor?
@@ -41,8 +37,7 @@ class ImageToImageProcessingViewModel: ObservableObject {
         
         processor.process(
             initialImage,
-            tileSize: tileSize,
-            overlap: overlap
+            configuration: configuration
         )
         .receive(on: DispatchQueue.main)
         .sink { [weak self] completion in

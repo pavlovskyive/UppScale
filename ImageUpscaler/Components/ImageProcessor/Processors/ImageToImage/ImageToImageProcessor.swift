@@ -13,8 +13,7 @@ import Combine
 class ImageToImageProcessor {
     private var model: VNCoreMLModel?
     private let modelLoader: () throws -> VNCoreMLModel
-    
-    private var isCurrentlyProcessing = false
+
     private var isCanceled = false
     
     init(modelLoader: @escaping () throws -> VNCoreMLModel) {
@@ -24,19 +23,15 @@ class ImageToImageProcessor {
     /// Combine API for processing image.
     func process(
         _ uiImage: UIImage,
-        tileSize: Int = 1024,
-        overlap: CGFloat = 0.2
+        configuration: ImageToImageConfiguration = ImageToImageConfiguration()
     ) -> AnyPublisher<ProgressEvent, Error> {
         let subject = PassthroughSubject<ProgressEvent, Error>()
-        
-        isCurrentlyProcessing = true
         
         Task {
             do {
                 try await processImage(
                     uiImage,
-                    tileSize: tileSize,
-                    overlap: overlap
+                    configuration: configuration
                 ) { update in
                     subject.sendOnMain(update)
                 }
@@ -44,12 +39,6 @@ class ImageToImageProcessor {
                 subject.sendOnMain(completion: .finished)
             } catch {
                 subject.sendOnMain(completion: .failure(error))
-            }
-            
-            await MainActor.run {
-                isCurrentlyProcessing = false
-                
-                print("-> Not processing anymoressing")
             }
         }
         
@@ -59,8 +48,7 @@ class ImageToImageProcessor {
     // Callback API for processing image.
     func processImage(
         _ uiImage: UIImage,
-        tileSize: Int,
-        overlap: CGFloat,
+        configuration: ImageToImageConfiguration = ImageToImageConfiguration(),
         onProgressUpdate: (ProgressEvent) -> Void
     ) async throws {
         onProgressUpdate(.updated(ProgressEventUpdate(
@@ -73,9 +61,12 @@ class ImageToImageProcessor {
             throw ImageToImageProcessingError.incorrectImageData
         }
         
-        var tileSize = tileSize
+        var tileSize = configuration.tileSize
         
-        guard let tiles = uiImage.tiles(overlap: overlap, tileSize: &tileSize) else {
+        guard let tiles = uiImage.tiles(
+            overlap: configuration.overlap,
+            tileSize: &tileSize
+        ) else {
             throw ImageToImageProcessingError.tilingError
         }
         
