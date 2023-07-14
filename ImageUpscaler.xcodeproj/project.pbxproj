@@ -12,8 +12,6 @@
 		7967D1132A5FEA170088E51D /* UIImage+Tiling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1122A5FEA170088E51D /* UIImage+Tiling.swift */; };
 		7967D1152A5FEA4E0088E51D /* Image+WithFixedOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1142A5FEA4E0088E51D /* Image+WithFixedOrientation.swift */; };
 		7967D1172A5FEB9B0088E51D /* Subject+SendOnMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1162A5FEB9B0088E51D /* Subject+SendOnMain.swift */; };
-		7967D1192A5FECD80088E51D /* LightEnhancingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1182A5FECD80088E51D /* LightEnhancingProcessor.swift */; };
-		7967D11B2A5FECE00088E51D /* UpscalingProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D11A2A5FECE00088E51D /* UpscalingProcessor.swift */; };
 		7967D11D2A5FED8E0088E51D /* CIImage+CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D11C2A5FED8E0088E51D /* CIImage+CGImage.swift */; };
 		7967D1222A5FF24C0088E51D /* View+Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1212A5FF24C0088E51D /* View+Haptics.swift */; };
 		7967D1242A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1232A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift */; };
@@ -33,7 +31,7 @@
 		79A1B3AB2A5C4E12000555E8 /* ScalableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */; };
 		79A1B3AE2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */; };
 		79A1B3AF2A5C4E21000555E8 /* ImageToImageProcessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */; };
-		79B1A0692A41AEAE005AA9CA /* ImageProcessorsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B1A0682A41AEAE005AA9CA /* ImageProcessorsManager.swift */; };
+		79B1A0692A41AEAE005AA9CA /* ProcessingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B1A0682A41AEAE005AA9CA /* ProcessingType.swift */; };
 		79D7023E2A3D8E73004D38A0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D7023D2A3D8E73004D38A0 /* MainView.swift */; };
 		79D702422A3D98DB004D38A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79D702412A3D98DB004D38A0 /* Assets.xcassets */; };
 		79D702482A3DBBA2004D38A0 /* MaterialNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D702472A3DBBA2004D38A0 /* MaterialNavigation.swift */; };
@@ -58,8 +56,6 @@
 		7967D1122A5FEA170088E51D /* UIImage+Tiling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Tiling.swift"; sourceTree = "<group>"; };
 		7967D1142A5FEA4E0088E51D /* Image+WithFixedOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+WithFixedOrientation.swift"; sourceTree = "<group>"; };
 		7967D1162A5FEB9B0088E51D /* Subject+SendOnMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Subject+SendOnMain.swift"; sourceTree = "<group>"; };
-		7967D1182A5FECD80088E51D /* LightEnhancingProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightEnhancingProcessor.swift; sourceTree = "<group>"; };
-		7967D11A2A5FECE00088E51D /* UpscalingProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpscalingProcessor.swift; sourceTree = "<group>"; };
 		7967D11C2A5FED8E0088E51D /* CIImage+CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+CGImage.swift"; sourceTree = "<group>"; };
 		7967D1212A5FF24C0088E51D /* View+Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Haptics.swift"; sourceTree = "<group>"; };
 		7967D1232A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Arithmetics.swift"; sourceTree = "<group>"; };
@@ -81,7 +77,7 @@
 		79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalableImageView.swift; sourceTree = "<group>"; };
 		79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessingViewModel.swift; sourceTree = "<group>"; };
 		79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessingView.swift; sourceTree = "<group>"; };
-		79B1A0682A41AEAE005AA9CA /* ImageProcessorsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessorsManager.swift; sourceTree = "<group>"; };
+		79B1A0682A41AEAE005AA9CA /* ProcessingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingType.swift; sourceTree = "<group>"; };
 		79D7023D2A3D8E73004D38A0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		79D702412A3D98DB004D38A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79D702472A3DBBA2004D38A0 /* MaterialNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialNavigation.swift; sourceTree = "<group>"; };
@@ -119,6 +115,7 @@
 		79574BE82A3C560C00DBF852 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7967D1342A613C510088E51D /* Models */,
 				79D702412A3D98DB004D38A0 /* Assets.xcassets */,
 				797B73C72A387ADF0059BA32 /* Preview Content */,
 			);
@@ -155,6 +152,15 @@
 				7967D1302A61326E0088E51D /* View+ErrorAlert.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		7967D1342A613C510088E51D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				79A1B39C2A5C49AB000555E8 /* Zero-DCE.mlmodel */,
+				79A1B39E2A5C49B6000555E8 /* RealesrGAN.mlmodel */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		79687B672A458E0300851478 /* Model */ = {
@@ -211,24 +217,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		79A1B3982A5C493A000555E8 /* Upscaling */ = {
-			isa = PBXGroup;
-			children = (
-				7967D11A2A5FECE00088E51D /* UpscalingProcessor.swift */,
-				79A1B39E2A5C49B6000555E8 /* RealesrGAN.mlmodel */,
-			);
-			path = Upscaling;
-			sourceTree = "<group>";
-		};
-		79A1B3992A5C4941000555E8 /* LightEnhancing */ = {
-			isa = PBXGroup;
-			children = (
-				7967D1182A5FECD80088E51D /* LightEnhancingProcessor.swift */,
-				79A1B39C2A5C49AB000555E8 /* Zero-DCE.mlmodel */,
-			);
-			path = LightEnhancing;
-			sourceTree = "<group>";
-		};
 		79A1B3A02A5C49D6000555E8 /* Processors */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,7 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				79A1B3B22A5C4FD4000555E8 /* View */,
-				79A1B3B12A5C4FC9000555E8 /* Processors */,
+				79A1B3B12A5C4FC9000555E8 /* Model */,
 				79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */,
 				7967D1322A6137130088E51D /* ImageToImageProcessingError.swift */,
 				7967D1252A5FF8410088E51D /* ImageToImageConfiguration.swift */,
@@ -258,13 +246,11 @@
 			path = ImageToImage;
 			sourceTree = "<group>";
 		};
-		79A1B3B12A5C4FC9000555E8 /* Processors */ = {
+		79A1B3B12A5C4FC9000555E8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				79A1B3992A5C4941000555E8 /* LightEnhancing */,
-				79A1B3982A5C493A000555E8 /* Upscaling */,
 			);
-			path = Processors;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		79A1B3B22A5C4FD4000555E8 /* View */ = {
@@ -281,7 +267,7 @@
 		79B1A0672A41AEA0005AA9CA /* ImageProcessor */ = {
 			isa = PBXGroup;
 			children = (
-				79B1A0682A41AEAE005AA9CA /* ImageProcessorsManager.swift */,
+				79B1A0682A41AEAE005AA9CA /* ProcessingType.swift */,
 				79A1B3A02A5C49D6000555E8 /* Processors */,
 				79A1B3A72A5C4E0A000555E8 /* View */,
 				79687B672A458E0300851478 /* Model */,
@@ -458,7 +444,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7967D1132A5FEA170088E51D /* UIImage+Tiling.swift in Sources */,
-				7967D1192A5FECD80088E51D /* LightEnhancingProcessor.swift in Sources */,
 				79D7023E2A3D8E73004D38A0 /* MainView.swift in Sources */,
 				7967D1262A5FF8410088E51D /* ImageToImageConfiguration.swift in Sources */,
 				7967D12F2A605E500088E51D /* VerticalLabelStyle.swift in Sources */,
@@ -467,13 +452,12 @@
 				79A1B3AA2A5C4E12000555E8 /* MaterialProgressView.swift in Sources */,
 				79A1B3972A5C4929000555E8 /* ImageToImageProcessor.swift in Sources */,
 				7967D1242A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift in Sources */,
-				7967D11B2A5FECE00088E51D /* UpscalingProcessor.swift in Sources */,
 				79A1B3AB2A5C4E12000555E8 /* ScalableImageView.swift in Sources */,
 				79A1B39F2A5C49B6000555E8 /* RealesrGAN.mlmodel in Sources */,
 				79D7024B2A3DC5E0004D38A0 /* InfoBlockView.swift in Sources */,
 				797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */,
 				7967D1152A5FEA4E0088E51D /* Image+WithFixedOrientation.swift in Sources */,
-				79B1A0692A41AEAE005AA9CA /* ImageProcessorsManager.swift in Sources */,
+				79B1A0692A41AEAE005AA9CA /* ProcessingType.swift in Sources */,
 				7967D1172A5FEB9B0088E51D /* Subject+SendOnMain.swift in Sources */,
 				7967D1222A5FF24C0088E51D /* View+Haptics.swift in Sources */,
 				79A1B39D2A5C49AB000555E8 /* Zero-DCE.mlmodel in Sources */,

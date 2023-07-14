@@ -12,17 +12,13 @@ import Combine
 
 class ImageToImageProcessor {
     private var model: VNCoreMLModel?
-    private let modelLoader: () throws -> VNCoreMLModel
 
     private var currentTask: Task<Void, Error>?
-    
-    init(modelLoader: @escaping () throws -> VNCoreMLModel) {
-        self.modelLoader = modelLoader
-    }
     
     /// Combine API for processing image.
     func process(
         _ uiImage: UIImage,
+        type: ProcessingType,
         configuration: ImageToImageConfiguration = ImageToImageConfiguration()
     ) -> AnyPublisher<ProcessingUpdate, Error> {
         let subject = PassthroughSubject<ProcessingUpdate, Error>()
@@ -32,6 +28,7 @@ class ImageToImageProcessor {
             do {
                 try await self?.processImage(
                     uiImage,
+                    type: type,
                     configuration: configuration
                 ) { update in
                     subject.sendOnMain(update)
@@ -52,12 +49,13 @@ class ImageToImageProcessor {
     // Callback API for processing image.
     func processImage(
         _ uiImage: UIImage,
+        type: ProcessingType,
         configuration: ImageToImageConfiguration = ImageToImageConfiguration(),
         onProgressUpdate: (ProcessingUpdate) -> Void
     ) async throws {
         onProgressUpdate(.progress(.modelLoading))
         
-        let model = try loadModel()
+        let model = try type.loadModel()
         
         guard let uiImage = uiImage.withFixedOrientation else {
             throw ImageToImageProcessingError.incorrectImageData
@@ -123,17 +121,6 @@ class ImageToImageProcessor {
 }
 
 private extension ImageToImageProcessor {
-    func loadModel() throws -> VNCoreMLModel {
-        if let model {
-            return model
-        }
-        
-        let model = try modelLoader()
-        self.model = model
-        
-        return model
-    }
-    
     func process(
         _ inputCIImage: CIImage,
         model: VNCoreMLModel

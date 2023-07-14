@@ -14,35 +14,45 @@ struct ImageToImageConfigurationView: View {
         NavigationStack {
             List {
                 Section(header: Text("Tile Size")) {
-                    Picker(
-                        selection: $configuration.tileSize,
-                        label: Text("Tile Size")
-                    ) {
-                        ForEach(configuration.tileSizes, id: \.self) { size in
-                            Text("\(size)")
-                        }
-                    }
-                    .pickerStyle(.menu)
+                    tileSizePicker
                 }
                 
                 Section(header: Text("Overlap")) {
-                    Slider(
-                        value: $configuration.overlap,
-                        in: configuration.overlapRange,
-                        step: 0.1,
-                        minimumValueLabel: Text(
-                            configuration.overlapRange.lowerBound.percentValueDescription
-                        ),
-                        maximumValueLabel: Text(
-                            configuration.overlapRange.upperBound.percentValueDescription
-                        )
-                    ) {
-                        Text("Overlap")
-                    }
+                   overlapSlider
                 }
             }
             .navigationTitle("Processing Parameters")
             .navigationBarTitleDisplayMode(.large)
+        }
+    }
+}
+
+private extension ImageToImageConfigurationView {
+    var tileSizePicker: some View {
+        Picker(
+            selection: $configuration.tileSize,
+            label: Text("Tile Size")
+        ) {
+            ForEach(configuration.tileSizes, id: \.self) { size in
+                Text("\(size)")
+            }
+        }
+        .pickerStyle(.menu)
+    }
+    
+    var overlapSlider: some View {
+        Slider(
+            value: $configuration.overlap,
+            in: configuration.overlapRange,
+            step: 0.1,
+            minimumValueLabel: Text(
+                configuration.overlapRange.lowerBound.percentValueDescription
+            ),
+            maximumValueLabel: Text(
+                configuration.overlapRange.upperBound.percentValueDescription
+            )
+        ) {
+            Text("Overlap")
         }
     }
 }

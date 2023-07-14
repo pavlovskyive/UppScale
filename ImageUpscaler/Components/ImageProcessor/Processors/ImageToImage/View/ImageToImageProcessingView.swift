@@ -14,12 +14,12 @@ struct ImageToImageProcessingView: View {
     @State private var isShowingSettings = false
     @State private var isShowingComparison = false
     
-    init(processor: ImageToImageProcessor, uiImage: UIImage) {
+    init(processingType: ProcessingType, uiImage: UIImage) {
         let viewModel = ImageToImageProcessingViewModel(
-            processor: processor,
-            uiImage: uiImage
+            processingType: processingType,
+            initialImage: uiImage
         )
-        
+
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
     

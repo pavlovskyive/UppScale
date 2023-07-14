@@ -16,20 +16,15 @@ class ImageToImageProcessingViewModel: ObservableObject {
     
     @Published var configuration = ImageToImageConfiguration()
     
-    private let processor: ImageToImageProcessor
-    private let postProcessor: ImageToImageProcessor?
     let initialImage: UIImage
-    
+    private let processingType: ProcessingType
+
+    private let processor = ImageToImageProcessor()
     private var cancellables = Set<AnyCancellable>()
     
-    init(
-        processor: ImageToImageProcessor,
-        postProcessor: ImageToImageProcessor? = nil,
-        uiImage: UIImage
-    ) {
-        self.processor = processor
-        self.postProcessor = postProcessor
-        self.initialImage = uiImage
+    init(processingType: ProcessingType, initialImage: UIImage) {
+        self.processingType = processingType
+        self.initialImage = initialImage
     }
     
     func process() {
@@ -37,6 +32,7 @@ class ImageToImageProcessingViewModel: ObservableObject {
         
         processor.process(
             initialImage,
+            type: processingType,
             configuration: configuration
         )
         .receive(on: DispatchQueue.main)

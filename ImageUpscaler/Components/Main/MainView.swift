@@ -11,13 +11,10 @@ import PhotosUI
 private struct ImageInfoSpec: Hashable {
     let id = UUID()
     let image: UIImage
-    let processingMethod: ImageProcessingMethod
+    let processingType: ProcessingType
 }
 
-enum ImageProcessingMethod {
-    case upscaling
-    case lightEnhancing
-    
+extension ProcessingType {
     var title: String {
         switch self {
         case .upscaling:
@@ -47,11 +44,9 @@ enum ImageProcessingMethod {
 }
 
 struct MainView: View {
-    @EnvironmentObject var imageProcessorsManager: ImageProcessorsManager
-
     @State private var selection: PhotosPickerItem?
     @State private var path = NavigationPath()
-    @State private var selectedMethod = ImageProcessingMethod.upscaling
+    @State private var selectedMethod = ProcessingType.upscaling
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -88,33 +83,16 @@ struct MainView: View {
                     }
                     
                     await MainActor.run {
-                        let info = ImageInfoSpec(image: image, processingMethod: selectedMethod)
+                        let info = ImageInfoSpec(image: image, processingType: selectedMethod)
                         path.append(info)
                     }
                 }
             }
             .navigationDestination(for: ImageInfoSpec.self) { info in
-                switch info.processingMethod {
-                case .upscaling:
-                    let processor = imageProcessorsManager.getProcessor(
-                        for: UpscalingProcessor.self
-                    ) {
-                        UpscalingProcessor()
-                    }
-                    
+                switch info.processingType.method {
+                case .imageToImage:
                     ImageToImageProcessingView(
-                        processor: processor,
-                        uiImage: info.image
-                    )
-                case .lightEnhancing:
-                    let processor = imageProcessorsManager.getProcessor(
-                        for: LightEnhancingProcessor.self
-                    ) {
-                        LightEnhancingProcessor()
-                    }
-                    
-                    ImageToImageProcessingView(
-                        processor: processor,
+                        processingType: info.processingType,
                         uiImage: info.image
                     )
                 }
@@ -150,7 +128,7 @@ private extension MainView {
     }
     
     @ViewBuilder
-    func imagePicker(for method: ImageProcessingMethod) -> some View {
+    func imagePicker(for method: ProcessingType) -> some View {
         PhotosPicker(
             selection: $selection,
             matching: .all(of: [.images]),
