@@ -42,7 +42,7 @@ private extension ImageToImageProcessingView {
         } label: {
             Label("Reset", systemImage: "arrow.counterclockwise")
                 .padding()
-                .background(.thinMaterial)
+                .background(.thickMaterial)
                 .cornerRadius(8)
         }
         .padding()
@@ -87,7 +87,7 @@ private extension ImageToImageProcessingView {
             .padding()
             .background(
                 Rectangle()
-                    .fill(.thinMaterial)
+                    .fill(.thickMaterial)
                     .edgesIgnoringSafeArea(.all)
             )
         }
@@ -154,7 +154,7 @@ private extension ImageToImageProcessingView {
         displayedImage
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .overlay(.thinMaterial)
+            .overlay(.ultraThinMaterial)
     }
     
     var displayedImage: Image {

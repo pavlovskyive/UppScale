@@ -25,7 +25,7 @@ struct ImagePropertiesView: View {
             }
         }
         .padding()
-        .background(.thinMaterial)
+        .background(.thickMaterial)
         .cornerRadius(8)
         .padding()
         .animation(.easeOut, value: showingInfo)

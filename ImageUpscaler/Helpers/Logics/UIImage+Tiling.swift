@@ -44,8 +44,8 @@ extension UIImage {
         
         var tiles = [Tile]()
         
-        for y in stride(from: 0, to: height, by: tileSize - overlapSize) {
-            for x in stride(from: 0, to: width, by: tileSize - overlapSize) {
+        for y in stride(from: 0, to: height - overlapSize, by: tileSize - overlapSize) {
+            for x in stride(from: 0, to: width - overlapSize, by: tileSize - overlapSize) {
                 let finalX = min(x, width - tileSize)
                 let finalY = min(y, height - tileSize)
                 

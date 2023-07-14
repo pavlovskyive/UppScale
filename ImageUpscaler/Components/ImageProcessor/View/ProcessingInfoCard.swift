@@ -17,7 +17,7 @@ struct ProcessingInfoCard: View {
                     Text(processingType.title)
                         .bold()
                         .padding()
-                        .background(.ultraThinMaterial)
+                        .background(.thickMaterial)
                         .cornerRadius(16)
                         .offset(y: -8)
 
@@ -145,7 +145,7 @@ struct ProcessingInfoCardBody: View {
             Spacer()
         }
         .padding()
-        .background(.ultraThinMaterial)
+        .background(.thickMaterial)
         .cornerRadius(16)
     }
 }
