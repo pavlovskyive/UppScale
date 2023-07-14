@@ -11,7 +11,6 @@ import PhotosUI
 private struct ImageInfoSpec: Hashable {
     let id = UUID()
     let image: UIImage
-    let processingType: ProcessingType
 }
 
 extension ProcessingType {
@@ -46,31 +45,25 @@ extension ProcessingType {
 struct MainView: View {
     @State private var selection: PhotosPickerItem?
     @State private var path = NavigationPath()
-    @State private var selectedMethod = ProcessingType.upscaling
+    @State private var processingType = ProcessingType.upscaling
+    @State private var photosPickerPresented = false
     
     var body: some View {
         NavigationStack(path: $path) {
-            VStack {
-                Spacer()
-                
-                imagePicker(for: .upscaling)
-                imagePicker(for: .lightEnhancing)
-                
-                Spacer()
-            }
-            .background(backgroundImage)
-            
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    infoButton
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    imagePicker(for: .upscaling)
+                    imagePicker(for: .lightEnhancing)
                 }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    settingsButton
-                }
+                .padding(.horizontal, 16)
             }
-            .materialNavigation()
-            .navigationTitle("AppScale")
+            .background(.background)
+            .photosPicker(
+                isPresented: $photosPickerPresented,
+                selection: $selection,
+                matching: .all(of: [.images]),
+                photoLibrary: .shared()
+            )
             .onChange(of: selection) { selectedItem in
                 Task {
                     guard
@@ -83,16 +76,16 @@ struct MainView: View {
                     }
                     
                     await MainActor.run {
-                        let info = ImageInfoSpec(image: image, processingType: selectedMethod)
+                        let info = ImageInfoSpec(image: image)
                         path.append(info)
                     }
                 }
             }
             .navigationDestination(for: ImageInfoSpec.self) { info in
-                switch info.processingType.method {
+                switch processingType.method {
                 case .imageToImage:
                     ImageToImageProcessingView(
-                        processingType: info.processingType,
+                        processingType: processingType,
                         uiImage: info.image
                     )
                 }
@@ -129,25 +122,11 @@ private extension MainView {
     
     @ViewBuilder
     func imagePicker(for method: ProcessingType) -> some View {
-        PhotosPicker(
-            selection: $selection,
-            matching: .all(of: [.images]),
-            photoLibrary: .shared()
-        ) {
-            InfoBlockView(
-                imageSystemName: method.systemImage,
-                title: method.title,
-                subtitle: method.subtitle
-            )
-            .frame(width: 250)
-        }
-        .buttonStyle(.plain)
-        .simultaneousGesture(
-            TapGesture()
-                .onEnded {
-                    selectedMethod = method
-                }
-        )
+        ProcessingInfoCard(processingType: method)
+            .onTapGesture {
+                processingType = method
+                photosPickerPresented.toggle()
+            }
     }
 }
 

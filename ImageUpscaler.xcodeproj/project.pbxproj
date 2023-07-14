@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7906C1EB2A61908E004E31B4 /* ProcessingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7906C1E92A61908E004E31B4 /* ProcessingType.swift */; };
+		7906C1EC2A61908E004E31B4 /* ProcessingUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7906C1EA2A61908E004E31B4 /* ProcessingUpdate.swift */; };
 		793542952A3C6D63008DB683 /* ImageUpscalerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */; };
 		79410D902A5EEA5200C78CE1 /* ImageToImageConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79410D8F2A5EEA5200C78CE1 /* ImageToImageConfigurationView.swift */; };
 		7967D1132A5FEA170088E51D /* UIImage+Tiling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1122A5FEA170088E51D /* UIImage+Tiling.swift */; };
@@ -31,11 +33,10 @@
 		79A1B3AB2A5C4E12000555E8 /* ScalableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */; };
 		79A1B3AE2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */; };
 		79A1B3AF2A5C4E21000555E8 /* ImageToImageProcessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */; };
-		79B1A0692A41AEAE005AA9CA /* ProcessingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B1A0682A41AEAE005AA9CA /* ProcessingType.swift */; };
 		79D7023E2A3D8E73004D38A0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D7023D2A3D8E73004D38A0 /* MainView.swift */; };
 		79D702422A3D98DB004D38A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79D702412A3D98DB004D38A0 /* Assets.xcassets */; };
 		79D702482A3DBBA2004D38A0 /* MaterialNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D702472A3DBBA2004D38A0 /* MaterialNavigation.swift */; };
-		79D7024B2A3DC5E0004D38A0 /* InfoBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D7024A2A3DC5E0004D38A0 /* InfoBlockView.swift */; };
+		79D7024B2A3DC5E0004D38A0 /* ProcessingInfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D7024A2A3DC5E0004D38A0 /* ProcessingInfoCard.swift */; };
 		79D702662A3EF045004D38A0 /* sample512.png in Resources */ = {isa = PBXBuildFile; fileRef = 79D702652A3EF044004D38A0 /* sample512.png */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7906C1E92A61908E004E31B4 /* ProcessingType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessingType.swift; sourceTree = "<group>"; };
+		7906C1EA2A61908E004E31B4 /* ProcessingUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessingUpdate.swift; sourceTree = "<group>"; };
 		793542922A3C6D63008DB683 /* ImageUpscalerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageUpscalerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		793542942A3C6D63008DB683 /* ImageUpscalerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerTests.swift; sourceTree = "<group>"; };
 		79410D8F2A5EEA5200C78CE1 /* ImageToImageConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageConfigurationView.swift; sourceTree = "<group>"; };
@@ -77,11 +80,10 @@
 		79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalableImageView.swift; sourceTree = "<group>"; };
 		79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessingViewModel.swift; sourceTree = "<group>"; };
 		79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessingView.swift; sourceTree = "<group>"; };
-		79B1A0682A41AEAE005AA9CA /* ProcessingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingType.swift; sourceTree = "<group>"; };
 		79D7023D2A3D8E73004D38A0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		79D702412A3D98DB004D38A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79D702472A3DBBA2004D38A0 /* MaterialNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialNavigation.swift; sourceTree = "<group>"; };
-		79D7024A2A3DC5E0004D38A0 /* InfoBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBlockView.swift; sourceTree = "<group>"; };
+		79D7024A2A3DC5E0004D38A0 /* ProcessingInfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingInfoCard.swift; sourceTree = "<group>"; };
 		79D702652A3EF044004D38A0 /* sample512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample512.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +105,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7906C1E82A61908E004E31B4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7906C1E92A61908E004E31B4 /* ProcessingType.swift */,
+				7906C1EA2A61908E004E31B4 /* ProcessingUpdate.swift */,
+			);
+			name = Model;
+			path = ImageUpscaler/Components/ImageProcessor/Model;
+			sourceTree = SOURCE_ROOT;
+		};
 		793542932A3C6D63008DB683 /* ImageUpscalerTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +175,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		7967D1372A6157CB0088E51D /* ImageToImageProcessingView */ = {
+			isa = PBXGroup;
+			children = (
+				79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */,
+				79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */,
+			);
+			path = ImageToImageProcessingView;
+			sourceTree = "<group>";
+		};
 		79687B672A458E0300851478 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +241,7 @@
 		79A1B3A02A5C49D6000555E8 /* Processors */ = {
 			isa = PBXGroup;
 			children = (
+				7906C1E82A61908E004E31B4 /* Model */,
 				79A1B3B02A5C4FA8000555E8 /* ImageToImage */,
 			);
 			path = Processors;
@@ -228,6 +250,7 @@
 		79A1B3A72A5C4E0A000555E8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				79D7024A2A3DC5E0004D38A0 /* ProcessingInfoCard.swift */,
 				79A1B3A82A5C4E12000555E8 /* MaterialProgressView.swift */,
 				79A1B3A92A5C4E12000555E8 /* ScalableImageView.swift */,
 			);
@@ -238,7 +261,6 @@
 			isa = PBXGroup;
 			children = (
 				79A1B3B22A5C4FD4000555E8 /* View */,
-				79A1B3B12A5C4FC9000555E8 /* Model */,
 				79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */,
 				7967D1322A6137130088E51D /* ImageToImageProcessingError.swift */,
 				7967D1252A5FF8410088E51D /* ImageToImageConfiguration.swift */,
@@ -246,18 +268,10 @@
 			path = ImageToImage;
 			sourceTree = "<group>";
 		};
-		79A1B3B12A5C4FC9000555E8 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		79A1B3B22A5C4FD4000555E8 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				79A1B3AD2A5C4E21000555E8 /* ImageToImageProcessingView.swift */,
-				79A1B3AC2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift */,
+				7967D1372A6157CB0088E51D /* ImageToImageProcessingView */,
 				79410D8F2A5EEA5200C78CE1 /* ImageToImageConfigurationView.swift */,
 				7967D12A2A6045D90088E51D /* ImagePropertiesView.swift */,
 			);
@@ -267,7 +281,6 @@
 		79B1A0672A41AEA0005AA9CA /* ImageProcessor */ = {
 			isa = PBXGroup;
 			children = (
-				79B1A0682A41AEAE005AA9CA /* ProcessingType.swift */,
 				79A1B3A02A5C49D6000555E8 /* Processors */,
 				79A1B3A72A5C4E0A000555E8 /* View */,
 				79687B672A458E0300851478 /* Model */,
@@ -305,7 +318,6 @@
 		79D702492A3DC5D5004D38A0 /* Supporting Views */ = {
 			isa = PBXGroup;
 			children = (
-				79D7024A2A3DC5E0004D38A0 /* InfoBlockView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -443,6 +455,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7906C1EB2A61908E004E31B4 /* ProcessingType.swift in Sources */,
 				7967D1132A5FEA170088E51D /* UIImage+Tiling.swift in Sources */,
 				79D7023E2A3D8E73004D38A0 /* MainView.swift in Sources */,
 				7967D1262A5FF8410088E51D /* ImageToImageConfiguration.swift in Sources */,
@@ -454,10 +467,10 @@
 				7967D1242A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift in Sources */,
 				79A1B3AB2A5C4E12000555E8 /* ScalableImageView.swift in Sources */,
 				79A1B39F2A5C49B6000555E8 /* RealesrGAN.mlmodel in Sources */,
-				79D7024B2A3DC5E0004D38A0 /* InfoBlockView.swift in Sources */,
+				79D7024B2A3DC5E0004D38A0 /* ProcessingInfoCard.swift in Sources */,
+				7906C1EC2A61908E004E31B4 /* ProcessingUpdate.swift in Sources */,
 				797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */,
 				7967D1152A5FEA4E0088E51D /* Image+WithFixedOrientation.swift in Sources */,
-				79B1A0692A41AEAE005AA9CA /* ProcessingType.swift in Sources */,
 				7967D1172A5FEB9B0088E51D /* Subject+SendOnMain.swift in Sources */,
 				7967D1222A5FF24C0088E51D /* View+Haptics.swift in Sources */,
 				79A1B39D2A5C49AB000555E8 /* Zero-DCE.mlmodel in Sources */,
@@ -654,7 +667,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -689,7 +702,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
