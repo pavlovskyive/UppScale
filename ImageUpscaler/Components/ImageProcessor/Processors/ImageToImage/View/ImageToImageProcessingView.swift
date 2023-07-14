@@ -35,20 +35,17 @@ struct ImageToImageProcessingView: View {
 }
 
 private extension ImageToImageProcessingView {
-    @ViewBuilder
     var resetButton: some View {
-        if viewModel.processedImage != nil, !viewModel.isBusy {
-            Button {
-                viewModel.processedImage = nil
-            } label: {
-                Text("Reset")
-                    .padding()
-                    .background(.thinMaterial)
-                    .cornerRadius(8)
-            }
-            .buttonStyle(.plain)
-            .padding()
+        Button {
+            viewModel.processedImage = nil
+        } label: {
+            Label("Reset", systemImage: "arrow.counterclockwise")
+                .padding()
+                .background(.thinMaterial)
+                .cornerRadius(8)
         }
+        .padding()
+        .disabled(viewModel.isBusy || viewModel.processedImage == nil)
     }
     
     var progressView: some View {
@@ -82,24 +79,24 @@ private extension ImageToImageProcessingView {
                 processButton
                 Spacer()
                 comparisonButton
+                Spacer()
+                nextButton
             }
-            .padding([.horizontal])
-            .padding(.bottom, 32)
+            .labelStyle(VerticalLabelStyle())
+            .padding()
             .background(
                 Rectangle()
                     .fill(.thinMaterial)
+                    .edgesIgnoringSafeArea(.all)
             )
         }
-        .edgesIgnoringSafeArea([.bottom, .horizontal])
     }
     
     var backButton: some View {
         Button {
             presentationMode.wrappedValue.dismiss()
         } label: {
-            Image(systemName: "chevron.left")
-                .imageScale(.large)
-                .padding()
+            Label("Back", systemImage: "chevron.left")
         }
     }
     
@@ -107,9 +104,7 @@ private extension ImageToImageProcessingView {
         Button {
             isShowingSettings.toggle()
         } label: {
-            Image(systemName: "gear")
-                .imageScale(.large)
-                .padding()
+            Label("Settings", systemImage: "gear")
         }
         .disabled(viewModel.isBusy || viewModel.processedImage != nil)
         .sheet(isPresented: $isShowingSettings) {
@@ -121,9 +116,7 @@ private extension ImageToImageProcessingView {
         Button {
             viewModel.process()
         } label: {
-            Image(systemName: "wand.and.rays")
-                .imageScale(.large)
-                .padding()
+            Label("Process", systemImage: "wand.and.stars")
         }
         .disabled(viewModel.isBusy || viewModel.processedImage != nil)
     }
@@ -136,9 +129,16 @@ private extension ImageToImageProcessingView {
                 ? "square.filled.and.line.vertical.and.square"
                 : "square.and.line.vertical.and.square.filled"
 
-            Image(systemName: imageName)
-                .imageScale(.large)
-                .padding()
+            Label("Compare", systemImage: imageName)
+        }
+        .disabled(viewModel.isBusy || viewModel.processedImage == nil)
+    }
+    
+    var nextButton: some View {
+        Button {
+            // save
+        } label: {
+            Label("Next", systemImage: "square.and.arrow.up")
         }
         .disabled(viewModel.isBusy || viewModel.processedImage == nil)
     }
@@ -146,7 +146,7 @@ private extension ImageToImageProcessingView {
     var imageView: some View {
         ScalableImageView(image: displayedImage)
             .background(backgroundImage)
-            .edgesIgnoringSafeArea(.all)
+            .edgesIgnoringSafeArea([.top, .horizontal])
     }
     
     var backgroundImage: some View {
