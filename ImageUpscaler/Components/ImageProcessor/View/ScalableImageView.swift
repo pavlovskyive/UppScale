@@ -77,7 +77,7 @@ private extension ScalableImageView {
             .onChanged { value in
                 let updatedValue = value * (lastScale + 1)
                 
-                let newScale = min(max(1, updatedValue), 4)
+                let newScale = min(max(1, updatedValue), 5)
                 
                 guard newScale != scale else {
                     return
@@ -85,7 +85,7 @@ private extension ScalableImageView {
                 
                 scale = newScale
                 
-                if scale == 1 || scale == 4 {
+                if scale == 1 || scale == 5 {
                     haptics(style: .light)
                 }
             }

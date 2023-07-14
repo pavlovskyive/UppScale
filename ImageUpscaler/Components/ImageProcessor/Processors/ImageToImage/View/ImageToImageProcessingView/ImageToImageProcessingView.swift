@@ -38,7 +38,7 @@ struct ImageToImageProcessingView: View {
 private extension ImageToImageProcessingView {
     var resetButton: some View {
         Button {
-            viewModel.processedImage = nil
+            viewModel.reset()
         } label: {
             Label("Reset", systemImage: "arrow.counterclockwise")
                 .padding()
@@ -46,7 +46,7 @@ private extension ImageToImageProcessingView {
                 .cornerRadius(8)
         }
         .padding()
-        .disabled(viewModel.isBusy || viewModel.processedImage == nil)
+        .disabled(viewModel.state != .finished)
     }
     
     var progressView: some View {
@@ -107,7 +107,7 @@ private extension ImageToImageProcessingView {
         } label: {
             Label("Settings", systemImage: "gear")
         }
-        .disabled(viewModel.isBusy || viewModel.processedImage != nil)
+        .disabled(viewModel.state != .idle)
         .sheet(isPresented: $isShowingSettings) {
             ImageToImageConfigurationView(configuration: $viewModel.configuration)
         }
@@ -119,7 +119,7 @@ private extension ImageToImageProcessingView {
         } label: {
             Label("Process", systemImage: "wand.and.stars")
         }
-        .disabled(viewModel.isBusy || viewModel.processedImage != nil)
+        .disabled(viewModel.state != .idle)
     }
     
     var comparisonButton: some View {
@@ -132,7 +132,7 @@ private extension ImageToImageProcessingView {
 
             Label("Compare", systemImage: imageName)
         }
-        .disabled(viewModel.isBusy || viewModel.processedImage == nil)
+        .disabled(viewModel.state != .finished)
     }
     
     var nextButton: some View {
@@ -141,7 +141,7 @@ private extension ImageToImageProcessingView {
         } label: {
             Label("Next", systemImage: "square.and.arrow.up")
         }
-        .disabled(viewModel.isBusy || viewModel.processedImage == nil)
+        .disabled(viewModel.state != .finished)
     }
     
     var imageView: some View {

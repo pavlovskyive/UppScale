@@ -11,14 +11,14 @@ import Combine
 class ImageToImageProcessingViewModel: ObservableObject {
     @Published var processingProgress: ProcessingProgress?
     @Published var processedImage: UIImage?
-    @Published var isBusy = false
+    @Published var state = ProcessingState.idle
     @Published var error: Error?
     
     @Published var configuration = ImageToImageConfiguration()
     
     let initialImage: UIImage
     private let processingType: ProcessingType
-
+    
     private let processor = ImageToImageProcessor()
     private var cancellables = Set<AnyCancellable>()
     
@@ -26,9 +26,9 @@ class ImageToImageProcessingViewModel: ObservableObject {
         self.processingType = processingType
         self.initialImage = initialImage
     }
-    
+
     func process() {
-        self.isBusy = true
+        self.state = .processing
         
         processor.process(
             initialImage,
@@ -40,9 +40,11 @@ class ImageToImageProcessingViewModel: ObservableObject {
             if case let .failure(error) = completion {
                 self?.error = error
                 self?.processedImage = nil
+                
+                self?.state = .idle
             }
             
-            self?.isBusy = false
+            self?.state = .finished
             
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [weak self] in
                 self?.processingProgress = nil
@@ -63,5 +65,20 @@ class ImageToImageProcessingViewModel: ObservableObject {
     
     func cancel() {
         processor.cancel()
+    }
+    
+    func reset() {
+        processedImage = nil
+        processingProgress = nil
+        error = nil
+        state = .idle
+    }
+}
+
+extension ImageToImageProcessingViewModel {
+    enum ProcessingState {
+        case idle
+        case processing
+        case finished
     }
 }
