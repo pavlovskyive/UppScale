@@ -21,6 +21,8 @@
 		7967D12B2A6045D90088E51D /* ImagePropertiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D12A2A6045D90088E51D /* ImagePropertiesView.swift */; };
 		7967D12D2A604B960088E51D /* UIImage+Resized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D12C2A604B960088E51D /* UIImage+Resized.swift */; };
 		7967D12F2A605E500088E51D /* VerticalLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D12E2A605E500088E51D /* VerticalLabelStyle.swift */; };
+		7967D1312A61326E0088E51D /* View+ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1302A61326E0088E51D /* View+ErrorAlert.swift */; };
+		7967D1332A6137130088E51D /* ImageToImageProcessingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967D1322A6137130088E51D /* ImageToImageProcessingError.swift */; };
 		797B73C22A387ADF0059BA32 /* ImageUpscalerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */; };
 		797B73C92A387ADF0059BA32 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797B73C82A387ADF0059BA32 /* Preview Assets.xcassets */; };
 		79A1B3972A5C4929000555E8 /* ImageToImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */; };
@@ -65,6 +67,8 @@
 		7967D12A2A6045D90088E51D /* ImagePropertiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePropertiesView.swift; sourceTree = "<group>"; };
 		7967D12C2A604B960088E51D /* UIImage+Resized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resized.swift"; sourceTree = "<group>"; };
 		7967D12E2A605E500088E51D /* VerticalLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLabelStyle.swift; sourceTree = "<group>"; };
+		7967D1302A61326E0088E51D /* View+ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ErrorAlert.swift"; sourceTree = "<group>"; };
+		7967D1322A6137130088E51D /* ImageToImageProcessingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToImageProcessingError.swift; sourceTree = "<group>"; };
 		797B73BE2A387ADF0059BA32 /* ImageUpscaler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageUpscaler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		797B73C12A387ADF0059BA32 /* ImageUpscalerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpscalerApp.swift; sourceTree = "<group>"; };
 		797B73C82A387ADF0059BA32 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 				79D702472A3DBBA2004D38A0 /* MaterialNavigation.swift */,
 				7967D1212A5FF24C0088E51D /* View+Haptics.swift */,
 				7967D12E2A605E500088E51D /* VerticalLabelStyle.swift */,
+				7967D1302A61326E0088E51D /* View+ErrorAlert.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				79A1B3B22A5C4FD4000555E8 /* View */,
 				79A1B3B12A5C4FC9000555E8 /* Processors */,
 				79A1B3962A5C4929000555E8 /* ImageToImageProcessor.swift */,
+				7967D1322A6137130088E51D /* ImageToImageProcessingError.swift */,
 				7967D1252A5FF8410088E51D /* ImageToImageConfiguration.swift */,
 			);
 			path = ImageToImage;
@@ -457,6 +463,7 @@
 				7967D1262A5FF8410088E51D /* ImageToImageConfiguration.swift in Sources */,
 				7967D12F2A605E500088E51D /* VerticalLabelStyle.swift in Sources */,
 				79A1B3A42A5C4C2F000555E8 /* ProcessingUpdate.swift in Sources */,
+				7967D1312A61326E0088E51D /* View+ErrorAlert.swift in Sources */,
 				79A1B3AA2A5C4E12000555E8 /* MaterialProgressView.swift in Sources */,
 				79A1B3972A5C4929000555E8 /* ImageToImageProcessor.swift in Sources */,
 				7967D1242A5FF28B0088E51D /* CoreGraphics+Arithmetics.swift in Sources */,
@@ -470,6 +477,7 @@
 				7967D1172A5FEB9B0088E51D /* Subject+SendOnMain.swift in Sources */,
 				7967D1222A5FF24C0088E51D /* View+Haptics.swift in Sources */,
 				79A1B39D2A5C49AB000555E8 /* Zero-DCE.mlmodel in Sources */,
+				7967D1332A6137130088E51D /* ImageToImageProcessingError.swift in Sources */,
 				79A1B3AE2A5C4E21000555E8 /* ImageToImageProcessingViewModel.swift in Sources */,
 				79A1B3AF2A5C4E21000555E8 /* ImageToImageProcessingView.swift in Sources */,
 				79410D902A5EEA5200C78CE1 /* ImageToImageConfigurationView.swift in Sources */,

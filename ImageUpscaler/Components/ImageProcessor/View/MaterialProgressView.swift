@@ -51,7 +51,7 @@ private extension MaterialProgressView {
     }
     
     @ViewBuilder var cancelButton: some View {
-        if let onCancel {
+        if let onCancel, progress?.completionRatio != 1 {
             Button {
                 onCancel()
             } label: {

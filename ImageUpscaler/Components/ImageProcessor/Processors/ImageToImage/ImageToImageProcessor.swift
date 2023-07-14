@@ -38,12 +38,9 @@ class ImageToImageProcessor {
                 }
                 
                 subject.sendOnMain(completion: .finished)
-            } catch let error as CancellationError {
-                subject.sendOnMain(.progress(ProcessingProgress(
-                    message: "Cancelled"
-                )))
-                
-                subject.sendOnMain(completion: .failure(error))
+            } catch is CancellationError {
+                subject.sendOnMain(.cancel)
+                subject.sendOnMain(completion: .finished)
             } catch {
                 subject.sendOnMain(completion: .failure(error))
             }
@@ -58,9 +55,7 @@ class ImageToImageProcessor {
         configuration: ImageToImageConfiguration = ImageToImageConfiguration(),
         onProgressUpdate: (ProcessingUpdate) -> Void
     ) async throws {
-        onProgressUpdate(.progress(ProcessingProgress(
-            message: "Loading model", completionRatio: 0
-        )))
+        onProgressUpdate(.progress(.modelLoading))
         
         let model = try loadModel()
         
@@ -84,10 +79,7 @@ class ImageToImageProcessor {
         var scalingFactor = 1.0
         
         for (index, tile) in tiles.enumerated() {
-            onProgressUpdate(.progress(ProcessingProgress(
-                message: "[\(index + 1)/\(tiles.count)] Processing",
-                completionRatio: Double(index) / Double(tiles.count)
-            )))
+            onProgressUpdate(.progress(.processingTile(index, of: tiles.count)))
             
             let ciImage = CIImage(cgImage: tile.image)
             let processedCIImage = try process(ciImage, model: model)
@@ -118,14 +110,11 @@ class ImageToImageProcessor {
             
             onProgressUpdate(.image(outputImage))
             
-            // HACK: Overall better performance with sleep smh.
+            // HACK: Overall improved stability with sleep smh.
             try await Task.sleep(for: .milliseconds(300))
         }
         
-        onProgressUpdate(.progress(ProcessingProgress(
-            message: "Complete!",
-            completionRatio: 1
-        )))
+        onProgressUpdate(.progress(.complete))
     }
     
     func cancel() {
@@ -164,10 +153,19 @@ private extension ImageToImageProcessor {
     }
 }
 
-enum ImageToImageProcessingError: Error {
-    case modelLoadingError
-    case incorrectImageData
-    case tilingError
-    case visionRequestError
-    case imagePostprocessingError
+private extension ProcessingProgress {
+    static var modelLoading: Self {
+        ProcessingProgress(message: "Loading model", completionRatio: 0)
+    }
+
+    static var complete: Self {
+        ProcessingProgress(message: "Completed!", completionRatio: 1)
+    }
+    
+    static func processingTile(_ index: Int, of count: Int) -> Self {
+        ProcessingProgress(
+            message: "[\(index)/\(count)] Processing",
+            completionRatio: Double(index) / Double(count)
+        )
+    }
 }

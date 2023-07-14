@@ -10,6 +10,7 @@ import SwiftUI
 enum ProcessingUpdate: Equatable {
     case progress(ProcessingProgress)
     case image(UIImage)
+    case cancel
 }
 
 struct ProcessingProgress: Equatable {

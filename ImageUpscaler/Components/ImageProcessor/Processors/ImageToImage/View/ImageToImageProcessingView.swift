@@ -31,6 +31,7 @@ struct ImageToImageProcessingView: View {
             progressView
         }
         .toolbar(.hidden, for: .navigationBar)
+        .errorAlert(error: $viewModel.error)
     }
 }
 

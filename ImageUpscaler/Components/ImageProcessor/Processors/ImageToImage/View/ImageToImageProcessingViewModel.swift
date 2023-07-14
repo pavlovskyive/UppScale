@@ -57,6 +57,9 @@ class ImageToImageProcessingViewModel: ObservableObject {
                 self?.processingProgress = progress
             case .image(let uiImage):
                 self?.processedImage = uiImage
+            case .cancel:
+                self?.processedImage = nil
+                self?.processingProgress = ProcessingProgress(message: "Canceled")
             }
         }
         .store(in: &cancellables)
