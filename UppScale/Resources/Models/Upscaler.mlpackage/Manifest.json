@@ -1,0 +1,24 @@
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "622FD3EE-51AD-4B0A-A369-EB751EE95D0C": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "RealesrGAN.mlmodel",
+            "path": "com.apple.CoreML/RealesrGAN.mlmodel"
+        },
+        "776D44B0-A679-44A2-A541-273E07440CDC": {
+            "author": "com.apple.CoreML",
+            "description": "External Metadata Overlay",
+            "name": "Metadata.json",
+            "path": "com.apple.CoreML/Metadata.json"
+        },
+        "F413ADC2-D0C5-49B6-854B-E96841435DB0": {
+            "author": "com.apple.CoreML",
+            "description": "External FeatureDescription Overlay",
+            "name": "FeatureDescriptions.json",
+            "path": "com.apple.CoreML/FeatureDescriptions.json"
+        }
+    },
+    "rootModelIdentifier": "622FD3EE-51AD-4B0A-A369-EB751EE95D0C"
+}

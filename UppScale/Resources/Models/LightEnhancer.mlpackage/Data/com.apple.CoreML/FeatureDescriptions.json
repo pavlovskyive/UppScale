@@ -1,0 +1,15 @@
+{
+  "Outputs" : {
+    "activation_out" : {
+      "MLFeatureShortDescription" : "output image"
+    }
+  },
+  "Inputs" : {
+    "input" : {
+      "MLFeatureShortDescription" : "input image"
+    }
+  },
+  "TrainingInputs" : {
+
+  }
+}
