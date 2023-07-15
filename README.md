@@ -33,7 +33,7 @@ UppScale is a free image processing application that leverages AI to enhance and
 ## Requirements
 
 - iOS 16.0+
-- Xcode 12.0+
+- Xcode 14.0+
 - Swift 5
 
 ## Credits
