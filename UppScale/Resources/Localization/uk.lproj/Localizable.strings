@@ -1,0 +1,82 @@
+// Processing Type Titles
+"processing.superResolution.title" = "Супер-роздільність";
+"processing.lightEnhancement.title" = "Висвітлення";
+
+// Processing Type Subtitles
+"processing.superResolution.subtitle" = "Покращення якості зображення";
+"processing.lightEnhancement.subtitle" = "Підвищення освітлення в темних зображеннях";
+
+// Processing Type Action Titles
+"processing.superResolution.actionTitle" = "Збільшити роздільність";
+"processing.lightEnhancement.actionTitle" = "Висвітлити";
+
+// Processing Type Model Titles
+"processing.superResolution.performance" = "Важке";
+"processing.lightEnhancement.performance" = "Легке";
+
+// Processing Method Titles
+"processing.method.img2img.title" = "img2img";
+
+// Processing Method Usage Notes
+"processing.superResolution.usageNote" = "Для отримання найкращих результатів використовуйте невеликі зображення. Супер-роздільність покращує якість зображення та надає більше деталей шляхом збільшення роздільної здатності низької роздільності";
+"processing.lightEnhancement.usageNote" = "Цей метод ефективний для дуже темних зображень. Він підвищує освітленість та виділяє деталі в тіньових областях. Для отримання найкращих результатів спробуйте поєднати цей метод зі Супер-роздільністю";
+
+// Processing Updates
+"processing.update.modelLoading" = "Завантаження моделі";
+"processing.update.processingTile" = "Обробка";
+"processing.update.completed" = "Завершено";
+"processing.update.canceled" = "Скасовано";
+
+// Button Titles
+"button.ok" = "OK";
+"button.reset" = "Скинути";
+"button.back" = "Назад";
+"button.settings" = "Параметри";
+"button.compare" = "Порівняти";
+"button.next" = "Далі";
+"button.process" = "Обробити";
+"button.share" = "Зберегти | Поділитися";
+"button.cancel" = "Скасувати";
+"button.properties" = "Властивості";
+
+// Dialog Questions
+"dialogue.question.continueWithImage" = "Продовжити з обробленим зображенням?";
+"dialogue.question.processingMethod" = "Оберіть метод обробки";
+
+// Labels
+"label.main.title" = "Обробники зображень";
+"label.processedImage" = "Оброблене зображення";
+"label.completed" = "Завершено";
+"label.actionCompleted" = "Дія успішно виконана";
+"label.tileSize" = "Розмір плитки";
+"label.overlap" = "Накладання";
+"label.tileSizeNote" = "Менший розмір плитки може покращити якість виводу, але може займати більше часу для обробки";
+"label.overlapNote" = "Збільшення накладання може допомогти зберегти послідовність виводу, але може збільшити час обробки";
+"label.properties" = "Властивості";
+"label.width" = "Ширина";
+"label.height" = "Висота";
+"label.resolution" = "Роздільність";
+"label.loadingModel" = "Завантаження моделі";
+"label.processing" = "Обробка";
+"label.output" = "Вивід";
+"label.modelLoad" = "Навантаження";
+"label.type" = "Тип";
+"label.hint" = "Підказка";
+"label.processingParameters.title" = "Параметри обробки";
+"label.processingParameters.tileSize.subtitle" = "Виберіть розмір кожної плитки для обробки";
+"label.processingParameters.overlap.subtitle" = "Відрегулюйте кількість накладання між сусідніми плитками";
+"label.processingParameters.tileSize.note" = "Менший розмір плитки може покращити якість виводу, але може займати більше часу для обробки";
+"label.processingParameters.overlap.note" = "Збільшення накладання може допомогти зберегти послідовність виводу, але може збільшити час обробки";
+
+// Errors and Suggestions
+"error.modelLoading.description" = "Не вдалося завантажити модель обробки";
+"error.invalidData.description" = "Недійсні дані зображення";
+"error.tiling.description" = "Не вдалося розділити зображення на плитки";
+"error.processing.description" = "Не вдалося обробити зображення";
+"error.postprocessing.description" = "Не вдалося виконати післяобробку зображення";
+
+"error.modelLoading.suggestion" = "Будь ласка, спробуйте перезапустити додаток або спробуйте пізніше";
+"error.invalidData.suggestion" = "Будь ласка, спробуйте перезавантажити зображення або виберіть інше зображення";
+"error.tiling.suggestion" = "Будь ласка, спробуйте перезапустити додаток або спробуйте пізніше";
+"error.processing.suggestion" = "Будь ласка, спробуйте ще раз або виберіть інше зображення";
+"error.postprocessing.suggestion" = "Будь ласка, спробуйте ще раз або виберіть інше зображення";
