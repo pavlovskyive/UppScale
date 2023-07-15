@@ -42,18 +42,7 @@
 		796A8D252A62FF2E005F67A8 /* Subject+SendOnMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A8D032A62FF2E005F67A8 /* Subject+SendOnMain.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		793542962A3C6D63008DB683 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 797B73B62A387ADE0059BA32 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 797B73BD2A387ADF0059BA32;
-			remoteInfo = ImageUpscaler;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		793542922A3C6D63008DB683 /* UppScaleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UppScaleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		796A8CCF2A62FF2E005F67A8 /* ImageUpscalerApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUpscalerApp.swift; sourceTree = "<group>"; };
 		796A8CD12A62FF2E005F67A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		796A8CD32A62FF2E005F67A8 /* Zero-DCE.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = "Zero-DCE.mlpackage"; sourceTree = "<group>"; };
@@ -92,13 +81,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7935428F2A3C6D63008DB683 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		797B73BB2A387ADF0059BA32 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -314,7 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				797B73BE2A387ADF0059BA32 /* UppScale.app */,
-				793542922A3C6D63008DB683 /* UppScaleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -329,24 +310,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		793542912A3C6D63008DB683 /* UppScaleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7935429A2A3C6D63008DB683 /* Build configuration list for PBXNativeTarget "UppScaleTests" */;
-			buildPhases = (
-				7935428E2A3C6D63008DB683 /* Sources */,
-				7935428F2A3C6D63008DB683 /* Frameworks */,
-				793542902A3C6D63008DB683 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				793542972A3C6D63008DB683 /* PBXTargetDependency */,
-			);
-			name = UppScaleTests;
-			productName = ImageUpscalerTests;
-			productReference = 793542922A3C6D63008DB683 /* UppScaleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		797B73BD2A387ADF0059BA32 /* UppScale */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 797B73CC2A387ADF0059BA32 /* Build configuration list for PBXNativeTarget "UppScale" */;
@@ -377,10 +340,6 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
-					793542912A3C6D63008DB683 = {
-						CreatedOnToolsVersion = 14.2;
-						TestTargetID = 797B73BD2A387ADF0059BA32;
-					};
 					797B73BD2A387ADF0059BA32 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -401,19 +360,11 @@
 			projectRoot = "";
 			targets = (
 				797B73BD2A387ADF0059BA32 /* UppScale */,
-				793542912A3C6D63008DB683 /* UppScaleTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		793542902A3C6D63008DB683 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		797B73BC2A387ADF0059BA32 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -448,13 +399,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7935428E2A3C6D63008DB683 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		797B73BA2A387ADF0059BA32 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -494,14 +438,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		793542972A3C6D63008DB683 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 797B73BD2A387ADF0059BA32 /* UppScale */;
-			targetProxy = 793542962A3C6D63008DB683 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		796A8CD82A62FF2E005F67A8 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -515,46 +451,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		793542982A3C6D63008DB683 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G66XPV3HVM;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.vpavlovskyi.ImageUpscalerTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UppScale.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UppScale";
-			};
-			name = Debug;
-		};
-		793542992A3C6D63008DB683 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G66XPV3HVM;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.vpavlovskyi.ImageUpscalerTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UppScale.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UppScale";
-			};
-			name = Release;
-		};
 		797B73CA2A387ADF0059BA32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -742,15 +638,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7935429A2A3C6D63008DB683 /* Build configuration list for PBXNativeTarget "UppScaleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				793542982A3C6D63008DB683 /* Debug */,
-				793542992A3C6D63008DB683 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		797B73B92A387ADE0059BA32 /* Build configuration list for PBXProject "UppScale" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
