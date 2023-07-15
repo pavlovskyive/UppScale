@@ -1,6 +1,6 @@
 // Processing Type Titles
 "processing.superResolution.title" = "Super Resolution";
-"processing.lightEnhancement.title" = "Enhance Lighting";
+"processing.lightEnhancement.title" = "Light Enhancement";
 
 // Processing Type Subtitles
 "processing.superResolution.subtitle" = "Improve Image Quality";
