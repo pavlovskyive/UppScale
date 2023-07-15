@@ -69,7 +69,7 @@ struct ProcessingInfoCardBody: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(processingType.title)
+            Text(processingType.subtitle)
             
             HStack {
                 infoItem(
