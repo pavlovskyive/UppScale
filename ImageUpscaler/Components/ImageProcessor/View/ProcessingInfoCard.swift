@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// MARK: - ProcessingInfoCard
+
+/// A card view that displays information about a processing type.
 struct ProcessingInfoCard: View {
     let processingType: ProcessingType
     
@@ -33,21 +36,20 @@ struct ProcessingInfoCard: View {
             .padding(.vertical, 16)
     }
     
+    /// Initializes a `ProcessingInfoCard` with the given processing type.
+    /// - Parameter processingType: The processing type to display information about.
     init(processingType: ProcessingType) {
         self.processingType = processingType
     }
-}
-
-private extension ProcessingInfoCard {
-    var backgroundImage: some View {
+    
+    private var backgroundImage: some View {
         Image(processingType.imageName)
             .resizable()
             .frame(height: 256)
             .scaledToFill()
             .clipped()
             .cornerRadius(16)
-        
-            .overlay(.background.opacity(0.16))
+            .overlay(Color.black.opacity(0.16))
     }
 }
 
@@ -60,92 +62,60 @@ private extension ProcessingType {
             return "info-back-light-enh"
         }
     }
-    
-    var outputSize: String {
-        switch self {
-        case .upscaling:
-            return "2048x2048"
-        case .lightEnhancing:
-            return "512x512"
-        }
-    }
-    
-    var usageNote: String {
-        switch self {
-        case .upscaling:
-            return "Best results are achieved with low resolution images."
-        case .lightEnhancing:
-            return "Best results are achieved via post-processing using upscaling."
-        }
-    }
-    
-    var modelName: String {
-        switch self {
-        case .upscaling:
-            return "Real-ESRGAN"
-        case .lightEnhancing:
-            return "Zero-DCE"
-        }
-    }
 }
 
-private extension ProcessingMethod {
-    var title: String {
-        switch self {
-        case .imageToImage:
-            return "img2img"
-        }
-    }
-}
+// MARK: - ProcessingInfoCardBody
 
+/// The body view for displaying information about a processing type.
 struct ProcessingInfoCardBody: View {
     let processingType: ProcessingType
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(processingType.subtitle)
+            Text(processingType.title)
             
             HStack {
-                VStack(alignment: .leading) {
-                    Text("Model")
-                        .font(.caption)
-                    Text(processingType.modelName)
-                        .minimumScaleFactor(0.8)
-                }
+                infoItem(
+                    title: "label.model".localized,
+                    subtitle: processingType.modelName
+                )
                 
                 Divider()
                 
-                VStack(alignment: .leading) {
-                    Text("Output")
-                        .font(.caption)
-                    Text(processingType.outputSize)
-                        .minimumScaleFactor(0.8)
-                }
+                infoItem(
+                    title: "label.output".localized,
+                    subtitle: processingType.outputSize
+                )
                 
                 Divider()
                 
-                VStack(alignment: .leading) {
-                    Text("Type")
-                        .font(.caption)
-                    Text(processingType.method.title)
-                        .minimumScaleFactor(0.8)
-                }
+                infoItem(
+                    title: "label.type".localized,
+                    subtitle: processingType.method.title
+                )
                 
                 Spacer()
             }
             .frame(height: 50)
             
-            Text("Hint")
-                .font(.caption)
-            
-            Text(processingType.usageNote)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            infoItem(
+                title: "label.hint".localized,
+                subtitle: processingType.usageNote
+            )
             
             Spacer()
         }
         .padding()
         .background(.thickMaterial)
         .cornerRadius(16)
+    }
+
+    private func infoItem(title: String, subtitle: String) -> some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.caption)
+            Text(subtitle)
+                .minimumScaleFactor(0.8)
+        }
     }
 }

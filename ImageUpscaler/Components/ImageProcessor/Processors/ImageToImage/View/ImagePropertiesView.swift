@@ -7,11 +7,13 @@
 
 import SwiftUI
 
+/// A view that displays the properties of an image and toggles between placeholder and detailed information.
 struct ImagePropertiesView: View {
     private typealias InfoRow = (title: String, value: String)
     
     @State var showingInfo = false
     
+    /// The image whose properties will be displayed.
     let image: UIImage
 
     var body: some View {
@@ -31,9 +33,11 @@ struct ImagePropertiesView: View {
         .animation(.easeOut, value: showingInfo)
     }
     
+    // MARK: - Views
+    
     private var infoPlaceholder: some View {
         Label {
-            Text("Properties")
+            Text("button.properties")
         } icon: {
             Image(systemName: "info.circle")
         }
@@ -56,11 +60,13 @@ struct ImagePropertiesView: View {
         .transition(.push(from: .top))
     }
     
+    // MARK: - Helpers
+    
     private var infoValues: [InfoRow] {
         [
-            InfoRow(title: "Width", value: "\(Int(image.size.width))"),
-            InfoRow(title: "Height", value: "\(Int(image.size.height))"),
-            InfoRow(title: "Resolution", value: "\(Int(image.scale * 72))")
+            InfoRow(title: "label.width".localized, value: "\(Int(image.size.width))"),
+            InfoRow(title: "label.height".localized, value: "\(Int(image.size.height))"),
+            InfoRow(title: "label.resolution".localized, value: "\(Int(image.scale * 72))")
         ]
     }
 }

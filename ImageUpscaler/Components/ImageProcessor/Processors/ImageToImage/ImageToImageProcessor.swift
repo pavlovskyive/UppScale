@@ -10,12 +10,19 @@ import CoreImage
 import Vision
 import Combine
 
+/// A class that performs image-to-image processing using Core ML models.
 class ImageToImageProcessor {
     private var model: VNCoreMLModel?
-
     private var currentTask: Task<Void, Error>?
     
-    /// Combine API for processing image.
+    /// Processes the given UIImage using the specified processing type and configuration.
+    /// Returns a publisher that emits processing updates and errors.
+    ///
+    /// - Parameters:
+    ///   - uiImage: The input UIImage to process.
+    ///   - type: The processing type.
+    ///   - configuration: The image-to-image configuration.
+    /// - Returns: A publisher that emits processing updates and errors.
     func process(
         _ uiImage: UIImage,
         type: ProcessingType,
@@ -35,10 +42,11 @@ class ImageToImageProcessor {
                 }
                 
                 subject.sendOnMain(completion: .finished)
-            } catch is CancellationError {
-                subject.sendOnMain(.cancel)
-                subject.sendOnMain(completion: .finished)
             } catch {
+                if error is CancellationError {
+                    subject.sendOnMain(.progress(.canceled))
+                }
+
                 subject.sendOnMain(completion: .failure(error))
             }
         }
@@ -46,7 +54,17 @@ class ImageToImageProcessor {
         return subject.eraseToAnyPublisher()
     }
     
-    // Callback API for processing image.
+    // MARK: - Callback API
+    
+    /// Processes the given UIImage using the specified processing type and configuration,
+    /// and invokes the progress update callback with processing updates.
+    ///
+    /// - Parameters:
+    ///   - uiImage: The input UIImage to process.
+    ///   - type: The processing type.
+    ///   - configuration: The image-to-image configuration.
+    ///   - onProgressUpdate: The callback to receive processing updates.
+    /// - Throws: An error if processing fails.
     func processImage(
         _ uiImage: UIImage,
         type: ProcessingType,
@@ -58,7 +76,7 @@ class ImageToImageProcessor {
         let model = try type.loadModel()
         
         guard let uiImage = uiImage.withFixedOrientation else {
-            throw ImageToImageProcessingError.incorrectImageData
+            throw ImageToImageProcessingError.invalidData
         }
         
         var tileSize = configuration.tileSize
@@ -85,7 +103,7 @@ class ImageToImageProcessor {
             guard
                 let cgImage = processedCIImage.cgImage(context: ciContext)?.withFixedOrientation
             else {
-                throw ImageToImageProcessingError.incorrectImageData
+                throw ImageToImageProcessingError.invalidData
             }
             
             if index == 0 {
@@ -94,7 +112,7 @@ class ImageToImageProcessor {
                 guard
                     let resizedImage = outputImage.resized(to: outputImage.size * scalingFactor)
                 else {
-                    throw ImageToImageProcessingError.incorrectImageData
+                    throw ImageToImageProcessingError.invalidData
                 }
                 
                 outputImage = resizedImage
@@ -112,15 +130,23 @@ class ImageToImageProcessor {
             try await Task.sleep(for: .milliseconds(300))
         }
         
-        onProgressUpdate(.progress(.complete))
+        onProgressUpdate(.progress(.completed))
     }
     
+    /// Cancels the currently running image processing task.
     func cancel() {
         currentTask?.cancel()
     }
 }
 
 private extension ImageToImageProcessor {
+    /// Processes the input CIImage using the specified Core ML model.
+    ///
+    /// - Parameters:
+    ///   - inputCIImage: The input CIImage to process.
+    ///   - model: The Core ML model to use for processing.
+    /// - Returns: The processed CIImage.
+    /// - Throws: An error if processing fails.
     func process(
         _ inputCIImage: CIImage,
         model: VNCoreMLModel
@@ -131,7 +157,7 @@ private extension ImageToImageProcessor {
             let results = request.results as? [VNPixelBufferObservation],
             let outputPixelBuffer = results.first?.pixelBuffer
         else {
-            throw ImageToImageProcessingError.visionRequestError
+            throw ImageToImageProcessingError.processingError
         }
         
         let outputCIImage = CIImage(cvPixelBuffer: outputPixelBuffer)
@@ -141,17 +167,29 @@ private extension ImageToImageProcessor {
 }
 
 private extension ProcessingProgress {
+    /// A processing progress indicating that the model is loading.
     static var modelLoading: Self {
-        ProcessingProgress(message: "Loading model", completionRatio: 0)
+        ProcessingProgress(message: "processing.update.modelLoading".localized, completionRatio: 0)
     }
 
-    static var complete: Self {
-        ProcessingProgress(message: "Completed!", completionRatio: 1)
+    /// A processing progress indicating that the processing is complete.
+    static var completed: Self {
+        ProcessingProgress(message: "processing.update.completed".localized, completionRatio: 1)
     }
     
+    static var canceled: Self {
+        ProcessingProgress(message: "processing.update.canceled".localized)
+    }
+    
+    /// Creates a processing progress for a specific tile during processing.
+    ///
+    /// - Parameters:
+    ///   - index: The index of the tile.
+    ///   - count: The total number of tiles.
+    /// - Returns: A processing progress for the tile.
     static func processingTile(_ index: Int, of count: Int) -> Self {
         ProcessingProgress(
-            message: "[\(index)/\(count)] Processing",
+            message: "[\(index)/\(count)] \("processing.update.processingTile".localized)",
             completionRatio: Double(index) / Double(count)
         )
     }

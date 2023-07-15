@@ -11,8 +11,17 @@ struct ImageToImageProcessingView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @StateObject var viewModel: ImageToImageProcessingViewModel
+
+    // MARK: - State Variables
+    
     @State private var isShowingSettings = false
     @State private var isShowingComparison = false
+    @State private var isShowingNextOptions = false
+    @State private var isShowingProcessingOptions = false
+    @State private var isShowingShareSheet = false
+    @State private var isShowingCompletionAlert = false
+    
+    // MARK: - Initialization
     
     init(processingType: ProcessingType, uiImage: UIImage) {
         let viewModel = ImageToImageProcessingViewModel(
@@ -22,6 +31,8 @@ struct ImageToImageProcessingView: View {
 
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
+    
+    // MARK: - View Body
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -36,11 +47,14 @@ struct ImageToImageProcessingView: View {
 }
 
 private extension ImageToImageProcessingView {
+    
+    // MARK: - Subviews
+    
     var resetButton: some View {
         Button {
             viewModel.reset()
         } label: {
-            Label("Reset", systemImage: "arrow.counterclockwise")
+            Label("button.reset", systemImage: "arrow.counterclockwise")
                 .padding()
                 .background(.thickMaterial)
                 .cornerRadius(8)
@@ -93,11 +107,13 @@ private extension ImageToImageProcessingView {
         }
     }
     
+    // MARK: - Buttons
+    
     var backButton: some View {
         Button {
             presentationMode.wrappedValue.dismiss()
         } label: {
-            Label("Back", systemImage: "chevron.left")
+            Label("button.back", systemImage: "chevron.left")
         }
     }
     
@@ -105,7 +121,7 @@ private extension ImageToImageProcessingView {
         Button {
             isShowingSettings.toggle()
         } label: {
-            Label("Settings", systemImage: "gear")
+            Label("button.settings", systemImage: "gear")
         }
         .disabled(viewModel.state != .idle)
         .sheet(isPresented: $isShowingSettings) {
@@ -117,7 +133,7 @@ private extension ImageToImageProcessingView {
         Button {
             viewModel.process()
         } label: {
-            Label("Process", systemImage: "wand.and.stars")
+            Label(viewModel.processingType.actionTitle, systemImage: "wand.and.stars")
         }
         .disabled(viewModel.state != .idle)
     }
@@ -130,19 +146,91 @@ private extension ImageToImageProcessingView {
                 ? "square.filled.and.line.vertical.and.square"
                 : "square.and.line.vertical.and.square.filled"
 
-            Label("Compare", systemImage: imageName)
+            Label("button.compare", systemImage: imageName)
         }
         .disabled(viewModel.state != .finished)
     }
     
     var nextButton: some View {
         Button {
-            // save
+            isShowingNextOptions.toggle()
         } label: {
-            Label("Next", systemImage: "square.and.arrow.up")
+            Label("button.next", systemImage: "square.and.arrow.up")
         }
         .disabled(viewModel.state != .finished)
+        .confirmationDialog(
+            "dialogue.question.continueWithImage",
+            isPresented: $isShowingNextOptions
+        ) {
+            Button {
+                isShowingProcessingOptions.toggle()
+            } label: {
+                Label("button.process", systemImage: "wand.and.stars")
+            }
+            
+            Button {
+                isShowingShareSheet.toggle()
+            } label: {
+                Label("button.share", systemImage: "square.and.arrow.down")
+            }
+            
+            Button("button.cancel", role: .cancel) {}
+        }
+        .confirmationDialog(
+            "dialogue.question.processingMethod",
+            isPresented: $isShowingProcessingOptions
+        ) {
+            let processingOptions = ProcessingType.allCases
+                .filter {
+                    $0.isImageToImage
+                }
+                .filter {
+                    viewModel.processingType != $0
+                }
+            
+            ForEach(processingOptions, id: \.self) { processingType in
+                Button {
+                    viewModel.setupNewProcessingType(processingType)
+                } label: {
+                    Text(processingType.title)
+                }
+            }
+            
+            Button("button.cancel", role: .cancel) {}
+        }
+        .sheet(isPresented: $isShowingShareSheet) {
+            if let image = viewModel.processedImage {
+                let item = ItemDetailSource(
+                    name: "label.processedImage".localized,
+                    image: image
+                )
+
+                ActivityViewController(
+                    activityItems: [item],
+                    completion: { _, completed, _, error in
+                        if let error {
+                            viewModel.error = error
+                            
+                            return
+                        }
+                        
+                        if completed {
+                            isShowingCompletionAlert = true
+                        }
+                    }
+                )
+            }
+        }
+        .alert(isPresented: $isShowingCompletionAlert) {
+            Alert(
+                title: Text("label.completed"),
+                message: Text("label.actionCompleted"),
+                dismissButton: .default(Text("button.ok"))
+            )
+        }
     }
+    
+    // MARK: - Image View
     
     var imageView: some View {
         ScalableImageView(image: displayedImage)
@@ -156,6 +244,8 @@ private extension ImageToImageProcessingView {
             .aspectRatio(contentMode: .fill)
             .overlay(.ultraThinMaterial)
     }
+    
+    // MARK: - Helper Properties
     
     var displayedImage: Image {
         Image(uiImage: displayedUIImage)

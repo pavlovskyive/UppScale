@@ -8,13 +8,14 @@
 import UIKit
 
 extension UIImage {
+    /// Returns a new image with fixed orientation if needed.
     var withFixedOrientation: UIImage? {
         switch imageOrientation {
         case .up:
             return self
         default:
             let renderer = UIGraphicsImageRenderer(size: size, format: .init(for: traitCollection))
-
+            
             return renderer.image { _ in
                 draw(in: CGRect(origin: .zero, size: size))
             }
@@ -23,6 +24,7 @@ extension UIImage {
 }
 
 extension CGImage {
+    /// Returns a new CGImage with fixed orientation.
     var withFixedOrientation: CGImage? {
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)

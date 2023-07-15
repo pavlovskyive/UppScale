@@ -7,10 +7,15 @@
 
 import SwiftUI
 
+/// A view that displays a material-style progress indicator.
 struct MaterialProgressView: View {
     private var progress: ProcessingProgress?
     private var onCancel: (() -> Void)?
     
+    /// Initializes a `MaterialProgressView` with the given progress and cancel action.
+    /// - Parameters:
+    ///   - progress: The progress to display.
+    ///   - onCancel: The action to perform when the cancel button is tapped.
     init(
         progress: ProcessingProgress?,
         onCancel: (() -> Void)? = nil
@@ -63,14 +68,17 @@ private extension MaterialProgressView {
     
     @ViewBuilder var message: some View {
         if let message = progress?.message {
-            Text(message).minimumScaleFactor(0.8)
+            Text(message)
+                .minimumScaleFactor(0.8)
                 .animation(.none, value: message)
         }
     }
     
     @ViewBuilder var circularProgress: some View {
         if progress?.completionRatio != 1 {
-            ProgressView().progressViewStyle(.circular).tint(.accentColor)
+            ProgressView()
+                .progressViewStyle(.circular)
+                .tint(.accentColor)
         }
     }
     

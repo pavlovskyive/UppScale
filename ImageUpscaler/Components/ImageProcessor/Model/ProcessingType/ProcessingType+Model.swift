@@ -1,34 +1,16 @@
 //
-//  ProcessingModelLoaderProvider.swift
+//  ProcessingType+Model.swift
 //  ImageUpscaler
 //
-//  Created by Vsevolod Pavlovskyi on 20.06.2023.
+//  Created by Vsevolod Pavlovskyi on 15.07.2023.
 //
 
 import Foundation
-
 import CoreML
 import Vision
 
-typealias ModelLoader = () throws -> VNCoreMLModel
-
-enum ProcessingType {
-    case upscaling
-    case lightEnhancing
-    
-    var method: ProcessingMethod {
-        switch self {
-        case .upscaling, .lightEnhancing:
-            return .imageToImage
-        }
-    }
-}
-
-enum ProcessingMethod {
-    case imageToImage
-}
-
 extension ProcessingType {
+    /// Loads the Core ML model associated with the processing type.
     func loadModel() throws -> VNCoreMLModel {
         switch self {
         case .upscaling:
@@ -40,6 +22,7 @@ extension ProcessingType {
 }
 
 private extension ProcessingType {
+    /// Loads the Core ML model for upscaling.
     static func loadUpscalingModel() throws -> VNCoreMLModel {
         let configuration = MLModelConfiguration()
         let coreMLModel = try RealesrGAN(configuration: configuration)
@@ -48,6 +31,7 @@ private extension ProcessingType {
         return visionModel
     }
     
+    /// Loads the Core ML model for light enhancing.
     static func loadLightEnhancingModel() throws -> VNCoreMLModel {
         let configuration = MLModelConfiguration()
         let coreMLModel = try Zero_DCE(configuration: configuration)

@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// MARK: - ScalableImageView
+
+/// A view that allows scaling and dragging of an image.
 struct ScalableImageView: View {
     @State private var scale = 1.0
     @State private var lastScale = 0.0
@@ -17,6 +20,8 @@ struct ScalableImageView: View {
     
     private let image: Image
     
+    /// Initializes a `ScalableImageView` with the given image.
+    /// - Parameter image: The image to display.
     init(image: Image) {
         self.image = image
     }
@@ -25,6 +30,8 @@ struct ScalableImageView: View {
         imageView
     }
 }
+
+// MARK: - Private Extensions
 
 private extension ScalableImageView {
     var imageView: some View {
@@ -36,7 +43,7 @@ private extension ScalableImageView {
                 .aspectRatio(contentMode: .fit)
                 .overlay(
                     GeometryReader { proxy in
-                        let rect = proxy.frame(in: CoordinateSpace.named("scallable_image_view"))
+                        let rect = proxy.frame(in: CoordinateSpace.named("scalable_image_view"))
                         
                         Color.clear.onChange(of: isInteracting) { isInteracting in
                             guard !isInteracting else {
@@ -51,11 +58,13 @@ private extension ScalableImageView {
         }
         .scaleEffect(scale)
         .offset(offset)
-        .coordinateSpace(name: "scallable_image_view")
+        .coordinateSpace(name: "scalable_image_view")
         .gesture(dragGesture)
         .gesture(magnificationGesture)
     }
 }
+
+// MARK: Gestures
 
 private extension ScalableImageView {
     var dragGesture: some Gesture {

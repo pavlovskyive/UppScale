@@ -8,40 +8,17 @@
 import SwiftUI
 import PhotosUI
 
+// MARK: - ImageInfoSpec
+
+/// A structure representing image information.
 private struct ImageInfoSpec: Hashable {
     let id = UUID()
     let image: UIImage
 }
 
-extension ProcessingType {
-    var title: String {
-        switch self {
-        case .upscaling:
-            return "Upscale your image"
-        case .lightEnhancing:
-            return "Enhance light"
-        }
-    }
-    
-    var subtitle: String {
-        switch self {
-        case .upscaling:
-            return "Select image to improve its resolution"
-        case .lightEnhancing:
-            return "Bring light to very dark images"
-        }
-    }
-    
-    var systemImage: String {
-        switch self {
-        case .upscaling:
-            return "arrow.up.backward.and.arrow.down.forward"
-        case .lightEnhancing:
-            return "flashlight.on.fill"
-        }
-    }
-}
+// MARK: - MainView
 
+/// The main view of the application.
 struct MainView: View {
     @State private var selection: PhotosPickerItem?
     @State private var path = NavigationPath()
@@ -51,11 +28,7 @@ struct MainView: View {
     var body: some View {
         NavigationStack(path: $path) {
             ScrollView {
-                LazyVStack(spacing: 16) {
-                    imagePicker(for: .upscaling)
-                    imagePicker(for: .lightEnhancing)
-                }
-                .padding(.horizontal, 16)
+                mainContent
             }
             .background(.background)
             .photosPicker(
@@ -65,70 +38,59 @@ struct MainView: View {
                 photoLibrary: .shared()
             )
             .onChange(of: selection) { selectedItem in
-                Task {
-                    guard
-                        let data = try? await selectedItem?.loadTransferable(type: Data.self),
-                        let image = UIImage(data: data)
-                    else {
-                        print("Failed")
-                        
-                        return
-                    }
-                    
-                    await MainActor.run {
-                        let info = ImageInfoSpec(image: image)
-                        path.append(info)
-                    }
-                }
+                handleSelection(selectedItem)
             }
-            .navigationDestination(for: ImageInfoSpec.self) { info in
-                switch processingType.method {
-                case .imageToImage:
-                    ImageToImageProcessingView(
-                        processingType: processingType,
-                        uiImage: info.image
-                    )
-                }
+            .navigationDestination(for: ImageInfoSpec.self) { imageInfo in
+                destinationView(for: imageInfo)
             }
         }
     }
 }
 
+// MARK: - MainView Private Views
+
 private extension MainView {
-    var backgroundImage: some View {
-        Image("background-abstract") // https://app.haikei.app
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-        //            .overlay(.ultraThinMaterial)
-    }
-    var infoButton: some View {
-        Button {
-            print("info")
-        } label: {
-            Image(systemName: "info.circle")
+    var mainContent: some View {
+        VStack(spacing: 16) {
+            imagePicker(for: .upscaling)
+            imagePicker(for: .lightEnhancing)
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 16)
     }
     
-    var settingsButton: some View {
-        Button {
-            print("settings")
-        } label: {
-            Image(systemName: "gearshape")
-        }
-        .buttonStyle(.plain)
-    }
-    
-    @ViewBuilder
-    func imagePicker(for method: ProcessingType) -> some View {
-        ProcessingInfoCard(processingType: method)
+    func imagePicker(for processingType: ProcessingType) -> some View {
+        ProcessingInfoCard(processingType: processingType)
             .onTapGesture {
-                processingType = method
-                photosPickerPresented.toggle()
+                self.processingType = processingType
+                self.photosPickerPresented.toggle()
             }
     }
+    
+    func destinationView(for imageInfo: ImageInfoSpec) -> some View {
+        ImageToImageProcessingView(processingType: processingType, uiImage: imageInfo.image)
+    }
 }
+
+// MARK: - MainView Private Methods
+
+private extension MainView {
+    func handleSelection(_ selectedItem: PhotosPickerItem?) {
+        Task {
+            guard let data = try? await selectedItem?.loadTransferable(type: Data.self),
+                  let image = UIImage(data: data) else {
+                print("Failed to load image")
+                return
+            }
+            
+            await MainActor.run {
+                let imageInfo = ImageInfoSpec(image: image)
+                path.append(imageInfo)
+            }
+        }
+    }
+}
+
+// MARK: - MainView_Previews
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {

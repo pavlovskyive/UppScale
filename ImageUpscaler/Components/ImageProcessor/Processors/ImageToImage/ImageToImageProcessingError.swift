@@ -7,40 +7,34 @@
 
 import Foundation
 
+/// Errors that can occur during image-to-image processing.
 enum ImageToImageProcessingError: LocalizedError {
     case modelLoadingError
-    case incorrectImageData
+    case invalidData
     case tilingError
-    case visionRequestError
-    case imagePostprocessingError
+    case processingError
+    case postprocessingError
     
-    var errorDescription: String? {
+    private var localizationPrefix: String {
         switch self {
         case .modelLoadingError:
-            return "Model loading error"
-        case .incorrectImageData:
-            return "Incorrect image data"
+            return "error.modelLoading"
+        case .invalidData:
+            return "error.invalidData"
         case .tilingError:
-            return "Tiling error"
-        case .visionRequestError:
-            return "Vision request error"
-        case .imagePostprocessingError:
-            return "Image postprocessing error"
+            return "error.tiling"
+        case .processingError:
+            return "error.processing"
+        case .postprocessingError:
+            return "error.postprocessing"
         }
     }
     
+    var errorDescription: String? {
+        "\(localizationPrefix).description".localized
+    }
+    
     var recoverySuggestion: String? {
-        switch self {
-        case .modelLoadingError:
-            return "Try to restart the application or try again"
-        case .incorrectImageData:
-            return "Try to reload the image or choose another one"
-        case .tilingError:
-            return "Try to reload the image"
-        case .visionRequestError:
-            return "Try to restart the application or try again"
-        case .imagePostprocessingError:
-            return "Try again or choose another image"
-        }
+        "\(localizationPrefix).suggestion".localized
     }
 }

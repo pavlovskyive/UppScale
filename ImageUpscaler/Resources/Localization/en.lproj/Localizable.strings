@@ -1,0 +1,82 @@
+// Processing Type Titles
+"processing.superResolution.title" = "Super Resolution";
+"processing.lightEnhancement.title" = "Enhance Lighting";
+
+// Processing Type Subtitles
+"processing.superResolution.subtitle" = "Improve Image Quality";
+"processing.lightEnhancement.subtitle" = "Enhance Lighting in Dark Images";
+
+// Processing Type Action Titles
+"processing.superResolution.actionTitle" = "Upscale";
+"processing.lightEnhancement.actionTitle" = "Enhance";
+
+// Processing Type Model Titles
+"processing.superResolution.modelTitle" = "Real-ESRGAN";
+"processing.lightEnhancement.modelTitle" = "Zero-DCE";
+
+// Processing Method Titles
+"processing.method.img2img.title" = "img2img";
+
+// Processing Method Usage Notes
+"processing.superResolution.usageNote" = "For best results, use small images. Super Resolution improves image quality and enhances details by increasing the resolution of low-resolution images";
+"processing.lightEnhancement.usageNote" = "This method is effective for very dark images. It enhances lighting and brings out details in shadow areas. For best results, try combining this method with Super Resolution";
+
+// Processing Updates
+"processing.update.modelLoading" = "Loading model";
+"processing.update.processingTile" = "Processing";
+"processing.update.completed" = "Completed";
+"processing.update.canceled" = "Canceled";
+
+// Button Titles
+"button.ok" = "OK";
+"button.reset" = "Reset";
+"button.back" = "Back";
+"button.settings" = "Settings";
+"button.compare" = "Compare";
+"button.next" = "Next";
+"button.process" = "Process";
+"button.share" = "Save | Share";
+"button.cancel" = "Cancel";
+"button.properties" = "Properties";
+
+// Dialog Questions
+"dialogue.question.continueWithImage" = "Continue with processed image?";
+"dialogue.question.processingMethod" = "Choose processing method";
+
+// Labels
+"label.processedImage" = "Processed Image";
+"label.completed" = "Completed";
+"label.actionCompleted" = "Action completed successfully";
+"label.tileSize" = "Tile Size";
+"label.overlap" = "Overlap";
+"label.tileSizeNote" = "Smaller tile size can improve output quality but may require more processing time";
+"label.overlapNote" = "Increasing overlap can help preserve continuity in output but may increase processing time";
+"label.properties" = "Properties";
+"label.width" = "Width";
+"label.height" = "Height";
+"label.resolution" = "Resolution";
+"label.loadingModel" = "Loading model";
+"label.processing" = "Processing";
+"label.output" = "Output";
+"label.model" = "Model";
+"label.type" = "Type";
+"label.hint" = "Hint";
+"label.processingParameters.title" = "Processing Parameters";
+"label.processingParameters.tileSize.subtitle" = "Select the size of each tile for processing";
+"label.processingParameters.overlap.subtitle" = "Adjust the amount of overlap between adjacent tiles";
+
+"label.processingParameters.tileSize.note" = "Smaller tile size can improve output quality but may require more processing time";
+"label.processingParameters.overlap.note" = "Increasing overlap can help preserve continuity in output but may increase processing time";
+
+// Errors and Suggestions
+"error.modelLoading.description" = "Failed to load the processing model";
+"error.invalidData.description" = "Invalid image data";
+"error.tiling.description" = "Failed to divide the image into tiles";
+"error.processing.description" = "Failed to process the image";
+"error.postprocessing.description" = "Failed to post-process the image";
+
+"error.modelLoading.suggestion" = "Please try restarting the application or try again later";
+"error.invalidData.suggestion" = "Please try reloading the image or choose another image";
+"error.tiling.suggestion" = "Please try restarting the application or try again later";
+"error.processing.suggestion" = "Please try again or choose another image";
+"error.postprocessing.suggestion" = "Please try again or choose another image";

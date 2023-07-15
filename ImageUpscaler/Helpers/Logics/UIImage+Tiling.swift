@@ -7,12 +7,25 @@
 
 import UIKit
 
+import SwiftUI
+import LinkPresentation
+
+/// Represents a tile with an image and its corresponding rectangle.
 struct Tile {
+    /// The image of the tile.
     let image: CGImage
+    
+    /// The rectangle defining the position and size of the tile.
     let rect: CGRect
 }
 
 extension UIImage {
+    /// Splits the image into multiple tiles.
+    /// - Parameters:
+    ///   - maxTileCount: The maximum number of tiles to generate. Default is 20.
+    ///   - overlap: The overlap ratio between tiles. Default is 1/4.
+    ///   - tileSize: The size of each tile. This value is modified to be within the bounds of the image. Returns the adjusted tileSize.
+    /// - Returns: An array of tiles or `nil` if the image cannot be split.
     func tiles(
         maxTileCount: Int = 20,
         overlap: CGFloat = 1 / 4,
@@ -30,11 +43,7 @@ extension UIImage {
         if width == tileSize && height == tileSize {
             let singleTile = Tile(
                 image: cgImage,
-                rect: CGRect(
-                    x: 0, y: 0,
-                    width: width,
-                    height: height
-                )
+                rect: CGRect(x: 0, y: 0, width: width, height: height)
             )
             
             return [singleTile]
@@ -55,10 +64,7 @@ extension UIImage {
                     return nil
                 }
 
-                let tile = Tile(
-                    image: image,
-                    rect: tileRect
-                )
+                let tile = Tile(image: image, rect: tileRect)
                 
                 tiles.append(tile)
             }
@@ -67,11 +73,11 @@ extension UIImage {
         return tiles
     }
 
+    /// Creates a new image by placing the specified tile on top of the receiver image.
+    /// - Parameter tile: The tile to be placed on the image.
+    /// - Returns: A new image with the tile placed on top.
     func withPlaced(tile: Tile) -> UIImage {
-        let renderer = UIGraphicsImageRenderer(
-            size: size,
-            format: .init(for: traitCollection)
-        )
+        let renderer = UIGraphicsImageRenderer(size: size, format: .init(for: traitCollection))
         
         let newImage = renderer.image { context in
             context.cgContext.interpolationQuality = .high
