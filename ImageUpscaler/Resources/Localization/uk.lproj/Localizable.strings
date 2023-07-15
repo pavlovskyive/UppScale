@@ -31,7 +31,7 @@
 "button.ok" = "OK";
 "button.reset" = "Скинути";
 "button.back" = "Назад";
-"button.settings" = "Налаштування";
+"button.settings" = "Параметри";
 "button.compare" = "Порівняти";
 "button.next" = "Далі";
 "button.process" = "Обробити";
@@ -46,7 +46,7 @@
 // Labels
 "label.processedImage" = "Оброблене зображення";
 "label.completed" = "Завершено";
-"label.actionCompleted" = "Дія успішно завершена";
+"label.actionCompleted" = "Дія успішно виконана";
 "label.tileSize" = "Розмір плитки";
 "label.overlap" = "Накладання";
 "label.tileSizeNote" = "Менший розмір плитки може покращити якість виводу, але може займати більше часу для обробки";

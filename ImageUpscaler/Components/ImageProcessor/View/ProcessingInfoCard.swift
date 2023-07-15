@@ -28,7 +28,6 @@ struct ProcessingInfoCard: View {
                     ProcessingInfoCardBody(
                         processingType: processingType
                     )
-                    .frame(height: 200)
                     .offset(y: 16)
                 }
                 .padding(.horizontal)
@@ -45,11 +44,9 @@ struct ProcessingInfoCard: View {
     private var backgroundImage: some View {
         Image(processingType.imageName)
             .resizable()
-            .frame(height: 256)
             .scaledToFill()
             .clipped()
             .cornerRadius(16)
-            .overlay(Color.black.opacity(0.16))
     }
 }
 
@@ -102,8 +99,6 @@ struct ProcessingInfoCardBody: View {
                 title: "label.hint".localized,
                 subtitle: processingType.usageNote
             )
-            
-            Spacer()
         }
         .padding()
         .background(.thickMaterial)
@@ -116,6 +111,7 @@ struct ProcessingInfoCardBody: View {
                 .font(.caption)
             Text(subtitle)
                 .minimumScaleFactor(0.8)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 }
