@@ -73,8 +73,8 @@ struct ProcessingInfoCardBody: View {
             
             HStack {
                 infoItem(
-                    title: "label.model".localized,
-                    subtitle: processingType.modelName
+                    title: "label.modelLoad".localized,
+                    subtitle: processingType.performance
                 )
                 
                 Divider()

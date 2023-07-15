@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		796A8D052A62FF2E005F67A8 /* ImageUpscalerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A8CCF2A62FF2E005F67A8 /* ImageUpscalerApp.swift */; };
 		796A8D062A62FF2E005F67A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 796A8CD12A62FF2E005F67A8 /* Assets.xcassets */; };
-		796A8D072A62FF2E005F67A8 /* Zero-DCE.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 796A8CD32A62FF2E005F67A8 /* Zero-DCE.mlpackage */; };
-		796A8D082A62FF2E005F67A8 /* RealesrGAN.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 796A8CD42A62FF2E005F67A8 /* RealesrGAN.mlpackage */; };
+		796A8D072A62FF2E005F67A8 /* LightEnhancer.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 796A8CD32A62FF2E005F67A8 /* LightEnhancer.mlpackage */; };
+		796A8D082A62FF2E005F67A8 /* Upscaler.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 796A8CD42A62FF2E005F67A8 /* Upscaler.mlpackage */; };
 		796A8D092A62FF2E005F67A8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 796A8CD62A62FF2E005F67A8 /* Preview Assets.xcassets */; };
 		796A8D0A2A62FF2E005F67A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 796A8CD82A62FF2E005F67A8 /* Localizable.strings */; };
 		796A8D0B2A62FF2E005F67A8 /* ImageToImageConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A8CDF2A62FF2E005F67A8 /* ImageToImageConfiguration.swift */; };
@@ -45,8 +45,8 @@
 /* Begin PBXFileReference section */
 		796A8CCF2A62FF2E005F67A8 /* ImageUpscalerApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUpscalerApp.swift; sourceTree = "<group>"; };
 		796A8CD12A62FF2E005F67A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		796A8CD32A62FF2E005F67A8 /* Zero-DCE.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = "Zero-DCE.mlpackage"; sourceTree = "<group>"; };
-		796A8CD42A62FF2E005F67A8 /* RealesrGAN.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = RealesrGAN.mlpackage; sourceTree = "<group>"; };
+		796A8CD32A62FF2E005F67A8 /* LightEnhancer.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = LightEnhancer.mlpackage; sourceTree = "<group>"; };
+		796A8CD42A62FF2E005F67A8 /* Upscaler.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = Upscaler.mlpackage; sourceTree = "<group>"; };
 		796A8CD62A62FF2E005F67A8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		796A8CD92A62FF2E005F67A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		796A8CDA2A62FF2E005F67A8 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -124,8 +124,8 @@
 		796A8CD22A62FF2E005F67A8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				796A8CD32A62FF2E005F67A8 /* Zero-DCE.mlpackage */,
-				796A8CD42A62FF2E005F67A8 /* RealesrGAN.mlpackage */,
+				796A8CD32A62FF2E005F67A8 /* LightEnhancer.mlpackage */,
+				796A8CD42A62FF2E005F67A8 /* Upscaler.mlpackage */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -404,7 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				796A8D112A62FF2E005F67A8 /* ImageToImageProcessingError.swift in Sources */,
-				796A8D072A62FF2E005F67A8 /* Zero-DCE.mlpackage in Sources */,
+				796A8D072A62FF2E005F67A8 /* LightEnhancer.mlpackage in Sources */,
 				796A8D052A62FF2E005F67A8 /* ImageUpscalerApp.swift in Sources */,
 				796A8D0D2A62FF2E005F67A8 /* ImageToImageProcessingView.swift in Sources */,
 				796A8D212A62FF2E005F67A8 /* UIImage+Tiling.swift in Sources */,
@@ -414,7 +414,7 @@
 				796A8D202A62FF2E005F67A8 /* CoreGraphics+Arithmetics.swift in Sources */,
 				796A8D0C2A62FF2E005F67A8 /* ImageToImageConfigurationView.swift in Sources */,
 				796A8D252A62FF2E005F67A8 /* Subject+SendOnMain.swift in Sources */,
-				796A8D082A62FF2E005F67A8 /* RealesrGAN.mlpackage in Sources */,
+				796A8D082A62FF2E005F67A8 /* Upscaler.mlpackage in Sources */,
 				796A8D132A62FF2E005F67A8 /* ProcessingType.swift in Sources */,
 				796A8D0E2A62FF2E005F67A8 /* ImageToImageProcessingViewModel.swift in Sources */,
 				796A8D122A62FF2E005F67A8 /* ProcessingType+Model.swift in Sources */,

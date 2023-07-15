@@ -11,8 +11,8 @@
 "processing.lightEnhancement.actionTitle" = "Enhance";
 
 // Processing Type Model Titles
-"processing.superResolution.modelTitle" = "Real-ESRGAN";
-"processing.lightEnhancement.modelTitle" = "Zero-DCE";
+"processing.superResolution.performance" = "Heavy";
+"processing.lightEnhancement.performance" = "Light";
 
 // Processing Method Titles
 "processing.method.img2img.title" = "img2img";
@@ -59,7 +59,7 @@
 "label.loadingModel" = "Loading model";
 "label.processing" = "Processing";
 "label.output" = "Output";
-"label.model" = "Model";
+"label.modelLoad" = "Load";
 "label.type" = "Type";
 "label.hint" = "Hint";
 "label.processingParameters.title" = "Processing Parameters";

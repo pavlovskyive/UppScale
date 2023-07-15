@@ -11,8 +11,8 @@
 "processing.lightEnhancement.actionTitle" = "Висвітлити";
 
 // Processing Type Model Titles
-"processing.superResolution.modelTitle" = "Real-ESRGAN";
-"processing.lightEnhancement.modelTitle" = "Zero-DCE";
+"processing.superResolution.performance" = "Важке";
+"processing.lightEnhancement.performance" = "Легке";
 
 // Processing Method Titles
 "processing.method.img2img.title" = "img2img";
@@ -59,7 +59,7 @@
 "label.loadingModel" = "Завантаження моделі";
 "label.processing" = "Обробка";
 "label.output" = "Вивід";
-"label.model" = "Модель";
+"label.modelLoad" = "Навантаження";
 "label.type" = "Тип";
 "label.hint" = "Підказка";
 "label.processingParameters.title" = "Параметри обробки";

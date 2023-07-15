@@ -33,9 +33,9 @@ extension ProcessingType {
         "\(localizationPrefix).actionTitle".localized
     }
     
-    /// The model name representing the processing type.
-    var modelName: String {
-        "\(localizationPrefix).modelTitle".localized
+    /// The model's speed.
+    var performance: String {
+        "\(localizationPrefix).performance".localized
     }
     
     /// The output size description representing the processing type.

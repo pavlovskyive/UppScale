@@ -1,6 +1,6 @@
 {
   "MLModelVersionStringKey" : "--",
-  "MLModelDescriptionKey" : "Zero-Reference Deep Curve Estimation for Low-Light Image Enhancement",
+  "MLModelDescriptionKey" : "LightEnhancer",
   "MLModelCreatorDefinedKey" : {
     "com.github.apple.coremltools.version" : "5.1.0",
     "com.github.apple.coremltools.source" : "torch==1.10.0+cu111"

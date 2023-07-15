@@ -25,7 +25,7 @@ private extension ProcessingType {
     /// Loads the Core ML model for upscaling.
     static func loadUpscalingModel() throws -> VNCoreMLModel {
         let configuration = MLModelConfiguration()
-        let coreMLModel = try RealesrGAN(configuration: configuration)
+        let coreMLModel = try Upscaler(configuration: configuration)
         let visionModel = try VNCoreMLModel(for: coreMLModel.model)
                         
         return visionModel
@@ -34,7 +34,7 @@ private extension ProcessingType {
     /// Loads the Core ML model for light enhancing.
     static func loadLightEnhancingModel() throws -> VNCoreMLModel {
         let configuration = MLModelConfiguration()
-        let coreMLModel = try Zero_DCE(configuration: configuration)
+        let coreMLModel = try LightEnhancer(configuration: configuration)
         let visionModel = try VNCoreMLModel(for: coreMLModel.model)
                         
         return visionModel
