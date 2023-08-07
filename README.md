@@ -46,7 +46,7 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 ## Contact
 
-If you have any questions or inquiries, feel free to contact me at [vpavlovskyi@gmail.com]
+If you have any questions or inquiries, feel free to contact me at [pavlovskyi.ve@gmail.com]
 
 ## License
 
